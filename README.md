@@ -44,7 +44,7 @@ The prerequisites that users need to have installed or set up before they can us
 - Confirm a new container is started by running:
   (docker ps -a)
 - Now we need to create a database to migrate and seed our API tables into it. Run:
-  (docker exec -it <ContainerID> bash) then (psql -U postgres) then (CREATE DATABASE supradb;)
+  (docker exec -it [ContainerID] bash) then (psql -U postgres) then (CREATE DATABASE supradb;)
 - Spin up a new VSCode terminal by pressing the '+' button at the top right of your current VSCode terminal, then change directories back to API:
   (cd api)
 - Migrate and Seed the tables into your new supradb database:
