@@ -84,7 +84,7 @@ app.get('/projects/:id', (req, res) => {
 
 
 app.post('/projects', (req, res) => {
-  knex("user_table")
+  knex("project_table")
   .insert(req.body)
   .then((newProject) => {
     res.send(
