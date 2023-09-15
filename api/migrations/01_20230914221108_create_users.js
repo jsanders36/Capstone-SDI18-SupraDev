@@ -9,6 +9,9 @@ exports.up = function(knex) {
     table.string('last_name').notNullable(); // equivalent of varchar(255)
     table.string('username').unique(); // equivalent of varchar(255)
     table.string('password').notNullable(); // equivalent of varchar(255)
+    table.string('profile_pic');
+    table.string('user_summary');
+    table.boolean('is_supracoder');
   });
 };
 
