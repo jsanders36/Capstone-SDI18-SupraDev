@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 // import Home from "./Home"
 // import UserDetails from "./UserDetails";
 // import Users from "./Users";
-// import Projects from "./Projects";
+import Projects from "./Projects";
 // import ProjectDetails from "./ProjectDetails";
 // import ProjectSubmission from "./ProjectSubmission";
 // import PendingProjects from "./PendingProjects";
@@ -20,9 +20,9 @@ function App() {
         {/* <Route path="/" element={<Home />} /> */}
         <Route path="/login" element={<Login />} />
         {/* <Route path="/users" element={<Users />} />
-        <Route path="/users/:id" element={<UserDetails />} />
+        <Route path="/users/:id" element={<UserDetails />} /> */}
         <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/:id" element={<ProjectDetails />} />
+        {/* <Route path="/projects/:id" element={<ProjectDetails />} />
         <Route path="/project_submission" element={<ProjectSubmission />} />
         <Route path="/pending_projects/:id" element={<PendingProjects />} />
         <Route path="/supracoders" element={<SupraCoders />} />
