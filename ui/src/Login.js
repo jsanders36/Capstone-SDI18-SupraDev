@@ -39,9 +39,7 @@ const Login = () => {
                 if (element.password === passwordLogin) {
                     removeSessionCookies('user_id_token');
                     removeSessionCookies('username_token');
-                    setSessionCookies('user_id_token', element.id, { path: '/' });
-                    setSessionCookies('username_token', element.username, { path: '/' });
-                    navigate('/myinventory');
+
                     window.location.reload();
                     alert(`Login successful for ${element.first_name} ${element.last_name}.`)
                     break
