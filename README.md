@@ -65,3 +65,15 @@ The prerequisites that users need to have installed or set up before they can us
   (npm start)
 - Open the app and test it by opening the browser to:
   (http://localhost:3000)
+
+
+## Troubleshooting
+
+- if you receive an error in regards to the postgres version number when attempting to run a new container image, specify the needed version number in the docker run command:
+  For example, if you get the error:
+  "PostgreSQL Database directory appears to contain a database; Skipping initialization
+
+  2023-09-18 20:50:28.026 UTC [1] FATAL:  database files are incompatible with server
+  2023-09-18 20:50:28.026 UTC [1] DETAIL:  The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.0 (Debian 16.0-1.pgdg120+1)."
+  Run:
+  (docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql@15/data postgres) note the '@15' which specifies the version of postgres in the docker file path.
