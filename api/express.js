@@ -3,25 +3,35 @@ const app = express();
 const port = 8080;
 const knex = require('knex')(require('./knexfile.js')[process.env.NODE_ENV||'development']);
 app.use(express.json());
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, PATCH, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
 
 app.get('/users', (req, res) => {
   knex('user_table')
     .select('*')
-    .then((user) => {res.send(user)});
+    .then((user) => {res.status(200).send(user)
+    })
+    .catch(err => console.log(err))
 })
 
 app.get('/users/:id', (req, res) => {
   knex('user_table')
     .select('*')
     .where({ id: req.params.id })
-    .then((user) => {res.send(user)});
+    .then((user) => {res.status(200).send(user)
+    })
+    .catch(err => console.log(err))
 })
 
 app.post('/users', (req, res) => {
   knex("user_table")
   .insert(req.body)
   .then((newUser) => {
-    res.send(
+    res.status(201).send(
       req.body.first_name,
       req.body.last_name,
       req.body.username,
@@ -33,6 +43,7 @@ app.post('/users', (req, res) => {
     );
       console.log('post was successful')
   })
+  .catch(err => console.log(err))
 })
 
 app.patch('/users/:id', (req, res) => {
@@ -47,27 +58,31 @@ app.patch('/users/:id', (req, res) => {
       user_summary: req.body.user_summary,
       is_supracoder: req.body.is_supracoder,
     })
-    .then((updateRows) => res.send('user updated'))
+    .then((updateRows) => res.status(200).send('user updated'))
 })
 
 app.delete('/users/:id', (req, res) => {
   knex('user_table')
     .where({ id: req.params.id })
     .del()
-    .then(res.send('user deleted'))
+    .then(res.status(204).send('user deleted'))
 })
 
 app.get('/projects', (req, res) => {
   knex('project_table')
     .select('*')
-    .then((project) => {res.send(project)});
+    .then((project) => {res.status(200).send(project)
+    })
+    .catch(err => console.log(err))
 })
 
 app.get('/projects/:id', (req, res) => {
   knex('project_table')
     .select('*')
     .where({ id: req.params.id })
-    .then((project) => {res.send(project)});
+    .then((project) => {res.status(200).send(project)
+    })
+    .catch(err => console.log(err))
 })
 
 
@@ -83,23 +98,38 @@ app.get('/projects/:id', (req, res) => {
 // table.boolean('is_completed');
 
 
-app.post('/projects', (req, res) => {
-  knex("project_table")
-  .insert(req.body)
-  .then((newProject) => {
-    res.send(
-      req.body.name,
-      req.body.problem_statement,
-      req.body.submitter,
-      req.body.is_approved,
-      req.body.is_accepted,
-      req.body.accepted_by_id,
-      req.body.is_completed,
-      `post was successful`
-    );
-      console.log('post was successful')
-  })
-})
+  app.post('/projects', (req, res) => {
+    const { submitter_id, accepted_by_id, name, problem_statement, is_accepted, is_approved, is_completed } = req.body;
+
+    knex("user_table")
+      .whereIn('id', [submitter_id, accepted_by_id])
+      .then((userRows) => {
+        if (userRows.length === 0) {
+          res.status(400).send("Invalid submitter or accepted_by_id");
+          return;
+        }
+
+        knex("project_table")
+          .insert({
+            name,
+            problem_statement,
+            is_approved,
+            is_accepted,
+            is_completed,
+            submitter_id,
+            accepted_by_id,
+          })
+          .then((newProject) => {
+            res.status(201).send("Project created successfully");
+            console.log('Project creation was successful');
+          })
+          .catch((err) => {
+            console.error(err);
+            res.status(500).send("Internal Server Error");
+          });
+      })
+  });
+
 
 app.patch('/projects/:id', (req, res) => {
   knex('project_table')
@@ -113,15 +143,14 @@ app.patch('/projects/:id', (req, res) => {
       accepted_by_id: req.body.accepted_by_id,
       is_completed: req.body.is_completed,
     })
-    .then((updateRows) => res.send('project updated'))
+    .then((updateRows) => res.status(200).send('project updated'))
 })
 
 app.delete('/projects/:id', (req, res) => {
   knex('project_table')
     .where({ id: req.params.id })
     .del()
-    .then(res.send('project deleted'))
+    .then(res.status(204).send('project deleted'))
 })
 
 app.listen(port, () => console.log(`Express server listening in on port ${port}`))
-
