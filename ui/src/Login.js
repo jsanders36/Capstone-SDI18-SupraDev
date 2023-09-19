@@ -7,8 +7,6 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import { SHA256 } from 'crypto-js';
-import './sjcl.js';
-import './sha256';
 
 const Login = () => {
     const [firstName, setFirstName] = useState('');
