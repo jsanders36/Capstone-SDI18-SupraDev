@@ -15,6 +15,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [userSummary, setUserSummary] = useState('');
     const [profilePic, setProfilePic] = useState('');
+    const [defProfilePic, setDefProfilePic] = useState('https://as1.ftcdn.net/v2/jpg/02/85/15/18/1000_F_285151855_XaVw4eFq1QufklRbMFDxdAJos1OadAD1.jpg');
     const [usersSummary, setUsersSummary] = useState([])
     const [usernameLogin, setUsernameLogin] = useState('')
     const [passwordLogin, setPasswordLogin] = useState('')
@@ -42,6 +43,7 @@ const Login = () => {
                     removeSessionCookies('username_token');
                     setSessionCookies('user_id_token', element.id, { path: '/'});
                     setSessionCookies('username_token', element.username, { path: '/'});
+                    setSessionCookies('userPriv_Token', element.is_supracoder, { path: '/'})
                     navigate('/home');
                     window.location.reload();
                     alert(`Login successful for ${element.first_name} ${element.last_name}.`)
@@ -55,8 +57,14 @@ const Login = () => {
         if (accountMatch === false) { alert('No account found for that username') }
     }
 
-    const CreateAccount = () => {
-        fetch('http://localhost:8080/users', {
+    const CreateAccount = async () => {
+        let profPicToSet = '';
+        if (profilePic === '') {
+            profPicToSet = defProfilePic
+        } else {
+            profPicToSet = profilePic
+        }
+        await fetch('http://localhost:8080/users', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -67,9 +75,11 @@ const Login = () => {
                 "username": username,
                 "password": SHA256(password).toString(),
                 "user_summary": userSummary,
-                "profile_pic": profilePic
+                "profile_pic": profPicToSet,
+                "is_supracoder": false
             })
         })
+        window.location.reload();
         alert("Account Created!")
         usersRefetch();
     }
