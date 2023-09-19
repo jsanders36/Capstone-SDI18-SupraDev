@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -9,8 +7,8 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import { SHA256 } from 'crypto-js';
-// import './sjcl.js';
-// import './sha256';
+import './sjcl.js';
+import './sha256';
 
 const Login = () => {
     const [firstName, setFirstName] = useState('');
@@ -24,10 +22,10 @@ const Login = () => {
     const [passwordLogin, setPasswordLogin] = useState('')
     const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token'])
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         usersRefetch();
-    },[])
+    }, [])
 
     const usersRefetch = async () => {
         await fetch('http://localhost:8080/users')
@@ -37,16 +35,15 @@ const Login = () => {
 
     const LogIntoAccount = async () => {
         let accountMatch = false;
-        for(var element of usersSummary) {
+        for (var element of usersSummary) {
             console.log(element)
-            if(element.username === usernameLogin) {
+            if (element.username === usernameLogin) {
                 accountMatch = true;
                 if(element.password === SHA256(passwordLogin).toString()) {
+
                     removeSessionCookies('user_id_token');
                     removeSessionCookies('username_token');
-                    setSessionCookies('user_id_token', element.id, { path: '/'});
-                    setSessionCookies('username_token', element.username, { path: '/'});
-                    navigate('/home');
+
                     window.location.reload();
                     alert(`Login successful for ${element.first_name} ${element.last_name}.`)
                     break
@@ -56,7 +53,7 @@ const Login = () => {
                 }
             }
         }
-        if(accountMatch === false) {alert('No account found for that username')}
+        if (accountMatch === false) { alert('No account found for that username') }
     }
 
     const CreateAccount = () => {
@@ -80,45 +77,45 @@ const Login = () => {
 
     return (
         <>
-            <Paper elevation={3} style={{justifyContent: 'center', alignContent: 'center', textAlign: 'center', backgroundColor: 'pink', maxWidth: '920px', marginLeft: '25%', padding: '4px'}}>
-                <Card sx={{ 
+            <Paper elevation={3} style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center', backgroundColor: 'pink', maxWidth: '920px', marginLeft: '25%', padding: '4px' }}>
+                <Card sx={{
                     minWidth: 400,
                     maxWidth: 512,
                     m: 2,
                     marginLeft: '20%',
                     padding: 1,
                     textAlign: 'left'
-                    }} id='loginContainer'>
+                }} id='loginContainer'>
                     <h3>Login</h3>
                     <form id='loginCreds'>
-                        <TextField className='inputText' label='Username' variant="outlined" type='text' value={usernameLogin} onChange={(e) => setUsernameLogin(e.target.value)} placeholder='Username' size='small' style={{gap: '10px', margin: '10px'}}/>
-                        <TextField className='inputText' label='Password' variant="outlined" type='text' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password' size='small' style={{gap: '10px', margin: '10px'}}/>
+                        <TextField className='inputText' label='Username' variant="outlined" type='text' value={usernameLogin} onChange={(e) => setUsernameLogin(e.target.value)} placeholder='Username' size='small' style={{ gap: '10px', margin: '10px' }} />
+                        <TextField className='inputText' label='Password' variant="outlined" type='text' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password' size='small' style={{ gap: '10px', margin: '10px' }} />
                     </form>
-                    <Button type='submit' onClick={() => LogIntoAccount()} variant='contained' color='success' style={{gap: '10px', margin: '10px'}}>Login</Button>
+                    <Button type='submit' onClick={() => LogIntoAccount()} variant='contained' color='success' style={{ gap: '10px', margin: '10px' }}>Login</Button>
                 </Card>
 
-                <Card sx={{ 
+                <Card sx={{
                     minWidth: 400,
                     maxWidth: 512,
                     m: 2,
                     marginLeft: '20%',
                     padding: 1,
                     textAlign: 'left'
-                    }} id='createAccountContainer'>
+                }} id='createAccountContainer'>
                     <h3>Don't have an account? Create one below!</h3>
                     <div id='createAccountInputName'>
-                        <TextField className='inputText' label='First Name' variant="outlined" type='text' value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' size='small' style={{gap: '10px', margin: '10px'}}/>
-                        <TextField className='inputText' label='Last Name' variant="outlined" type='text' value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' size='small' style={{gap: '10px', margin: '10px'}}/>
+                        <TextField className='inputText' label='First Name' variant="outlined" type='text' value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' size='small' style={{ gap: '10px', margin: '10px' }} />
+                        <TextField className='inputText' label='Last Name' variant="outlined" type='text' value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' size='small' style={{ gap: '10px', margin: '10px' }} />
                     </div>
                     <div id='createAccountUserCreds'>
-                        <TextField className='inputText' label='Username' variant="outlined" type='text' value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' size='small' style={{gap: '10px', margin: '10px'}}/>
-                        <TextField className='inputText' label='Password' variant="outlined" type='text' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' size='small' style={{gap: '10px', margin: '10px'}}/>
+                        <TextField className='inputText' label='Username' variant="outlined" type='text' value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' size='small' style={{ gap: '10px', margin: '10px' }} />
+                        <TextField className='inputText' label='Password' variant="outlined" type='text' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' size='small' style={{ gap: '10px', margin: '10px' }} />
                     </div>
                     <div id='createAccountPicNDesc'>
-                        <TextField className='inputText' label='Profile Picture URL' variant="outlined" type='text' value={profilePic} onChange={(e) => setProfilePic(e.target.value)} placeholder='Profile Picture URL' size='small' style={{gap: '10px', margin: '10px'}}/>
-                        <TextField className='inputText' label='User Description' variant="outlined" type='text' multiline rows={3} value={userSummary} onChange={(e) => setUserSummary(e.target.value)} placeholder='User Description' size='small' style={{gap: '10px', margin: '10px'}}/>
+                        <TextField className='inputText' label='Profile Picture URL' variant="outlined" type='text' value={profilePic} onChange={(e) => setProfilePic(e.target.value)} placeholder='Profile Picture URL' size='small' style={{ gap: '10px', margin: '10px' }} />
+                        <TextField className='inputText' label='User Description' variant="outlined" type='text' multiline rows={3} value={userSummary} onChange={(e) => setUserSummary(e.target.value)} placeholder='User Description' size='small' style={{ gap: '10px', margin: '10px' }} />
                     </div>
-                    <Button onClick={() => CreateAccount()} variant='contained' color='success' style={{gap: '10px', margin: '10px'}}>Create Account</Button>
+                    <Button onClick={() => CreateAccount()} variant='contained' color='success' style={{ gap: '10px', margin: '10px' }}>Create Account</Button>
                 </Card>
             </Paper>
         </>
