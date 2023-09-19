@@ -1,8 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useCookies, CookiesProvider } from 'react-cookie';
 
 const ProfilePage = () => {
+    const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
+    const [userObj, setUserObj] = useState([])
+    const [projects, setProjects] = useState([])
+    var numAcceptedProjs = 0;
+    var numCompletedProjs = 0;
+
+    const userRefetch = async () => {
+        await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
+            .then((res) => res.json())
+            .then((fetchData) => setUserObj(fetchData[0]))
+    }
+
+    const projectsRefetch = async () => {
+        await fetch('http://localhost:8080/projects')
+            .then((res) => res.json())
+            .then((userFetchData) => setProjects(userFetchData))
+    }
+
+    useEffect(() => {
+        userRefetch();
+        projectsRefetch();
+    },[])
+
+    const calcBountyStats = () => {
+        for (let element in projects) {
+            console.log(projects[element])
+            if (projects[element].accepted_by_id === sessionCookies.user_id_token) {
+                numAcceptedProjs ++;
+                if (projects[element].is_completed === true) {
+                    numCompletedProjs ++;
+                }
+            }
+        }
+    }
+
     return (
         <Box display="flex" padding="20px" height="100vh" bgcolor="#f5f5f5">
 
@@ -55,15 +91,17 @@ const ProfilePage = () => {
 
                 {/* User Avatar & Details */}
                 <Box display="flex" alignItems="center" gap="20px" mb="30px">
-                    <Avatar src="/path/to/user/image.jpg" alt="User Avatar" style={{ width: '100px', height: '100px' }} />
+                    <Avatar src={userObj.profile_pic} alt="User Avatar" style={{ width: '100px', height: '100px' }} />
                     <Box>
-                        <Typography variant="h5" gutterBottom>Username</Typography>
+                        {console.log(userObj.username)}
+                        <Typography variant="h5" gutterBottom>{userObj.username}</Typography>
                         <Typography variant="subtitle1">User@email.com</Typography>
-                        <Typography variant="body1">Other user details...</Typography>
+                        <Typography variant="body1">{userObj.user_summary}</Typography>
                     </Box>
                 </Box>
 
                 {/* User Statistics */}
+                {calcBountyStats()}
                 <Box display="flex" gap="20px" mb="30px">
                     <Card variant="outlined" style={{ flex: 1 }}>
                         <CardContent>
@@ -75,14 +113,14 @@ const ProfilePage = () => {
                     <Card variant="outlined" style={{ flex: 1 }}>
                         <CardContent>
                             <Typography variant="h6">Bounties Claimed</Typography>
-                            <Typography variant="h4" color="secondary">12</Typography>
+                            <Typography variant="h4" color="secondary">{numAcceptedProjs}</Typography>
                         </CardContent>
                     </Card>
 
                     <Card variant="outlined" style={{ flex: 1 }}>
                         <CardContent>
                             <Typography variant="h6">Bounties Completed</Typography>
-                            <Typography variant="h4" color="primary">5</Typography>
+                            <Typography variant="h4" color="primary">{numCompletedProjs}</Typography>
                         </CardContent>
                     </Card>
                 </Box>
