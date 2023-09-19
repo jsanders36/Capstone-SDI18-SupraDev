@@ -8,6 +8,9 @@ import TextField from '@mui/material/TextField';
 
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
+import { SHA256 } from 'crypto-js';
+// import './sjcl.js';
+// import './sha256';
 
 const Login = () => {
     const [firstName, setFirstName] = useState('');
@@ -38,7 +41,7 @@ const Login = () => {
             console.log(element)
             if(element.username === usernameLogin) {
                 accountMatch = true;
-                if(element.password === passwordLogin) {
+                if(element.password === SHA256(passwordLogin).toString()) {
                     removeSessionCookies('user_id_token');
                     removeSessionCookies('username_token');
                     setSessionCookies('user_id_token', element.id, { path: '/'});
@@ -66,7 +69,7 @@ const Login = () => {
                 "first_name": firstName,
                 "last_name": lastName,
                 "username": username,
-                "password": password,
+                "password": SHA256(password).toString(),
                 "user_summary": userSummary,
                 "profile_pic": profilePic
             })
