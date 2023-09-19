@@ -38,10 +38,11 @@ const Login = () => {
             if (element.username === usernameLogin) {
                 accountMatch = true;
                 if(element.password === SHA256(passwordLogin).toString()) {
-
                     removeSessionCookies('user_id_token');
                     removeSessionCookies('username_token');
-
+                    setSessionCookies('user_id_token', element.id, { path: '/'});
+                    setSessionCookies('username_token', element.username, { path: '/'});
+                    navigate('/home');
                     window.location.reload();
                     alert(`Login successful for ${element.first_name} ${element.last_name}.`)
                     break
