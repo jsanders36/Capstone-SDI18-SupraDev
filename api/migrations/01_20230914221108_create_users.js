@@ -8,6 +8,8 @@ exports.up = function(knex) {
     table.string('first_name').notNullable(); // equivalent of varchar(255)
     table.string('last_name').notNullable(); // equivalent of varchar(255)
     table.string('username').unique(); // equivalent of varchar(255)
+    table.string('email').unique();
+    table.string('job_title');
     table.string('password').notNullable(); // equivalent of varchar(255)
     table.string('profile_pic');
     table.string('user_summary');
