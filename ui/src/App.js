@@ -10,7 +10,7 @@ import Projects from "./Projects";
 // import ProjectDetails from "./ProjectDetails";
 // import ProjectSubmission from "./ProjectSubmission";
 // import PendingProjects from "./PendingProjects";
-// import SupraCoders from "./SupraCoders";
+import GenUser from "./GenUserProfile";
 // import SupraCoderDetails from "./SupraCoderDetails";
 
 function App() {
@@ -20,15 +20,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/user-profile" element={<ProfilePage />} />
+        <Route path="/coder-profile" element={<ProfilePage />} />
         {/* <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<UserDetails />} /> */}
         <Route path="/projects" element={<Projects />} />
         {/* <Route path="/projects/:id" element={<ProjectDetails />} />
         <Route path="/project_submission" element={<ProjectSubmission />} />
-        <Route path="/pending_projects/:id" element={<PendingProjects />} />
-        <Route path="/supracoders" element={<SupraCoders />} />
-        <Route path="/supracoders/:id" element={<SupraCoderDetails />} /> */}
+        <Route path="/pending_projects/:id" element={<PendingProjects />} /> */}
+        <Route path="/user-profile" element={<GenUser />} />
+        {/* <Route path="/supracoders/:id" element={<SupraCoderDetails />} /> */}
 
       </Routes>
     </Router>

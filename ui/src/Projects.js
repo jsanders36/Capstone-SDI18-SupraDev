@@ -1,9 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 
-function Projects() {
+const Projects = (props) => {
+  const { posts = [], profile, ...other } = props;
   const [project, setProject] = useState([])
   const [filterVar, setFilter] = useState([])
 
@@ -51,5 +53,10 @@ function Projects() {
     </div>
   );
 }
+
+Projects.propTypes = {
+  projects: PropTypes.array,
+  // profile: PropTypes.object.isRequired,
+};
 
 export default Projects;
