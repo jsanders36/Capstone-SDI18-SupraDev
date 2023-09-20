@@ -30,7 +30,7 @@ const Navbar = () => {
             {`${sessionCookies.username_token} `}
         </Button>
         if (sessionCookies.userPriv_Token === true) {
-            profileButton = <Button as={Link} to='/user-profile' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Admin Page</Button>
+            profileButton = <Button as={Link} to={`/users/${sessionCookies.user_id_token}`} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Admin Page</Button>
         } else {
             profileButton = <Button as={Link} to='/user-profile' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>User Page</Button>
         }

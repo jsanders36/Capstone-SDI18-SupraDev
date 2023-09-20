@@ -56,6 +56,8 @@ app.patch('/users/:id', (req, res) => {
       last_name: req.body.last_name,
       username: req.body.username,
       password: req.body.password,
+      email: req.body.email,
+      job_title: req.body.job_title,
       profile_pic: req.body.profile_pic,
       user_summary: req.body.user_summary,
       is_supracoder: req.body.is_supracoder,
