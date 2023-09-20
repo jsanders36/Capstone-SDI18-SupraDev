@@ -8,7 +8,7 @@ import Home from "./Home"
 // import Users from "./Users";
 import Projects from "./Projects";
 // import ProjectDetails from "./ProjectDetails";
-// import ProjectSubmission from "./ProjectSubmission";
+import ProjectSubmission from "./ProjectSubmission";
 // import PendingProjects from "./PendingProjects";
 import GenUser from "./GenUserProfile";
 // import SupraCoderDetails from "./SupraCoderDetails";
@@ -24,9 +24,9 @@ function App() {
         {/* <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<UserDetails />} /> */}
         <Route path="/projects" element={<Projects />} />
-        {/* <Route path="/projects/:id" element={<ProjectDetails />} />
-        <Route path="/project_submission" element={<ProjectSubmission />} />
-        <Route path="/pending_projects/:id" element={<PendingProjects />} /> */}
+        {/* <Route path="/projects/:id" element={<ProjectDetails />} /> */}
+        <Route path="/requests" element={<ProjectSubmission />} />
+        {/* <Route path="/pending_projects/:id" element={<PendingProjects />} /> */}
         <Route path="/user-profile" element={<GenUser />} />
         {/* <Route path="/supracoders/:id" element={<SupraCoderDetails />} /> */}
 
