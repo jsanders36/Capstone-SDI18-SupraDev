@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemText } from '@mui/material';
+import { Button, Card, CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemText, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useCookies, CookiesProvider } from 'react-cookie';
 
@@ -9,6 +9,9 @@ const ProfilePage = () => {
     const [projects, setProjects] = useState([])
     var numAcceptedProjs = 0;
     var numCompletedProjs = 0;
+    var totalProjs = 0;
+    var newPasswordDiv;
+    const [changePassword, setChangePassword] = useState(false)
 
     const userRefetch = async () => {
         await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
@@ -36,6 +39,20 @@ const ProfilePage = () => {
                     numCompletedProjs ++;
                 }
             }
+        }
+        totalProjs = numAcceptedProjs + numCompletedProjs;
+    }
+
+    const ChangePasswordComponent = () => {
+        if (changePassword === true) {
+            return(
+                <Card variant="outlined" style={{position: 'absolute', top: '50%', left: '50%', width: '50%'}}>
+                    <p><TextField variant="outlined" label="Password" type="text" size="small"></TextField></p>
+                    <p><Button onClick={() => setChangePassword(false)}>Submit</Button></p>
+                </Card>
+            )
+        } else {
+            return(<></>)
         }
     }
 
@@ -76,8 +93,8 @@ const ProfilePage = () => {
                         <Button component={Link} to="/profile/edit" variant="contained" color="primary" style={{ margin: '5px 0' }}>
                             Edit Profile
                         </Button>
-                        <Button component={Link} to="/profile/view" variant="contained" color="secondary">
-                            View Public Profile
+                        <Button variant="contained" color="secondary" onClick={() => setChangePassword(true)}>
+                            Change Password
                         </Button>
                     </CardContent>
                 </Card>
@@ -102,11 +119,12 @@ const ProfilePage = () => {
 
                 {/* User Statistics */}
                 {calcBountyStats()}
+                {newPasswordDiv}
                 <Box display="flex" gap="20px" mb="30px">
                     <Card variant="outlined" style={{ flex: 1 }}>
                         <CardContent>
                             <Typography variant="h6">Total Projects</Typography>
-                            <Typography variant="h4" color="primary">24</Typography>
+                            <Typography variant="h4" color="primary">{totalProjs}</Typography>
                         </CardContent>
                     </Card>
 
@@ -124,7 +142,7 @@ const ProfilePage = () => {
                         </CardContent>
                     </Card>
                 </Box>
-
+                {ChangePasswordComponent}
                 {/* Latest Notifications */}
                 <Box mb="30px">
                     <Typography variant="h6" mb="20px">Latest Notifications</Typography>
