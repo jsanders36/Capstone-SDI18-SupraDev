@@ -14,8 +14,9 @@ const Projects = (props) => {
     fetch("http://localhost:8080/projects")
       .then((res) => res.json())
       .then((projectsData) => {
-        setProjects(projectsData);
-        setFilterVar(projectsData);
+        const approvedProjects = projectsData.filter(p => p.is_approved);
+        setProjects(approvedProjects);
+        setFilterVar(approvedProjects);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -25,19 +26,19 @@ const Projects = (props) => {
 
     switch (newValue) {
       case 0:
-        setFilterVar(projects);
+        setFilterVar(projects.filter(p => p.is_approved));
         break;
       case 1:
-        setFilterVar(projects.filter(p => !p.is_accepted));
+        setFilterVar(projects.filter(p => !p.is_accepted && p.is_approved));
         break;
       case 2:
-        setFilterVar(projects.filter(p => p.is_accepted));
+        setFilterVar(projects.filter(p => p.is_accepted && p.is_approved));
         break;
       case 3:
-        setFilterVar(projects.filter(p => p.is_completed));
+        setFilterVar(projects.filter(p => p.is_completed && p.is_approved));
         break;
       default:
-        setFilterVar(projects);
+        setFilterVar(projects.filter(p => p.is_approved));
         break;
     }
   };
