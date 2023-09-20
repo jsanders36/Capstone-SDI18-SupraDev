@@ -7,11 +7,15 @@ import Home from "./Home"
 // import UserDetails from "./UserDetails";
 // import Users from "./Users";
 import Projects from "./Projects";
+
 // import ProjectDetails from "./ProjectDetails";
 import ProjectSubmission from "./ProjectSubmission";
+import BountyDetailsPage from "./BountyDetailsPage";
+
 // import PendingProjects from "./PendingProjects";
 import GenUser from "./GenUserProfile";
 // import SupraCoderDetails from "./SupraCoderDetails";
+import ChatPage from "./ChatPage";
 
 function App() {
   return (
@@ -24,11 +28,18 @@ function App() {
         {/* <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<UserDetails />} /> */}
         <Route path="/projects" element={<Projects />} />
+
         {/* <Route path="/projects/:id" element={<ProjectDetails />} /> */}
         <Route path="/requests" element={<ProjectSubmission />} />
         {/* <Route path="/pending_projects/:id" element={<PendingProjects />} /> */}
+
+        <Route path="/projects/:projectId" element={<BountyDetailsPage />} />
+        <Route path="/bounties/:bountyId/chat" element={<ChatPage />} />
+        {/* <Route path="/pending_projects/:id" element={<PendingProjects />} />  */}
+
         <Route path="/user-profile" element={<GenUser />} />
         {/* <Route path="/supracoders/:id" element={<SupraCoderDetails />} /> */}
+
 
       </Routes>
     </Router>

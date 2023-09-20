@@ -14,7 +14,7 @@ const Navbar = () => {
 
     if (sessionCookies.username_token) {
         logoutButton = <Button as={Link} onClick={() => { removeSessionCookies('username_token'); removeSessionCookies('user_id_token'); alert('You have been logged out') }} to='/login' variant='contained' color='error' style={{ gap: '10px', margin: '10px' }}>Logout</Button>;
-        currentUserInfo = <Button  style={{ marginLeft: '50%', outlineStyle: 'solid', outlineColor: 'black', outlineWidth: '1px', backgroundColor: 'rgb(255, 255, 255)' }}>
+        currentUserInfo = <Button style={{ marginLeft: '50%', outlineStyle: 'solid', outlineColor: 'black', outlineWidth: '1px', backgroundColor: 'rgb(255, 255, 255)' }}>
             <svg xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
