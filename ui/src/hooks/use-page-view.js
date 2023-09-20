@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { gtm } from '/home/jamel_s/projects/Capstone-SDI18-SupraDev/ui/src/libs/gtm';
+import { gtm } from '../libs/gtm';
 
 export const usePageView = () => {
   useEffect(() => {

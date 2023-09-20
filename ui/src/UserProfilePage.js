@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemText, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useCookies, CookiesProvider } from 'react-cookie';
+import { SHA256 } from 'crypto-js';
+
 
 const ProfilePage = () => {
     const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
@@ -12,6 +14,20 @@ const ProfilePage = () => {
     var totalProjs = 0;
     var newPasswordDiv;
     const [changePassword, setChangePassword] = useState(false)
+    const [newPassword, setNewPassword] = useState('')
+    const [editProfile, setEditProfile] = useState(false)
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [jobTitle, setJobTitle] = useState('')
+    const [email, setEmail] = useState('')
+    const [description, setDescription] = useState('')
+    const [profilePic, setProfilePic] = useState('')
+    const [newFirstName, setNewFirstName] = useState('')
+    const [newLastName, setNewLastName] = useState('')
+    const [newJobTitle, setNewJobTitle] = useState('')
+    const [newEmail, setNewEmail] = useState('')
+    const [newDescription, setNewDescription] = useState('')
+    const [newProfilePic, setNewProfilePic] = useState('')
 
     const userRefetch = async () => {
         await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
@@ -43,16 +59,93 @@ const ProfilePage = () => {
         totalProjs = numAcceptedProjs + numCompletedProjs;
     }
 
+    const userInfoDump = () => {
+        setFirstName(userObj.first_name)
+        setLastName(userObj.last_name)
+        setJobTitle(userObj.job_title)
+        setEmail(userObj.email)
+        setDescription(userObj.user_summary)
+        setProfilePic(userObj.profile_pic)
+    }
+
+    const patchPassword = () => {
+        fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "password": SHA256(newPassword).toString()
+            })
+
+        })
+        setChangePassword(false)
+        alert('Password successfully changed!')
+    }
+
+    const patchProfile = async () => {
+        await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "first_name": newFirstName,
+                "last_name": newLastName,
+                "job_title": newJobTitle,
+                "email": newEmail,
+                "user_summary": newDescription,
+                "profile_pic": newProfilePic
+            })
+        })
+        .then(() => userRefetch())
+        .then(() => {
+            setEditProfile(false);
+            // window.location.reload();
+        })
+
+    }
+
     const ChangePasswordComponent = () => {
         if (changePassword === true) {
             return(
-                <Card variant="outlined" style={{position: 'absolute', top: '50%', left: '50%', width: '50%'}}>
-                    <p><TextField variant="outlined" label="Password" type="text" size="small"></TextField></p>
-                    <p><Button onClick={() => setChangePassword(false)}>Submit</Button></p>
+                <Card variant="outlined" style={{width: '400px'}}>
+                    <p><TextField variant="outlined" onChange={(e) => setNewPassword(e.target.value)} label="New Password" type="text" size="small"  style={{ margin: '5px' }}></TextField></p>
+                    <p><Button variant="contained" color="secondary" onClick={() => patchPassword()}  style={{ margin: '5px' }}>Submit</Button>
+                    <Button variant="contained" color="error" onClick={() => setChangePassword(false)}  style={{ margin: '5px' }}>Cancel</Button></p>
                 </Card>
             )
         } else {
             return(<></>)
+        }
+    }
+
+    const personalInfoRender = () => {
+        if (editProfile === false) {
+            return (
+                <>
+                    <Typography variant="subtitle1">{userObj.first_name} {userObj.last_name}</Typography>
+                    <Typography variant="subtitle1">Job Title: {userObj.job_title}</Typography>
+                    <Typography variant="subtitle1">Email: {userObj.email}</Typography>
+                    <Typography variant="body1">Description: {userObj.user_summary}</Typography>
+                </>
+            )
+        } else if (editProfile === true) {
+            
+            return (
+                <>
+                    <p><TextField id="newFirstName" variant="standard" placeholder={userObj.first_name} value={newFirstName} onChange={(e) => setNewFirstName(e.target.value)} style={{ margin: '2px' }} label="First Name" />
+                    <TextField id="newLastName" variant="standard" placeholder={userObj.last_name} value={newLastName} onChange={(e) => setNewLastName(e.target.value)} style={{ margin: '2px' }} label="Last Name" />
+                    <TextField id="newProfilePic" variant="standard" placeholder={userObj.profile_pic} value={newProfilePic} onChange={(e) => setNewProfilePic(e.target.value)} style={{ width: '250px', margin: '2px' }} label="Image URL"/></p>
+
+                    <p><TextField id="newJobTitle" variant="standard" placeholder={userObj.job_title} value={newJobTitle} onChange={(e) => setNewJobTitle(e.target.value)}style={{ margin: '2px' }} label="Job Title"/>
+                    <TextField id="newEmail" variant="standard" placeholder={userObj.email} value={newEmail} onChange={(e) => setNewEmail(e.target.value)} style={{ margin: '2px' }} label="Email"/></p>
+                    <p><TextField id="newDescription" variant="standard" placeholder={userObj.user_summary} value={newDescription} onChange={(e) => setNewDescription(e.target.value)} multiline rows={2} style={{ width: '250px', margin: '2px' }} label="Description"/></p>
+
+                    <p><Button onClick={() => patchProfile()} variant="contained" color="primary" size='small' style={{ margin: '5px' }}>Submit</Button>
+                    <Button onClick={() => setEditProfile(false)} variant="contained" color="error" size='small' style={{ margin: '5px' }}>Cancel</Button></p>
+                </>
+            )
         }
     }
 
@@ -90,7 +183,15 @@ const ProfilePage = () => {
                 <Card variant="outlined">
                     <CardContent>
                         <Typography variant="h6">Profile Settings</Typography>
-                        <Button component={Link} to="/profile/edit" variant="contained" color="primary" style={{ margin: '5px 0' }}>
+                        <Button onClick={() => {
+                            setNewFirstName(userObj.first_name)
+                            setNewLastName(userObj.last_name)
+                            setNewJobTitle(userObj.job_title)
+                            setNewEmail(userObj.email)
+                            setNewDescription(userObj.user_summary)
+                            setNewProfilePic(userObj.profile_pic)
+                            setEditProfile(true)}
+                            } variant="contained" color="primary" style={{ margin: '5px 0' }}>
                             Edit Profile
                         </Button>
                         <Button variant="contained" color="secondary" onClick={() => setChangePassword(true)}>
@@ -108,12 +209,11 @@ const ProfilePage = () => {
 
                 {/* User Avatar & Details */}
                 <Box display="flex" alignItems="center" gap="20px" mb="30px">
-                    <Avatar src={userObj.profile_pic} alt="User Avatar" style={{ width: '100px', height: '100px' }} />
+                    <Avatar src={userObj.profile_pic} alt="User Avatar" style={{ width: '150px', height: '150px' }} />
                     <Box>
                         {console.log(userObj.username)}
                         <Typography variant="h5" gutterBottom>{userObj.username}</Typography>
-                        <Typography variant="subtitle1">User@email.com</Typography>
-                        <Typography variant="body1">{userObj.user_summary}</Typography>
+                        {personalInfoRender()}
                     </Box>
                 </Box>
 
@@ -142,9 +242,9 @@ const ProfilePage = () => {
                         </CardContent>
                     </Card>
                 </Box>
-                {ChangePasswordComponent}
                 {/* Latest Notifications */}
                 <Box mb="30px">
+                {ChangePasswordComponent()}
                     <Typography variant="h6" mb="20px">Latest Notifications</Typography>
                     <List>
                         <ListItem>
