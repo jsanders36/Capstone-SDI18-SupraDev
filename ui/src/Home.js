@@ -1,52 +1,100 @@
 import React from 'react';
-import { Button, Card, CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemText } from '@mui/material';
+import { Button, Card, CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
     return (
-        <Box display="flex" padding="20px" height="100vh" bgcolor="#f5f5f5">
-            <Divider orientation="vertical" flexItem />
+        <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            padding="40px"
+            height="100vh"
+            bgcolor="#f5f5f5"
+        >
 
-            {/* Main Content Area */}
+            {/* Hero Section */}
+            <Paper
+                elevation={6}
+                style={{
+                    backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/path/to/your/image.jpg')",
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    height: '300px',
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: '15px',
+                    marginBottom: '40px'
+                }}
+            >
+                <Typography variant="h1" color="primary.contrastText" style={{ fontWeight: 600 }}>
+                    Welcome to Supra Dev !
+                </Typography>
+            </Paper>
 
-            <Box flex={1} pl="20px" >
+            <Box
+                width="80%"
+                bgcolor="white"
+                p={5}
+                borderRadius={5}
+                boxShadow={5}
+            >
 
-                <Box display="flex" gap="20px" mb="30px" >
+                {/* Announcements */}
+                <Box mb={4}>
+                    <Typography variant="h4" mb={2} fontWeight="bold" gutterBottom>Announcements</Typography>
 
-                    <Card variant="outlined" style={{ flex: 1 }} >
-
+                    <Paper elevation={3} variant="outlined" style={{ borderRadius: '10px' }}>
                         <CardContent>
-                            {/* Announcements */}
-                            <Typography variant="h4" sx={{textAlign: "center"}}>Announcements</Typography>
-                            <Typography variant="h5" color="primary" sx={{textAlign: "center"}}>Top Bounty: Project X</Typography>
-                            <Typography variant="h5" color="primary" sx={{textAlign: "center"}}>Project T has been finalized and deployed into...</Typography>
-                            <p></p>
-
-                            {/* Highlights */}
-                            <Typography variant="h4" sx={{textAlign: "center"}}>Highlights</Typography>
-                            <Typography variant="h5" color="primary" sx={{textAlign: "center"}}>Success! Project J made major breakthroughs in XYZ</Typography>
-                            <Typography variant="h5" color="primary" sx={{textAlign: "center"}}>Supra Coder Snuffy figured out how to install DOOM in My...</Typography>
+                            <Typography variant="h6" color="primary" mb="10px">Top Bounty: Project X</Typography>
+                            <Typography variant="h6" color="primary" mb="10px">Project T has been finalized and deployed into...</Typography>
                         </CardContent>
-                    </Card>
+                    </Paper>
                 </Box>
 
+                {/* Highlights */}
+                <Box mb={4}>
+                    <Typography variant="h4" mb={2} fontWeight="bold" gutterBottom>Highlights</Typography>
+
+                    <Paper elevation={3} variant="outlined" style={{ borderRadius: '10px' }}>
+                        <CardContent>
+                            <Typography variant="h6" color="primary" mb="10px">Success! Project J made major breakthroughs in XYZ</Typography>
+                            <Typography variant="h6" color="primary" mb="10px">Supra Coder Snuffy figured out how to install DOOM in My...</Typography>
+                        </CardContent>
+                    </Paper>
+                </Box>
+
+                {/* Divider to separate sections */}
+                <Divider variant="middle" sx={{ my: 4 }} />
+
                 {/* Latest Notifications */}
-                <Box mb="30px">
-                    <Typography variant="h6" mb="20px">Latest Notifications</Typography>
+                <Box mb={4}>
+                    <Typography variant="h5" mb="20px" fontWeight="bold" gutterBottom>Latest Notifications</Typography>
 
                 </Box>
 
                 {/* User Activity */}
                 <Box>
-                    <Typography variant="h6" mb="20px">Recent Activity</Typography>
+                    <Typography variant="h5" mb="20px" fontWeight="bold" gutterBottom>Recent Activity</Typography>
                     <List>
                         <ListItem>
+                            <ListItemAvatar>
+                                <Avatar><i className="fas fa-plus"></i></Avatar>
+                            </ListItemAvatar>
                             <ListItemText primary="Added a new project: Project XYZ." secondary="1 day ago" />
                         </ListItem>
                         <ListItem>
+                            <ListItemAvatar>
+                                <Avatar><i className="fas fa-trophy"></i></Avatar>
+                            </ListItemAvatar>
                             <ListItemText primary="Claimed a bounty from John's project." secondary="2 days ago" />
                         </ListItem>
                         <ListItem>
+                            <ListItemAvatar>
+                                <Avatar><i className="fas fa-user-edit"></i></Avatar>
+                            </ListItemAvatar>
                             <ListItemText primary="Updated profile information." secondary="3 days ago" />
                         </ListItem>
                     </List>
