@@ -1,55 +1,74 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
-
+import { Tabs, Tab, List, ListItem, Typography } from '@mui/material';
 
 const Projects = (props) => {
-  const { posts = [], profile, ...other } = props;
-  const [project, setProject] = useState([])
-  const [filterVar, setFilter] = useState([])
-
+  const { profile, ...other } = props;
+  const [projects, setProjects] = useState([]);
+  const [filterVar, setFilterVar] = useState([]);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("http://localhost:8080/projects")
       .then((res) => res.json())
-      .then((projects) => setProject(projects))
+      .then((projectsData) => {
+        setProjects(projectsData);
+        setFilterVar(projectsData);
+      })
       .catch((err) => console.log(err));
   }, []);
 
-  //all , unaccepted, accepted, complete
+  const handleChange = (event, newValue) => {
+    setSelectedTab(newValue);
 
-  let handleAll= () => {
-    setFilter(project)
-  }
+    switch (newValue) {
+      case 0:
+        setFilterVar(projects);
+        break;
+      case 1:
+        setFilterVar(projects.filter(p => !p.is_accepted));
+        break;
+      case 2:
+        setFilterVar(projects.filter(p => p.is_accepted));
+        break;
+      case 3:
+        setFilterVar(projects.filter(p => p.is_completed));
+        break;
+      default:
+        setFilterVar(projects);
+        break;
+    }
+  };
 
-  let x = 0;
-
-  let handleUnaccepted= () => {
-    x = project.filter((e) => e.is_accepted === false)
-     setFilter(x)
-  }
-
-  let handleAccepted= () => {
-    x = project.filter((e) => e.is_accepted === true)
-     setFilter(x)
-  }
-
-  let handleComplete= () => {
-    x = project.filter((e) => e.is_completed === true)
-     setFilter(x)
-  }
+  const handleProjectClick = (projectId) => {
+    // Navigate to the detailed summary page for the clicked project
+    navigate(`/projects/${projectId}`);
+  };
 
   return (
-    <div className="inventory">
-      <h3> Bounties </h3>
-      <button onClick={handleAll}> All </button>
-      <button onClick={handleUnaccepted}> Unaccepted </button>
-      <button onClick={handleAccepted}> Accepted </button>
-      <button onClick={handleComplete}> Complete </button>
-      <ul>
-        {filterVar.map((i) => (<li id={i.id}> {i.name} {i.problem_statement}</li>))}
-      </ul>
+    <div style={{ padding: '20px' }}>
+      <Typography variant="h4" gutterBottom> Bounties </Typography>
+
+      <Tabs value={selectedTab} onChange={handleChange} variant="fullWidth" indicatorColor="primary" textColor="primary">
+        <Tab label="All" />
+        <Tab label="Unaccepted" />
+        <Tab label="Accepted" />
+        <Tab label="Complete" />
+      </Tabs>
+
+      <List>
+        {filterVar.map((project) => (
+          <ListItem
+            key={project.id}
+            button
+            onClick={() => handleProjectClick(project.id)}
+          >
+            {project.name} - {project.problem_statement}
+          </ListItem>
+        ))}
+      </List>
     </div>
   );
 }
