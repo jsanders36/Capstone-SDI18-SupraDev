@@ -66,7 +66,7 @@ const MyBounties = (props) => {
   };
 
   return (
-    <Box padding="20px" height="100vh" style={{ background: 'linear-gradient(to right, #f953c6, #b91d73)'}}>
+    <Box padding="20px" height="100vh" style={{ margin: '10px', background: 'rgba(255,255,255, 0.7)', borderRadius: '25px'}}>
         <Typography variant="h4" gutterBottom>
             {" "}
             {userObj.first_name}'s Bounties{" "}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Tabs, Tab, List, ListItem, Typography } from "@mui/material";
+import { Tabs, Tab, List, ListItem, Typography, Box, Card } from "@mui/material";
 import { useCookies, CookiesProvider } from 'react-cookie';
 
 const Projects = (props) => {
@@ -55,8 +55,8 @@ const Projects = (props) => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <Typography variant="h4" gutterBottom>
+    <Box padding="20px" height="100vh" style={{ margin: '10px', background: 'rgba(255,255,255, 0.7)', borderRadius: '25px'}}>
+      <Typography variant="h4" gutterBottom style={{textAlign: "center"}}>
         {" "}
         Bounties{" "}
       </Typography>
@@ -66,8 +66,10 @@ const Projects = (props) => {
         onChange={handleChange}
         variant="fullWidth"
         indicatorColor="primary"
-        textColor="primary">
-        <Tab label="All" />
+        textColor="primary"
+        bgcolor="primary">
+        
+        <Tab bgcolor="blue" label="All" />
         <Tab label="Unaccepted" />
         <Tab label="Accepted" />
         <Tab label="Complete" />
@@ -77,15 +79,27 @@ const Projects = (props) => {
 
       <List>
         {filterVar.map((project) => (
-          <ListItem
-            key={project.id}
-            button
-            onClick={() => handleProjectClick(project.id)}>
-            {project.name} - {project.problem_statement}
-          </ListItem>
+          <Card sx={{
+            minWidth: 400,
+            maxWidth: "95%",
+            height: 120,
+            m: 2,
+            padding: 1,
+            textAlign: 'center',
+            borderRadius: "15px",
+            background: "rgba(96,112,151, .85)"
+          }}>
+            <div
+              key={project.id}
+              onClick={() => handleProjectClick(project.id)}
+              style={{textAlign: "center"}}>
+              <h2>{project.name}</h2>
+              <p style={{marginLeft: '4px', textAlign: "left"}}>Problem Statement: {project.problem_statement}</p>
+            </div>
+          </Card>
         ))}
       </List>
-    </div>
+    </Box>
   );
 };
 
