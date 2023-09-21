@@ -41,9 +41,9 @@ function App() {
         {/* <Route path="/pending_projects/:id" element={<PendingProjects />} />  */}
 
 
-        <Route path="/user-profile" element={<GenUser />} />
-        <Route path="/user-profile/:id" element={<OtherUser />} />
-        <Route path="/users/:id" element={<GenUser />} />
+        <Route path="/users" element={<GenUser />} />
+        {/* <Route path="/user-profile/:id" element={<OtherUser />} /> */}
+        <Route path="/users/:id" element={<OtherUser/>} />
         {/* <Route path="/supracoders/:id" element={<SupraCoderDetails />} /> */}
 
 

@@ -1,67 +1,39 @@
 import PropTypes from 'prop-types';
-// import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Box, Card } from '@mui/material/';
 import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Unstable_Grid2';
-import Input from '@mui/material/Input';
-import Stack from '@mui/material/Stack';
-import SvgIcon from '@mui/material/SvgIcon';
 
 import { SocialConnection } from './social-connection';
 import { useCookies, CookiesProvider } from 'react-cookie';
 
-
 export const SocialConnections = (props) => {
   const { connections = [], query = '', onQueryChange, ...other } = props;
-  const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
-  const sliceValue = sessionCookies.user_id_token;
+  const { id } = useParams();
+  const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies([
+    'username_token',
+    'user_id_token',
+    'userPriv_Token',
+  ]);
 
-  function removeObjectWithUserId(arr, id) {
-    return arr.filter((obj) => obj.id !== id);
-  }
+  // Function to get the ID based on URL or sessionCookies
+  const getViewedId = () => {
+    return id ? id : sessionCookies.user_id_token;
+  };
 
-  const otherUsers = removeObjectWithUserId(connections, sliceValue);
-console.log(otherUsers)
+  const viewedId = getViewedId();
+  const otherUsers = connections.filter((connection) => connection.id !== viewedId);
+
   return (
     <Card {...other}>
       <CardHeader title="Connections" />
       <Divider />
-      <Stack
-        alignItems="center"
-        direction="row"
-        spacing={2}
-        sx={{
-          px: 3,
-          py: 2,
-        }}
-      >
-        {/* <SvgIcon> */}
-          {/* <SearchMdIcon /> */}
-        {/* </SvgIcon>
-        <Box sx={{ flexGrow: 1 }}>
-          <Input
-            disableUnderline
-            fullWidth
-            onChange={onQueryChange}
-            placeholder="Search connections"
-            value={query}
-          />
-        </Box> */}
-      </Stack>
-      <Divider />
       <Box sx={{ p: 3 }}>
-        <Grid
-          container
-          spacing={3}
-        >
+        <Grid container spacing={3}>
           {otherUsers.slice(1).map((connection) => (
-            <Grid
-              key={connection.id}
-              xs={12}
-              md={6}
-            >
+            <Grid key={connection.id} xs={12} md={6}>
               <SocialConnection connection={connection} />
             </Grid>
           ))}
