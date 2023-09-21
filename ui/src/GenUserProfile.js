@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useCookies, CookiesProvider } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 import MessageChatSquareIcon from './icons/message-chat-square';
 import DotsHorizontalIcon from './icons/dots-horizontal';
 import Image03Icon from './icons/image-03';
 import UserPlus02Icon from './icons/user-plus-02';
+import Edit from './icons/edit';
 
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -20,6 +22,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { blueGrey } from '@mui/material/colors';
 
+import EditProfileForm from './EditProfileForm';
 import { socialApi } from './social/index.js';
 import { RouterLink } from './components/router-link';
 import { Seo } from './components/seo';
@@ -112,43 +115,12 @@ const useUsers = (search = '') => {
     handleUsersGet();
   }, [handleUsersGet]);
 
-  console.log("Users from API:", users); // Debug: Log the received user data
-
   return users.filter((connection) => {
         return connection.first_name?.toLowerCase().includes(search);
       });
 
-  // console.log("Filtered Users:", filteredUsers); // Debug: Log the filtered user data
-
-  // return filteredUsers;
 };
 
-
-// const useConnections = (search = '') => {
-//   const [connections, setConnections] = useState([]);
-//   const isMounted = useMounted();
-
-//   const handleConnectionsGet = useCallback(async () => {
-//     const response = await socialApi.getConnections();
-
-//     if (isMounted()) {
-//       setConnections(response);
-//     }
-//   }, [isMounted]);
-
-//   useEffect(
-//     () => {
-//       handleConnectionsGet();
-//     },
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//     [search]
-//   );
-
-//   console.log(connections)
-//   return connections.filter((connection) => {
-//     return connection.name?.toLowerCase().includes(search);
-//   });
-// };
 
 const useProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -174,7 +146,6 @@ const useProjects = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
-  console.log(projects)
   return projects;
 };
 
@@ -185,18 +156,48 @@ const GenUser = () => {
   const posts = usePosts();
   const projects = useProjects();
   const [usersQuery, setUsersQuery] = useState('');
-  // const [connectionsQuery, setConnectionsQuery] = useState('');
-  // const connections = useConnections(connectionsQuery);
+  const [fetchTime, setFetchTime] = useState(false);
   const users = useUsers(usersQuery);
   const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
   const [userObj, setUserObj] = useState([]);
   const [usersArr, setUsersArr] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
 
+
+  const handleEditProfileClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleUpdateProfile = async (updatedUser) => {
+    try {
+      const response = await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedUser),
+      });
+
+      if (response.status === 200) {
+        setFetchTime(true);
+        navigate.push(`/profile/${sessionCookies.user_id_token}`);
+      } else {
+        console.error('Failed to update profile');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Function to handle canceling the edit
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+  };
 
   const userRefetch = async () => {
     await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
         .then((res) => res.json())
-        .then((fetchData) => setUserObj(fetchData[0]))
+      .then((fetchData) => setUserObj(fetchData[0]))
+      setFetchTime(true);
   }
 
   const usersFetch = async () => {
@@ -210,17 +211,38 @@ useEffect(() => {
 
 },[])
 
+// const handleSubmitChanges = async () => {
+//   try {
+//     const response = await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`, {
+//       method: 'PATCH',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(userObj),
+//     });
 
+//     if (response.ok) {
+//       // Handle success
+//       setGlobalEditMode(false);
+//       setFetchTime(true);
+//     } else {
+//       // Handle error
+//       console.error('Failed to update user profile');
+//     }
+//   } catch (error) {
+//     console.error('Error:', error);
+//   }
+// };
 
   usePageView();
 
-  const handleConnectionAdd = useCallback(() => {
-    setStatus('pending');
-  }, []);
+  // const handleConnectionAdd = useCallback(() => {
+  //   setStatus('pending');
+  // }, []);
 
-  const handleNormalView = useCallback(() => {
-    setStatus('not_connected');
-  }, []);
+  // const handleNormalView = useCallback(() => {
+  //   setStatus('not_connected');
+  // }, []);
 
   const handleTabsChange = useCallback((event, value) => {
     setCurrentTab(value);
@@ -242,6 +264,13 @@ useEffect(() => {
 
   return (
     <>
+      {isEditing ? (
+        <EditProfileForm
+          user={userObj} // Pass the current user data to the form
+          onSubmit={handleUpdateProfile} // Pass the update function
+          onCancel={handleCancelEdit} // Pass the cancel function
+        />
+      ) : (
       <Box
         component="main"
         sx={{
@@ -321,7 +350,7 @@ useEffect(() => {
                     color="text.secondary"
                     variant="overline"
                   >
-                    We need to make a job title table column...
+                    {userObj.job_title}
                     {/* Should be job title in database */}
                   </Typography>
                   <Typography variant="h4">{userObj.first_name} {userObj.last_name}</Typography>
@@ -340,19 +369,17 @@ useEffect(() => {
                 }}
               >
                 {/* {showConnect && ( */}
-                  <Button
-                    onClick={handleConnectionAdd}
-                    size="small"
-                    color="primary"
-                    startIcon={
+                    <Button
+                      size="small"
+                      startIcon={
                       <SvgIcon>
-                        <UserPlus02Icon />
+                        <Edit />
                       </SvgIcon>
-                    }
-                    variant="outlined"
-                  >
-                    Edit Profile
-                  </Button>
+                      }
+                      variant="contained"
+                      onClick={handleEditProfileClick}>
+                      Edit Profile
+                    </Button>
                  {/* )} */}
                 {/* {showPending && (
                   <Button
@@ -386,7 +413,8 @@ useEffect(() => {
                 </IconButton>
               </Tooltip>
             </Stack>
-          </div>
+              </div>
+
           <Tabs
             indicatorColor="primary"
             onChange={handleTabsChange}
@@ -432,9 +460,11 @@ useEffect(() => {
               />
             )} */}
 
-          </Box>
+              </Box>
+
         </Container>
-      </Box>
+          </Box>
+          )}
     </>
   );
 };
