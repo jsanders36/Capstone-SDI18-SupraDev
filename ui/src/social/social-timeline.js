@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useCookies, CookiesProvider } from 'react-cookie';
 import { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
@@ -10,13 +11,14 @@ import { SocialPostCard } from './social-post-card';
 import { SocialAbout } from './social-about';
 
 export const SocialTimeline = (props) => {
+  const { id } = useParams();
   const { posts = [], profile, ...other } = props;
   const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
   const [userObj, setUserObj] = useState([]);
   const [chatPosts, setChatPosts] = useState([]);
 
   const userRefetch = async () => {
-    await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
+    await fetch(`http://localhost:8080/users/${id}`)
         .then((res) => res.json())
         .then((fetchData) => setUserObj(fetchData[0]))
   }
@@ -26,7 +28,7 @@ export const SocialTimeline = (props) => {
   }, [])
 
   const postFetch = async () => {
-    await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
+    await fetch(`http://localhost:8080/users/${id}`)
         .then((res) => res.json())
         .then((fetchData) => setChatPosts(fetchData[0]))
   }
@@ -46,14 +48,8 @@ export const SocialTimeline = (props) => {
           xs={12}
         >
           <SocialAbout
-            currentCity={userObj.currentCity}
-            currentJobCompany={userObj.currentJobCompany}
-            currentJobTitle={userObj.currentJobTitle}
+            job_title={userObj.job_title}
             email={userObj.email}
-            originCity={userObj.originCity}
-            previousJobCompany={userObj.previousJobCompany}
-            previousJobTitle={userObj.previousJobTitle}
-            profileProgress={userObj.profileProgress}
             quote={userObj.user_summary}
           />
         </Grid>

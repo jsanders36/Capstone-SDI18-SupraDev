@@ -32,13 +32,8 @@ interface SocialAboutProps {
 export const SocialAbout: FC<SocialAboutProps> = (props) => {
   const {
     currentCity,
-    currentJobCompany,
-    currentJobTitle,
+    job_title,
     email,
-    originCity,
-    previousJobCompany,
-    previousJobTitle,
-    profileProgress,
     quote,
     ...other
   } = props;
@@ -91,90 +86,7 @@ export const SocialAbout: FC<SocialAboutProps> = (props) => {
                 disableTypography
                 primary={
                   <Typography variant="subtitle2">
-                    {currentJobTitle} at{' '}
-                    <Link
-                      color="text.primary"
-                      href="#"
-                      variant="subtitle2"
-                    >
-                      {currentJobCompany}
-                    </Link>
-                  </Typography>
-                }
-                secondary={
-                  <Typography
-                    color="text.secondary"
-                    variant="body2"
-                  >
-                    Past: {previousJobTitle}{' '}
-                    <Link
-                      color="text.secondary"
-                      href="#"
-                      variant="body2"
-                    >
-                      {previousJobCompany}
-                    </Link>
-                  </Typography>
-                }
-              />
-            </ListItem>
-            <ListItem
-              disableGutters
-              divider
-            >
-              <ListItemAvatar>
-                <SvgIcon color="action">
-                   <BookOpen01 />
-                </SvgIcon>
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Link
-                    color="text.secondary"
-                    sx={{ cursor: 'pointer' }}
-                    variant="caption"
-                  >
-                    Add school or college
-                  </Link>
-                }
-              />
-            </ListItem>
-            <ListItem
-              disableGutters
-              divider
-            >
-              <ListItemAvatar>
-                <SvgIcon color="action">
-                  <HomeSmile />
-                </SvgIcon>
-              </ListItemAvatar>
-              <ListItemText
-                disableTypography
-                primary={
-                  <Typography variant="subtitle2">
-                    Lives in{' '}
-                    <Link
-                      color="text.primary"
-                      href="#"
-                      variant="subtitle2"
-                    >
-                      {currentCity}
-                    </Link>
-                  </Typography>
-                }
-                secondary={
-                  <Typography
-                    color="text.secondary"
-                    variant="body2"
-                  >
-                    Originally from{' '}
-                    <Link
-                      color="text.secondary"
-                      href="#"
-                      variant="body2"
-                    >
-                      {originCity}
-                    </Link>
+                    {job_title}
                   </Typography>
                 }
               />

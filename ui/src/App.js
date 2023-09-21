@@ -14,7 +14,8 @@ import ProjectSubmission from "./ProjectSubmission";
 import BountyDetailsPage from "./BountyDetailsPage";
 
 // import PendingProjects from "./PendingProjects";
-import GenUser from "./GenUserProfile";
+import GenUser from "./MyProfile";
+import OtherUser from "./OthersProfile";
 // import SupraCoderDetails from "./SupraCoderDetails";
 import ChatPage from "./ChatPage";
 
@@ -39,8 +40,12 @@ function App() {
         <Route path="/bounties/:bountyId/chat" element={<ChatPage />} />
         {/* <Route path="/pending_projects/:id" element={<PendingProjects />} />  */}
 
+
+        <Route path="/user-profile" element={<GenUser />} />
+        <Route path="/user-profile/:id" element={<OtherUser />} />
         <Route path="/users/:id" element={<GenUser />} />
         {/* <Route path="/supracoders/:id" element={<SupraCoderDetails />} /> */}
+
 
 
       </Routes>

@@ -1,5 +1,6 @@
 import { useCookies, CookiesProvider } from 'react-cookie';
 import { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import Attachment01 from '../icons/attachment-01';
 import FaceSmile from '../icons/face-smile';
@@ -22,12 +23,12 @@ import { getInitials } from '../utils/get-initials';
 export const SocialPostAdd = (props) => {
   const user = useMockedUser();
   // const smUp = useMediaQuery((theme) => theme.breakpoints.up('sm'));
-
+  const { id } = useParams();
   const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
   const [userObj, setUserObj] = useState([]);
 
   const userRefetch = async () => {
-    await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
+    await fetch(`http://localhost:8080/users/${id}`)
         .then((res) => res.json())
         .then((fetchData) => setUserObj(fetchData[0]))
   }

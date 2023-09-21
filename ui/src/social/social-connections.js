@@ -37,9 +37,9 @@ console.log(otherUsers)
           py: 2,
         }}
       >
-        <SvgIcon>
+        {/* <SvgIcon> */}
           {/* <SearchMdIcon /> */}
-        </SvgIcon>
+        {/* </SvgIcon>
         <Box sx={{ flexGrow: 1 }}>
           <Input
             disableUnderline
@@ -48,7 +48,7 @@ console.log(otherUsers)
             placeholder="Search connections"
             value={query}
           />
-        </Box>
+        </Box> */}
       </Stack>
       <Divider />
       <Box sx={{ p: 3 }}>

@@ -27,6 +27,7 @@ export const SocialConnection = (props) => {
 
   const showConnect = status === 'not_connected';
   const showPending = status === 'pending';
+  const showConnected = status === 'connected'
 
   return (
     <Card
@@ -57,7 +58,7 @@ export const SocialConnection = (props) => {
           <Box sx={{ flexGrow: 1 }}>
             <Link
               color="text.primary"
-              href="#"
+              href={`./${connection.id}`}
               variant="subtitle2"
             >
               {connection.first_name + " " + connection.last_name}
@@ -85,6 +86,15 @@ export const SocialConnection = (props) => {
                 color="inherit"
               >
                 Pending
+              </Button>
+            )}
+             {showConnected && (
+              <Button
+                onClick={handleConnectionAdd}
+                size="small"
+                color="green"
+              >
+                Connected
               </Button>
             )}
           </Box>
