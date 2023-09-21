@@ -46,14 +46,8 @@ export const SocialTimeline = (props) => {
           xs={12}
         >
           <SocialAbout
-            currentCity={userObj.currentCity}
-            currentJobCompany={userObj.currentJobCompany}
-            currentJobTitle={userObj.currentJobTitle}
+            job_title={userObj.job_title}
             email={userObj.email}
-            originCity={userObj.originCity}
-            previousJobCompany={userObj.previousJobCompany}
-            previousJobTitle={userObj.previousJobTitle}
-            profileProgress={userObj.profileProgress}
             quote={userObj.user_summary}
           />
         </Grid>

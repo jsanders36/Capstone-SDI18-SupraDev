@@ -150,6 +150,7 @@ const OtherUser = () => {
   const [profile, setProfile] = useState(null);
   const [currentTab, setCurrentTab] = useState('timeline');
   const [status, setStatus] = useState('not_connected');
+  const [userObj, setUserObj] = useState([]);
   const posts = usePosts();
   const projects = useProjects();
   const [usersQuery, setUsersQuery] = useState('');
@@ -160,7 +161,7 @@ const OtherUser = () => {
     // Fetch the profile of the user with the specified ID
     const fetchUserProfile = async () => {
       try {
-        const response = await socialApi.getProfile(id); // Adjust the API call based on your backend
+        const response = await fetch(`http://localhost:8080/users`).getUser(id); // Adjust the API call based on your backend
         if (isMounted()) {
           setProfile(response);
         }
@@ -168,6 +169,14 @@ const OtherUser = () => {
         console.error(err);
       }
     };
+
+    console.log(profile);
+
+    const userRefetch = async () => {
+      await fetch(`http://localhost:8080/users/${profile.id}`)
+          .then((res) => res.json())
+        .then((fetchData) => setUserObj(fetchData[0]))
+    }
 
     fetchUserProfile();
   }, [id, isMounted]);

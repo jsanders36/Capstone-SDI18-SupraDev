@@ -182,9 +182,9 @@ const GenUser = () => {
         body: JSON.stringify(updatedUser),
       });
 
-      if (response.status === 201) {
-        setFetchTime(true);
-        navigate.push(`/profile/${sessionCookies.user_id_token}`);
+      if (response.status === 200) {
+        userRefetch();
+        navigate.push(`/user-profile/${sessionCookies.user_id_token}`);
       } else {
         console.error('Failed to update profile');
       }

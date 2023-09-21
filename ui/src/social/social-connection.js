@@ -57,7 +57,7 @@ export const SocialConnection = (props) => {
           <Box sx={{ flexGrow: 1 }}>
             <Link
               color="text.primary"
-              href="#"
+              href={`user-profile/${connection.id}`}
               variant="subtitle2"
             >
               {connection.first_name + " " + connection.last_name}
