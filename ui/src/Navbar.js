@@ -14,8 +14,8 @@ const Navbar = () => {
     let requestsButton;
 
     if (sessionCookies.username_token) {
-        logoutButton = <Button as={Link} onClick={() => { removeSessionCookies('username_token'); removeSessionCookies('user_id_token'); alert('You have been logged out') }} to='/login' variant='contained' color='error' style={{ gap: '10px', margin: '10px' }}>Logout</Button>;
-        currentUserInfo = <Button style={{ marginLeft: '50%', marginTop: '3px', outlineStyle: 'solid', outlineColor: 'black', outlineWidth: '1px', backgroundColor: 'rgb(255, 255, 255)' }}>
+        logoutButton = <Button as={Link} onClick={() => { removeSessionCookies('username_token'); removeSessionCookies('user_id_token'); removeSessionCookies('userPriv_Token'); alert('You have been logged out') }} to='/login' variant='contained' color='error' style={{ gap: '10px', margin: '10px' }}>Logout</Button>;
+        currentUserInfo = <Button style={{ marginLeft: '50%', marginTop: '5px', marginBottom: '5px', outlineStyle: 'solid', outlineColor: 'black', outlineWidth: '1px', backgroundColor: 'rgb(255, 255, 255)' }}>
             <svg xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
@@ -32,15 +32,15 @@ const Navbar = () => {
         </Button>
         requestsButton = <Button as={Link} to='/requests' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Requests</Button>;
         if (sessionCookies.userPriv_Token === true) {
-            profileButton = <Button as={Link} to={`/users/${sessionCookies.user_id_token}`} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Admin Page</Button>
+            profileButton = <Button as={Link} to={`/supracoders/${sessionCookies.user_id_token}`} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Admin Page</Button>
         } else {
-            profileButton = <Button as={Link} to='/user-profile' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>User Page</Button>
+            profileButton = <Button as={Link} to={`/users/${sessionCookies.user_id_token}`} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>User Page</Button>
         }
     }
 
     return (
-        <div id='navbar' style={{ display: 'flex' }}>
-            <Button as={Link} to='/' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Home</Button>
+        <div id='navbar' style={{ display: 'flex' }} bgcolor="#f5f5f5">
+            <Button as={Link} to='/' variant='contained' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px' }}>Home</Button>
             <Button as={Link} to='/projects' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Projects</Button>
             {requestsButton}
             <Button as={Link} to='/login' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Login Page</Button>
