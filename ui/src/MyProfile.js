@@ -22,6 +22,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { blueGrey } from '@mui/material/colors';
 
+
 import EditProfileForm from './EditProfileForm';
 import { socialApi } from './social/index.js';
 import { RouterLink } from './components/router-link';
@@ -32,7 +33,10 @@ import { Layout as DashboardLayout } from './layouts/layout.js';
 import { paths } from './paths';
 import { SocialConnections } from './social/social-connections';
 import { SocialTimeline } from './social/social-timeline';
-import  Projects  from './Projects'
+import Projects from './Projects'
+import Modal from '@mui/material/Modal';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
 
 const tabs = [
   { label: 'Timeline', value: 'timeline' },
@@ -163,10 +167,11 @@ const GenUser = () => {
   const [usersArr, setUsersArr] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
+  const [openEditModal, setOpenEditModal] = useState(false);
 
 
   const handleEditProfileClick = () => {
-    setIsEditing(true);
+    setOpenEditModal(true);
   };
 
   const handleUpdateProfile = async (updatedUser) => {
@@ -177,7 +182,7 @@ const GenUser = () => {
         body: JSON.stringify(updatedUser),
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         setFetchTime(true);
         navigate.push(`/profile/${sessionCookies.user_id_token}`);
       } else {
@@ -188,12 +193,12 @@ const GenUser = () => {
     }
   };
 
-  // Function to handle canceling the edit
   const handleCancelEdit = () => {
-    setIsEditing(false);
+    setOpenEditModal(false);
   };
 
   const userRefetch = async () => {
+    setFetchTime(false);
     await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
         .then((res) => res.json())
       .then((fetchData) => setUserObj(fetchData[0]))
@@ -201,48 +206,22 @@ const GenUser = () => {
   }
 
   const usersFetch = async () => {
+    setFetchTime(true);
     await fetch(`http://localhost:8080/users`)
         .then((res) => res.json())
-        .then((userfetchData) => setUsersArr(userfetchData))
+      .then((userfetchData) => setUsersArr(userfetchData))
+    setFetchTime(false);
   }
+
 useEffect(() => {
   userRefetch();
   usersFetch();
 
 },[])
 
-// const handleSubmitChanges = async () => {
-//   try {
-//     const response = await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`, {
-//       method: 'PATCH',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(userObj),
-//     });
-
-//     if (response.ok) {
-//       // Handle success
-//       setGlobalEditMode(false);
-//       setFetchTime(true);
-//     } else {
-//       // Handle error
-//       console.error('Failed to update user profile');
-//     }
-//   } catch (error) {
-//     console.error('Error:', error);
-//   }
-// };
-
   usePageView();
 
-  // const handleConnectionAdd = useCallback(() => {
-  //   setStatus('pending');
-  // }, []);
 
-  // const handleNormalView = useCallback(() => {
-  //   setStatus('not_connected');
-  // }, []);
 
   const handleTabsChange = useCallback((event, value) => {
     setCurrentTab(value);
@@ -251,24 +230,19 @@ useEffect(() => {
   const handleUsersQueryChange = useCallback((event) => {
     setUsersQuery(event.target.value);
   }, []);
-  // const handleConnectionsQueryChange = useCallback((event) => {
-  //   setConnectionsQuery(event.target.value);
-  // }, []);
+
 
   if (!profile) {
     return null;
   }
 
-
-
-
   return (
     <>
       {isEditing ? (
         <EditProfileForm
-          user={userObj} // Pass the current user data to the form
-          onSubmit={handleUpdateProfile} // Pass the update function
-          onCancel={handleCancelEdit} // Pass the cancel function
+          user={userObj}
+          onSubmit={handleUpdateProfile}
+          onCancel={handleCancelEdit}
         />
       ) : (
       <Box
@@ -351,7 +325,6 @@ useEffect(() => {
                     variant="overline"
                   >
                     {userObj.job_title}
-                    {/* Should be job title in database */}
                   </Typography>
                   <Typography variant="h4">{userObj.first_name} {userObj.last_name}</Typography>
                 </div>
@@ -368,7 +341,6 @@ useEffect(() => {
                   },
                 }}
               >
-                {/* {showConnect && ( */}
                     <Button
                       size="small"
                       startIcon={
@@ -380,20 +352,9 @@ useEffect(() => {
                       onClick={handleEditProfileClick}>
                       Edit Profile
                     </Button>
-                 {/* )} */}
-                {/* {showPending && (
-                  <Button
-                    color="primary"
-                    onClick={handleConnectionRemove}
-                    size="small"
-                    variant="outlined"
-                  >
-                    Pending
-                  </Button>
-                )} */}
                 <Button
                   component={RouterLink}
-                  href={paths.dashboard.chat}
+                  href={userObj.id === sessionCookies.user_id_token ? paths.chat : paths.chat.interact}
                   size="small"
                   startIcon={
                     <SvgIcon>
@@ -451,20 +412,33 @@ useEffect(() => {
                 onQueryChange={handleUsersQueryChange}
                 query={usersQuery}
               />
-)}
-            {/* {currentTab === 'connections' && (
-              <SocialConnections
-                connections={usersArr}
-                onQueryChange={handleConnectionsQueryChange}
-                query={connectionsQuery}
-              />
-            )} */}
+            )}
+
 
               </Box>
 
         </Container>
           </Box>
-          )}
+      )}
+       <Dialog
+        open={openEditModal}
+        onClose={handleCancelEdit}
+        aria-labelledby="edit-profile-modal-title"
+        PaperProps={{
+          style: {
+            maxWidth: '5000px',
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            padding: '16px',
+            borderRadius: '16px',
+          },
+        }}
+      >
+        <EditProfileForm
+          user={userObj}
+          onSubmit={handleUpdateProfile}
+          onCancel={handleCancelEdit}
+        />
+      </Dialog>
     </>
   );
 };

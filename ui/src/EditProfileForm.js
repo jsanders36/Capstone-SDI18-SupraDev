@@ -7,13 +7,11 @@ const EditProfileFormContainer = styled(Box)`
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  border: 4px solid #000;
-  border-radius: 16px;
   padding: 16px;
-  width: 17%;
 
   .form-group {
     width: 100%;
+    height: 100%;
   }
 
   .form-actions {
@@ -25,7 +23,7 @@ const EditProfileFormContainer = styled(Box)`
       padding: 8px 16px;
     }
   }
-`;
+  `;
 
 const EditProfileForm = ({ user, onSubmit, onCancel }) => {
   const [firstName, setFirstName] = React.useState(user.first_name);
@@ -97,11 +95,12 @@ const EditProfileForm = ({ user, onSubmit, onCancel }) => {
         </div>
         <div className="form-group">
           <TextareaAutosize
-            rowsMin={4}
-            fullWidth
+            style={{ minHeight: '100px', maxHeight: '300px' }}
+            fullWidth="100%"
             label="User Summary"
             variant="outlined"
             id="userSummary"
+            placeholder="User Summary..."
             value={userSummary}
             onChange={(e) => setUserSummary(e.target.value)}
           />
@@ -110,7 +109,7 @@ const EditProfileForm = ({ user, onSubmit, onCancel }) => {
           <Button type="submit" variant="contained" color="primary">
             Update Profile
           </Button>
-          <Button type="button" onClick={onCancel} variant="outlined">
+          <Button onClick={onCancel} variant="outlined" color="primary">
             Cancel
           </Button>
         </div>

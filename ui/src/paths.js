@@ -46,6 +46,10 @@ export const paths = {
       modern: '/auth-demo/verify-code/modern',
     },
   },
+  chat: {
+    index: '/chat',
+    interact: '/chat/:id'
+  },
   dashboard: {
     index: '/dashboard',
     academy: {
@@ -61,7 +65,6 @@ export const paths = {
       postCreate: '/dashboard/blog/create',
     },
     calendar: '/dashboard/calendar',
-    chat: '/dashboard/chat',
     crypto: '/dashboard/crypto',
     customers: {
       index: '/dashboard/customers',
