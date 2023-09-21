@@ -4,9 +4,12 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
 import { useCookies, CookiesProvider } from 'react-cookie';
+import { useNavigate } from "react-router-dom";
+
 
 const Navbar = () => {
     const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
+    const navigate = useNavigate();
 
     let logoutButton;
     let currentUserInfo;
@@ -14,8 +17,8 @@ const Navbar = () => {
     let requestsButton;
 
     if (sessionCookies.username_token) {
-        logoutButton = <Button as={Link} onClick={() => { removeSessionCookies('username_token'); removeSessionCookies('user_id_token'); removeSessionCookies('userPriv_Token'); alert('You have been logged out') }} to='/login' variant='contained' color='error' style={{ gap: '10px', margin: '10px' }}>Logout</Button>;
-        currentUserInfo = <Button style={{ marginLeft: '50%', marginTop: '5px', marginBottom: '5px', outlineStyle: 'solid', outlineColor: 'black', outlineWidth: '1px', backgroundColor: 'rgb(255, 255, 255)' }}>
+        logoutButton = <Button onClick={() => { removeSessionCookies('username_token'); removeSessionCookies('user_id_token'); removeSessionCookies('userPriv_Token'); alert('You have been logged out'); navigate('/login')}} variant='outlined' color='error' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "red", borderColor: "red" }}>Logout</Button>;
+        currentUserInfo = <Button style={{ marginLeft: '50%', marginTop: '5px', marginBottom: '5px', outlineStyle: 'solid', outlineColor: 'blue', outlineWidth: '1px', backgroundColor: 'rgb(255, 255, 255, 0)' }}>
             <svg xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
@@ -30,20 +33,20 @@ const Navbar = () => {
             </svg>
             {`${sessionCookies.username_token} `}
         </Button>
-        requestsButton = <Button as={Link} to='/requests' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Requests</Button>;
+        requestsButton = <Button onClick={() => navigate('/requests')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Requests</Button>;
         if (sessionCookies.userPriv_Token === true) {
-            profileButton = <Button as={Link} to={`/supracoders/${sessionCookies.user_id_token}`} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Admin Page</Button>
+            profileButton = <Button onClick={() => navigate(`/supracoders/${sessionCookies.user_id_token}`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Admin Page</Button>
         } else {
-            profileButton = <Button as={Link} to={`/users/${sessionCookies.user_id_token}`} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>User Page</Button>
+            profileButton = <Button onClick={() => navigate(`/users/${sessionCookies.user_id_token}`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>User Page</Button>
         }
     }
 
     return (
         <div id='navbar' style={{ display: 'flex', backgroundColor: 'transparent', padding: '10px'}}>
-            <Button className="button" as={Link} to='/' variant='outlined' color='primary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Home</Button>
-            <Button className="button" as={Link} to='/projects' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Projects</Button>
+            <Button className="button" onClick={() => navigate('/')} variant='outlined' color='primary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Home</Button>
+            <Button className="button" onClick={() => navigate('/projects')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Projects</Button>
             {requestsButton}
-            <Button className="button" as={Link} to='/login' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Login Page</Button>
+            <Button className="button" onClick={() => navigate('/login')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Login Page</Button>
             {profileButton}
             {logoutButton}
             {currentUserInfo}

@@ -87,21 +87,24 @@ const Login = () => {
 
     return (
         <>
-            <Paper elevation={3} style={{ marginTop: '1%', justifyContent: 'center', alignContent: 'center', textAlign: 'center', background: 'linear-gradient(to right, #f953c6, #b91d73)', maxWidth: '920px', marginLeft: '25%', padding: '4px' }}>
+            <Paper elevation={3} style={{ marginTop: '1%', justifyContent: 'center', alignContent: 'center', textAlign: 'center', background: 'rgba(255,255,255, 0)', maxWidth: '920px', marginLeft: '25%', padding: '4px' }}>
                 <Card sx={{
                     minWidth: 400,
                     maxWidth: 512,
                     m: 2,
                     marginLeft: '20%',
                     padding: 1,
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    borderRadius: '10px',
+                    background: 'rgba(255,255,255, 0.9)'
+
                 }} id='loginContainer'>
                     <h3>Login</h3>
                     <form id='loginCreds'>
                         <TextField className='inputText' label='Username' variant="outlined" type='text' value={usernameLogin} onChange={(e) => setUsernameLogin(e.target.value)} placeholder='Username' size='small' style={{ gap: '10px', margin: '10px' }} />
                         <TextField className='inputText' label='Password' variant="outlined" type='text' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password' size='small' style={{ gap: '10px', margin: '10px' }} />
                     </form>
-                    <Button type='submit' onClick={() => LogIntoAccount()} variant='contained' color='success' style={{ gap: '10px', margin: '10px' }}>Login</Button>
+                    <Button type='submit' onClick={() => LogIntoAccount()} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Login</Button>
                 </Card>
 
                 <Card sx={{
@@ -110,7 +113,9 @@ const Login = () => {
                     m: 2,
                     marginLeft: '20%',
                     padding: 1,
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    borderRadius: '10px',
+                    background: 'rgba(255,255,255, 0.9)'
                 }} id='createAccountContainer'>
                     <h3>Don't have an account? Create one below!</h3>
                     <div id='createAccountInputName'>
@@ -125,7 +130,7 @@ const Login = () => {
                         <TextField className='inputText' label='Profile Picture URL' variant="outlined" type='text' value={profilePic} onChange={(e) => setProfilePic(e.target.value)} placeholder='Profile Picture URL' size='small' style={{ gap: '10px', margin: '10px' }} />
                         <TextField className='inputText' label='User Description' variant="outlined" type='text' multiline rows={3} value={userSummary} onChange={(e) => setUserSummary(e.target.value)} placeholder='User Description' size='small' style={{ gap: '10px', margin: '10px' }} />
                     </div>
-                    <Button onClick={() => CreateAccount()} variant='contained' color='success' style={{ gap: '10px', margin: '10px' }}>Create Account</Button>
+                    <Button onClick={() => CreateAccount()} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Create Account</Button>
                 </Card>
             </Paper>
         </>
