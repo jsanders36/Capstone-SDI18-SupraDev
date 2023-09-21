@@ -1,5 +1,12 @@
 .App {
   text-align: center;
+  background-color: black;
+}
+body {
+  background-image: url('https://wallpapers.com/images/hd/cyber-background-bjpm7sds6dv0wed5.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .App-logo {
@@ -21,7 +28,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .App-link {

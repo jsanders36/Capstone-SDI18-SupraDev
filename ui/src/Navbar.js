@@ -1,4 +1,4 @@
-import './Navbar.css';
+//import './Navbar.css';
 
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
@@ -39,11 +39,11 @@ const Navbar = () => {
     }
 
     return (
-        <div id='navbar' style={{ display: 'flex' }} bgcolor="#f5f5f5">
-            <Button as={Link} to='/' variant='contained' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px' }}>Home</Button>
-            <Button as={Link} to='/projects' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Projects</Button>
+        <div id='navbar' style={{ display: 'flex', backgroundColor: 'transparent', padding: '10px'}}>
+            <Button className="button" as={Link} to='/' variant='outlined' color='primary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Home</Button>
+            <Button className="button" as={Link} to='/projects' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Projects</Button>
             {requestsButton}
-            <Button as={Link} to='/login' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Login Page</Button>
+            <Button className="button" as={Link} to='/login' variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Login Page</Button>
             {profileButton}
             {logoutButton}
             {currentUserInfo}

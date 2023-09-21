@@ -9,30 +9,18 @@ const HomePage = () => {
             flexDirection="column"
             alignItems="center"
             padding="40px"
-            height="100vh"
-            bgcolor="#f5f5f5"
+            height="100%"
+
         >
 
+
+
             {/* Hero Section */}
-            <Paper
-                elevation={6}
-                style={{
-                    backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/path/to/your/image.jpg')",
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    height: '300px',
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: '15px',
-                    marginBottom: '40px'
-                }}
-            >
-                <Typography variant="h1" color="primary.contrastText" style={{ fontWeight: 600 }}>
+
+
+            <Typography variant="h1" color="primary.contrastText" style={{ fontWeight: 600 }}>
                     Welcome to Supra Dev !
                 </Typography>
-            </Paper>
 
             <Box
                 width="80%"
