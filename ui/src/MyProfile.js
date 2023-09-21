@@ -262,7 +262,7 @@ useEffect(() => {
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
-                borderRadius: 3,
+                borderRadius: '25px',
                 height: 348,
                 position: 'relative',
                 '&:hover': {

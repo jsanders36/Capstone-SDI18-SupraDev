@@ -160,7 +160,6 @@ const OtherUser = () => {
   const users = useUsers(usersQuery);
   const navigate = useNavigate();
 
-
   const userRefetch = async () => {
     await fetch(`http://localhost:8080/users/${id}`)
         .then((res) => res.json())
@@ -168,9 +167,10 @@ const OtherUser = () => {
   }
 
   useEffect(() => {
+    // Fetch the profile of the user with the specified ID
     const fetchUserProfile = async () => {
       try {
-        const response = await socialApi.getProfile(id);
+        const response = await socialApi.getProfile(id); // Adjust the API call based on your backend
         if (isMounted()) {
           setProfile(response);
         }
@@ -182,15 +182,17 @@ const OtherUser = () => {
     fetchUserProfile();
   }, [id, isMounted]);
 
-
-
   const handleConnect = async () => {
+    // Implement your connection logic here
     try {
-      const response = await userObj(id);
+      // Send a connection request to the user with the specified ID
+      const response = await socialApi.connectWithUser(id); // Adjust the API call based on your backend
+
       if (response.status === 200) {
-        setStatus('pending');
+        setStatus('pending'); // Update the connection status
+        // Handle success or update UI accordingly
       } else {
-        setStatus('connected')
+        setStatus('pending2')
         console.error('Failed to connect with the user');
       }
     } catch (error) {
@@ -278,7 +280,7 @@ const OtherUser = () => {
           >
             <Avatar
               src={userObj.profile_pic}
-              alt={userObj.avatar}
+              alt={profile.avatar}
               sx={{
                 height: 100,
                 width: 100,

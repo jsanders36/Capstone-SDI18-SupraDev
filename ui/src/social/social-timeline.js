@@ -13,50 +13,47 @@ import { SocialAbout } from './social-about';
 export const SocialTimeline = (props) => {
   const { id } = useParams();
   const { posts = [], profile, ...other } = props;
-  const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
+  const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies([
+    'username_token',
+    'user_id_token',
+    'userPriv_Token',
+  ]);
   const [userObj, setUserObj] = useState([]);
   const [chatPosts, setChatPosts] = useState([]);
 
   const userRefetch = async () => {
-    await fetch(`http://localhost:8080/users/${id}`)
-        .then((res) => res.json())
-        .then((fetchData) => setUserObj(fetchData[0]))
-  }
+    const userId = id ? id : sessionCookies.user_id_token; // Use sessionCookies ID if id param doesn't exist
+    await fetch(`http://localhost:8080/users/${userId}`)
+      .then((res) => res.json())
+      .then((fetchData) => setUserObj(fetchData[0]));
+  };
 
   useEffect(() => {
     userRefetch();
-  }, [])
+  }, [id]);
 
   const postFetch = async () => {
-    await fetch(`http://localhost:8080/users/${id}`)
-        .then((res) => res.json())
-        .then((fetchData) => setChatPosts(fetchData[0]))
-  }
+    const userId = id ? id : sessionCookies.user_id_token; // Use sessionCookies ID if id param doesn't exist
+    await fetch(`http://localhost:8080/users/${userId}`)
+      .then((res) => res.json())
+      .then((fetchData) => setChatPosts(fetchData[0]));
+  };
 
   useEffect(() => {
     postFetch();
-  }, [])
+  }, [id]);
 
   return (
     <div {...other}>
-      <Grid
-        container
-        spacing={4}
-      >
-        <Grid
-          lg={4}
-          xs={12}
-        >
+      <Grid container spacing={4}>
+        <Grid lg={4} xs={12}>
           <SocialAbout
             job_title={userObj.job_title}
             email={userObj.email}
             quote={userObj.user_summary}
           />
         </Grid>
-        <Grid
-          lg={8}
-          xs={12}
-        >
+        <Grid lg={8} xs={12}>
           <Stack spacing={3}>
             <SocialPostAdd />
             {posts.map((post) => (
