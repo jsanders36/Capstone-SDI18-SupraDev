@@ -27,12 +27,15 @@ import { Layout as DashboardLayout } from './layouts/layout.js';
 import { paths } from './paths';
 import { SocialConnections } from './social/social-connections';
 import { SocialTimeline } from './social/social-timeline';
-import  Projects  from './Projects'
+import Projects from './Projects'
+import Modal from '@mui/material/Modal';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
 
 const tabs = [
   { label: 'Timeline', value: 'timeline' },
   { label: 'Connections', value: 'connections' },
-  { label: 'Projects', value: 'projects' }
+  { label: 'Projects', value:'projects'}
 ];
 
 const useProfile = () => {
@@ -150,18 +153,24 @@ const OtherUser = () => {
   const [profile, setProfile] = useState(null);
   const [currentTab, setCurrentTab] = useState('timeline');
   const [status, setStatus] = useState('not_connected');
-  const [userObj, setUserObj] = useState([]);
+  const [userObj, setUserObj] = useState([])
   const posts = usePosts();
   const projects = useProjects();
   const [usersQuery, setUsersQuery] = useState('');
   const users = useUsers(usersQuery);
   const navigate = useNavigate();
 
+
+  const userRefetch = async () => {
+    await fetch(`http://localhost:8080/users/${id}`)
+        .then((res) => res.json())
+      .then((fetchData) => setUserObj(fetchData[0]))
+  }
+
   useEffect(() => {
-    // Fetch the profile of the user with the specified ID
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/users`).getUser(id); // Adjust the API call based on your backend
+        const response = await socialApi.getProfile(id);
         if (isMounted()) {
           setProfile(response);
         }
@@ -169,24 +178,19 @@ const OtherUser = () => {
         console.error(err);
       }
     };
-
-    console.log(profile);
-
-    const userRefetch = async () => {
-      await fetch(`http://localhost:8080/users/${profile.id}`)
-          .then((res) => res.json())
-        .then((fetchData) => setUserObj(fetchData[0]))
-    }
-
+    userRefetch();
     fetchUserProfile();
   }, [id, isMounted]);
 
+
+
   const handleConnect = async () => {
     try {
-      const response = await socialApi.connectWithUser(id);
+      const response = await userObj(id);
       if (response.status === 200) {
         setStatus('pending');
       } else {
+        setStatus('connected')
         console.error('Failed to connect with the user');
       }
     } catch (error) {
@@ -273,8 +277,8 @@ const OtherUser = () => {
             spacing={2}
           >
             <Avatar
-              src={profile.profile_pic}
-              alt={profile.avatar}
+              src={userObj.profile_pic}
+              alt={userObj.avatar}
               sx={{
                 height: 100,
                 width: 100,
@@ -285,10 +289,10 @@ const OtherUser = () => {
                 color="text.secondary"
                 variant="overline"
               >
-                {profile.job_title}
+                {userObj.job_title}
               </Typography>
               <Typography variant="h4">
-                {profile.first_name} {profile.last_name}
+                {userObj.first_name} {userObj.last_name}
               </Typography>
             </div>
           </Stack>

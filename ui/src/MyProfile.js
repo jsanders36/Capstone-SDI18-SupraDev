@@ -183,8 +183,9 @@ const GenUser = () => {
       });
 
       if (response.status === 200) {
+        handleTabsChange(currentTab, 'timeline')
         userRefetch();
-        navigate.push(`/user-profile/${sessionCookies.user_id_token}`);
+        navigate.push(`./${sessionCookies.user_id_token}`);
       } else {
         console.error('Failed to update profile');
       }
