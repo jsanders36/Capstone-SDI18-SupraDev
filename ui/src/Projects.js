@@ -31,7 +31,7 @@ const Projects = (props) => {
         setFilterVar(projects.filter((p) => p.is_approved));
         break;
       case 1:
-        setFilterVar(projects.filter((p) => !p.is_accepted && p.is_approved));
+        setFilterVar(projects.filter((p) => !p.is_accepted && !p.is_completed && p.is_approved));
         break;
       case 2:
         setFilterVar(projects.filter((p) => p.is_accepted && p.is_approved));
