@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Paper, Typography, Box, Divider } from '@mui/material';
 import { useCookies, CookiesProvider } from 'react-cookie';
 
@@ -7,6 +7,7 @@ const BountyDetailsPage = () => {
     const [bounty, setBounty] = useState(null);
     const { projectId } = useParams();
     const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`http://localhost:8080/projects/${projectId}`)
@@ -37,6 +38,8 @@ const BountyDetailsPage = () => {
                 "is_approved": true
             })
         })
+        navigate('/projects');
+
     }
 
     const handleAccept = () => {
@@ -51,6 +54,22 @@ const BountyDetailsPage = () => {
                 "accepted_by_id" : sessionCookies.user_id_token
             })
         })
+        navigate('/projects');
+    }
+
+    const handleComplete = () => {
+
+        fetch(`http://localhost:8080/projects/${projectId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "is_completed": true,
+                "is_accepted": false
+            })
+        })
+        navigate('/projects');
     }
 
     const thanosSnap = () => {
@@ -61,6 +80,7 @@ const BountyDetailsPage = () => {
                 "Content-Type": "application/json",
             }
         })
+        navigate('/projects');
     }
 
     return (
@@ -71,6 +91,8 @@ const BountyDetailsPage = () => {
                 </Typography>
 
                 {sessionCookies.userPriv_Token === true ?  <Button onClick={() => handleAccept()} variant="contained" color="success" style={{ margin: '5px' }} >Accept This Project?</Button>  : <></>}
+
+                {bounty.accepted_by_id === sessionCookies.user_id_token ?  <Button onClick={() => handleComplete()} variant="contained" color="success" style={{ margin: '5px' }} >Complete the project?</Button>  : <></>}
 
                 <Divider style={{ marginBottom: '1.5rem' }} />
                 <Typography variant="h6" style={{ fontWeight: '500', color: '#616161' }}>Problem Statement:</Typography>
