@@ -1,3 +1,5 @@
+import './SupracoderProfilePage.css'
+
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemText, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -58,7 +60,7 @@ const SupracoderProfilePage = () => {
                 }
             }
         }
-        totalProjs = numAcceptedProjs + numCompletedProjs;
+        totalProjs = numAcceptedProjs;
     }
 
     const userInfoDump = () => {
@@ -121,7 +123,33 @@ const SupracoderProfilePage = () => {
             return(<></>)
         }
     }
-
+    const profileSettingsRender = () => {
+        if (parseInt(id) === sessionCookies.user_id_token) {
+            return (
+                <Card variant="outlined">
+                    <CardContent>
+                        <Typography variant="h6">Profile Settings</Typography>
+                        <Button onClick={() => {
+                            setNewFirstName(userObj.first_name)
+                            setNewLastName(userObj.last_name)
+                            setNewJobTitle(userObj.job_title)
+                            setNewEmail(userObj.email)
+                            setNewDescription(userObj.user_summary)
+                            setNewProfilePic(userObj.profile_pic)
+                            setEditProfile(true)}
+                            } variant="contained" color="primary" style={{ width: "90%", margin: '5px 0' }}>
+                            Edit Profile
+                        </Button>
+                        <Button variant="contained" color="secondary" onClick={() => setChangePassword(true)} style={{ width: "90%", margin: '5px 0' }}>
+                            Change Password
+                        </Button>
+                    </CardContent>
+                </Card>
+            )
+        } else {
+            return (<></>)
+        }
+    }
     const personalInfoRender = () => {
         if (editProfile === false) {
             return (
@@ -159,50 +187,30 @@ const SupracoderProfilePage = () => {
                 <Box display="flex" flexDirection="column" gap="20px" width="250px" pr="20px">
                     <Typography variant="h5" color="primary" mb="20px">Profile Navigation</Typography>
 
-                    <Card variant="outlined">
+                    {/* <Card variant="outlined">
                         <CardContent>
                             <Typography variant="h6">Projects</Typography>
-                            <Button component={Link} to="/profile/projects/new" variant="contained" color="primary" style={{ margin: '5px 0' }}>
+                            <Button component={Link} to="/profile/projects/new" variant="contained" color="primary" style={{ width: "90%", margin: '5px 0' }}>
                                 Add New Project
                             </Button>
-                            <Button component={Link} to="/profile/projects/edit" variant="contained" color="secondary">
+                            <Button component={Link} to="/profile/projects/edit" variant="contained" color="secondary" style={{ width: "90%", margin: '5px 0' }}>
                                 Edit Project
                             </Button>
                         </CardContent>
-                    </Card>
+                    </Card> */}
 
                     <Card variant="outlined">
                         <CardContent>
                             <Typography variant="h6">Bounties</Typography>
-                            <Button component={Link} to={`/supracoders/${sessionCookies.user_id_token}/claimedbounties`} variant="contained" color="primary" style={{ margin: '5px 0' }}>
+                            <Button component={Link} to={`/supracoders/${id}/bounties`} variant="contained" color="primary" style={{ width: "90%", margin: '5px 0' }}>
                                 View Claimed Bounties
                             </Button>
-                            <Button component={Link} to={`/supracoders/${sessionCookies.user_id_token}/completedbounties`} variant="contained" color="secondary">
+                            <Button component={Link} to={`/supracoders/${id}/bounties`} variant="contained" color="secondary" style={{ width: "90%", margin: '5px 0' }}>
                                 View Completed Bounties
                             </Button>
                         </CardContent>
                     </Card>
-
-                    <Card variant="outlined">
-                        <CardContent>
-                            <Typography variant="h6">Profile Settings</Typography>
-                            <Button onClick={() => {
-                                setNewFirstName(userObj.first_name)
-                                setNewLastName(userObj.last_name)
-                                setNewJobTitle(userObj.job_title)
-                                setNewEmail(userObj.email)
-                                setNewDescription(userObj.user_summary)
-                                setNewProfilePic(userObj.profile_pic)
-                                setEditProfile(true)}
-                                } variant="contained" color="primary" style={{ margin: '5px 0' }}>
-                                Edit Profile
-                            </Button>
-                            <Button variant="contained" color="secondary" onClick={() => setChangePassword(true)}>
-                                Change Password
-                            </Button>
-                        </CardContent>
-                    </Card>
-
+                    {profileSettingsRender()}
                 </Box>
 
                 <Divider orientation="vertical" flexItem />

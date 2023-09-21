@@ -4,6 +4,7 @@ import Login from "./Login";
 import Navbar from "./Navbar";
 import SupracoderProfilePage from "./SupracoderProfilePage"
 import Home from "./Home"
+import MyBounties from "./MyBounties"
 // import UserDetails from "./UserDetails";
 // import Users from "./Users";
 import Projects from "./Projects";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/supracoders/:id" element={<SupracoderProfilePage />} />
+        <Route path="/supracoders/:id/bounties" element={<MyBounties/>} />
         {/* <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<UserDetails />} /> */}
         <Route path="/projects" element={<Projects />} />
