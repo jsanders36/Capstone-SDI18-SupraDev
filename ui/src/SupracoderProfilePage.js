@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemText, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useCookies, CookiesProvider } from 'react-cookie';
 import { SHA256 } from 'crypto-js';
 
 
-const ProfilePage = () => {
+const SupracoderProfilePage = () => {
     const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
     const [userObj, setUserObj] = useState([])
     const [projects, setProjects] = useState([])
@@ -28,9 +29,10 @@ const ProfilePage = () => {
     const [newEmail, setNewEmail] = useState('')
     const [newDescription, setNewDescription] = useState('')
     const [newProfilePic, setNewProfilePic] = useState('')
+    const { id } = useParams();
 
     const userRefetch = async () => {
-        await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
+        await fetch(`http://localhost:8080/users/${id}`)
             .then((res) => res.json())
             .then((fetchData) => setUserObj(fetchData[0]))
     }
@@ -49,7 +51,7 @@ const ProfilePage = () => {
     const calcBountyStats = () => {
         for (let element in projects) {
             console.log(projects[element])
-            if (projects[element].accepted_by_id === sessionCookies.user_id_token) {
+            if (projects[element].accepted_by_id === userObj.id) {
                 numAcceptedProjs ++;
                 if (projects[element].is_completed === true) {
                     numCompletedProjs ++;
@@ -149,135 +151,141 @@ const ProfilePage = () => {
         }
     }
 
-    return (
-        <Box display="flex" padding="20px" height="100vh" bgcolor="#f5f5f5">
+    if(userObj.is_supracoder === true) {
+        return (
+            <Box display="flex" padding="20px" height="100vh" bgcolor="#f5f5f5">
 
-            {/* Side Navigation */}
-            <Box display="flex" flexDirection="column" gap="20px" width="250px" pr="20px">
-                <Typography variant="h5" color="primary" mb="20px">Profile Navigation</Typography>
+                {/* Side Navigation */}
+                <Box display="flex" flexDirection="column" gap="20px" width="250px" pr="20px">
+                    <Typography variant="h5" color="primary" mb="20px">Profile Navigation</Typography>
 
-                <Card variant="outlined">
-                    <CardContent>
-                        <Typography variant="h6">Projects</Typography>
-                        <Button component={Link} to="/profile/projects/new" variant="contained" color="primary" style={{ margin: '5px 0' }}>
-                            Add New Project
-                        </Button>
-                        <Button component={Link} to="/profile/projects/edit" variant="contained" color="secondary">
-                            Edit Project
-                        </Button>
-                    </CardContent>
-                </Card>
+                    <Card variant="outlined">
+                        <CardContent>
+                            <Typography variant="h6">Projects</Typography>
+                            <Button component={Link} to="/profile/projects/new" variant="contained" color="primary" style={{ margin: '5px 0' }}>
+                                Add New Project
+                            </Button>
+                            <Button component={Link} to="/profile/projects/edit" variant="contained" color="secondary">
+                                Edit Project
+                            </Button>
+                        </CardContent>
+                    </Card>
 
-                <Card variant="outlined">
-                    <CardContent>
-                        <Typography variant="h6">Bounties</Typography>
-                        <Button component={Link} to="/profile/bounties/claimed" variant="contained" color="primary" style={{ margin: '5px 0' }}>
-                            View Claimed Bounties
-                        </Button>
-                        <Button component={Link} to="/profile/bounties/completed" variant="contained" color="secondary">
-                            View Completed Bounties
-                        </Button>
-                    </CardContent>
-                </Card>
+                    <Card variant="outlined">
+                        <CardContent>
+                            <Typography variant="h6">Bounties</Typography>
+                            <Button component={Link} to={`/supracoders/${sessionCookies.user_id_token}/claimedbounties`} variant="contained" color="primary" style={{ margin: '5px 0' }}>
+                                View Claimed Bounties
+                            </Button>
+                            <Button component={Link} to={`/supracoders/${sessionCookies.user_id_token}/completedbounties`} variant="contained" color="secondary">
+                                View Completed Bounties
+                            </Button>
+                        </CardContent>
+                    </Card>
 
-                <Card variant="outlined">
-                    <CardContent>
-                        <Typography variant="h6">Profile Settings</Typography>
-                        <Button onClick={() => {
-                            setNewFirstName(userObj.first_name)
-                            setNewLastName(userObj.last_name)
-                            setNewJobTitle(userObj.job_title)
-                            setNewEmail(userObj.email)
-                            setNewDescription(userObj.user_summary)
-                            setNewProfilePic(userObj.profile_pic)
-                            setEditProfile(true)}
-                            } variant="contained" color="primary" style={{ margin: '5px 0' }}>
-                            Edit Profile
-                        </Button>
-                        <Button variant="contained" color="secondary" onClick={() => setChangePassword(true)}>
-                            Change Password
-                        </Button>
-                    </CardContent>
-                </Card>
+                    <Card variant="outlined">
+                        <CardContent>
+                            <Typography variant="h6">Profile Settings</Typography>
+                            <Button onClick={() => {
+                                setNewFirstName(userObj.first_name)
+                                setNewLastName(userObj.last_name)
+                                setNewJobTitle(userObj.job_title)
+                                setNewEmail(userObj.email)
+                                setNewDescription(userObj.user_summary)
+                                setNewProfilePic(userObj.profile_pic)
+                                setEditProfile(true)}
+                                } variant="contained" color="primary" style={{ margin: '5px 0' }}>
+                                Edit Profile
+                            </Button>
+                            <Button variant="contained" color="secondary" onClick={() => setChangePassword(true)}>
+                                Change Password
+                            </Button>
+                        </CardContent>
+                    </Card>
 
-            </Box>
+                </Box>
 
-            <Divider orientation="vertical" flexItem />
+                <Divider orientation="vertical" flexItem />
 
-            {/* Main Content Area */}
-            <Box flex={1} pl="20px">
+                {/* Main Content Area */}
+                <Box flex={1} pl="20px">
 
-                {/* User Avatar & Details */}
-                <Box display="flex" alignItems="center" gap="20px" mb="30px">
-                    <Avatar src={userObj.profile_pic} alt="User Avatar" style={{ width: '150px', height: '150px' }} />
-                    <Box>
-                        {console.log(userObj.username)}
-                        <Typography variant="h5" gutterBottom>{userObj.username}</Typography>
-                        {personalInfoRender()}
+                    {/* User Avatar & Details */}
+                    <Box display="flex" alignItems="center" gap="20px" mb="30px">
+                        <Avatar src={userObj.profile_pic} alt="User Avatar" style={{ width: '150px', height: '150px' }} />
+                        <Box>
+                            {console.log(userObj.username)}
+                            <Typography variant="h5" gutterBottom>{userObj.username}</Typography>
+                            {personalInfoRender()}
+                        </Box>
                     </Box>
+
+                    {/* User Statistics */}
+                    {calcBountyStats()}
+                    {newPasswordDiv}
+                    <Box display="flex" gap="20px" mb="30px">
+                        <Card variant="outlined" style={{ flex: 1 }}>
+                            <CardContent>
+                                <Typography variant="h6">Total Projects</Typography>
+                                <Typography variant="h4" color="primary">{totalProjs}</Typography>
+                            </CardContent>
+                        </Card>
+
+                        <Card variant="outlined" style={{ flex: 1 }}>
+                            <CardContent>
+                                <Typography variant="h6">Bounties Claimed</Typography>
+                                <Typography variant="h4" color="secondary">{numAcceptedProjs}</Typography>
+                            </CardContent>
+                        </Card>
+
+                        <Card variant="outlined" style={{ flex: 1 }}>
+                            <CardContent>
+                                <Typography variant="h6">Bounties Completed</Typography>
+                                <Typography variant="h4" color="primary">{numCompletedProjs}</Typography>
+                            </CardContent>
+                        </Card>
+                    </Box>
+                    {/* Latest Notifications */}
+                    <Box mb="30px">
+                    {ChangePasswordComponent()}
+                        <Typography variant="h6" mb="20px">Latest Notifications</Typography>
+                        <List>
+                            <ListItem>
+                                <ListItemText primary="Notification 1: Someone claimed your bounty." secondary="2 hours ago" />
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Notification 2: Your project has been approved." secondary="5 hours ago" />
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Notification 3: A new message from John Doe." secondary="1 day ago" />
+                            </ListItem>
+                        </List>
+                    </Box>
+
+                    {/* User Activity */}
+                    <Box>
+                        <Typography variant="h6" mb="20px">Recent Activity</Typography>
+                        <List>
+                            <ListItem>
+                                <ListItemText primary="Added a new project: Project XYZ." secondary="1 day ago" />
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Claimed a bounty from John's project." secondary="2 days ago" />
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="Updated profile information." secondary="3 days ago" />
+                            </ListItem>
+                        </List>
+                    </Box>
+
                 </Box>
-
-                {/* User Statistics */}
-                {calcBountyStats()}
-                {newPasswordDiv}
-                <Box display="flex" gap="20px" mb="30px">
-                    <Card variant="outlined" style={{ flex: 1 }}>
-                        <CardContent>
-                            <Typography variant="h6">Total Projects</Typography>
-                            <Typography variant="h4" color="primary">{totalProjs}</Typography>
-                        </CardContent>
-                    </Card>
-
-                    <Card variant="outlined" style={{ flex: 1 }}>
-                        <CardContent>
-                            <Typography variant="h6">Bounties Claimed</Typography>
-                            <Typography variant="h4" color="secondary">{numAcceptedProjs}</Typography>
-                        </CardContent>
-                    </Card>
-
-                    <Card variant="outlined" style={{ flex: 1 }}>
-                        <CardContent>
-                            <Typography variant="h6">Bounties Completed</Typography>
-                            <Typography variant="h4" color="primary">{numCompletedProjs}</Typography>
-                        </CardContent>
-                    </Card>
-                </Box>
-                {/* Latest Notifications */}
-                <Box mb="30px">
-                {ChangePasswordComponent()}
-                    <Typography variant="h6" mb="20px">Latest Notifications</Typography>
-                    <List>
-                        <ListItem>
-                            <ListItemText primary="Notification 1: Someone claimed your bounty." secondary="2 hours ago" />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Notification 2: Your project has been approved." secondary="5 hours ago" />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Notification 3: A new message from John Doe." secondary="1 day ago" />
-                        </ListItem>
-                    </List>
-                </Box>
-
-                {/* User Activity */}
-                <Box>
-                    <Typography variant="h6" mb="20px">Recent Activity</Typography>
-                    <List>
-                        <ListItem>
-                            <ListItemText primary="Added a new project: Project XYZ." secondary="1 day ago" />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Claimed a bounty from John's project." secondary="2 days ago" />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Updated profile information." secondary="3 days ago" />
-                        </ListItem>
-                    </List>
-                </Box>
-
             </Box>
-        </Box>
-    );
+        );
+    } else {
+        return (
+            <p>Sorry, chief, this person ain't a coder</p>
+        )
+    }
 }
 
-export default ProfilePage;
+export default SupracoderProfilePage;
