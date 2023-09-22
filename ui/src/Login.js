@@ -87,19 +87,20 @@ const Login = () => {
 
     return (
         <>
-            <Paper elevation={3} style={{ marginTop: '1%', justifyContent: 'center', alignContent: 'center', textAlign: 'center', background: 'rgba(255,255,255, 0)', maxWidth: '920px', marginLeft: '25%', padding: '4px' }}>
+            <Paper elevation={3} style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center', background: 'rgba(255,255,255, 0)', maxWidth: '920px', marginLeft: '25%', padding: '4px' }}>
                 <Card sx={{
                     minWidth: 400,
                     maxWidth: 512,
                     m: 2,
                     marginLeft: '20%',
+                    marginTop: '23px',
                     padding: 1,
                     textAlign: 'left',
-                    borderRadius: '10px',
-                    background: 'rgba(255,255,255, 0.9)'
+                    borderRadius: '25px',
+                    background: 'rgba(255,255,255, 0.85)'
 
                 }} id='loginContainer'>
-                    <h3>Login</h3>
+                    <h3>{"  "} Login</h3>
                     <form id='loginCreds'>
                         <TextField className='inputText' label='Username' variant="outlined" type='text' value={usernameLogin} onChange={(e) => setUsernameLogin(e.target.value)} placeholder='Username' size='small' style={{ gap: '10px', margin: '10px' }} />
                         <TextField className='inputText' label='Password' variant="outlined" type='text' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password' size='small' style={{ gap: '10px', margin: '10px' }} />
@@ -114,10 +115,10 @@ const Login = () => {
                     marginLeft: '20%',
                     padding: 1,
                     textAlign: 'left',
-                    borderRadius: '10px',
-                    background: 'rgba(255,255,255, 0.9)'
+                    borderRadius: '25px',
+                    background: 'rgba(255,255,255, 0.85)'
                 }} id='createAccountContainer'>
-                    <h3>Don't have an account? Create one below!</h3>
+                    <h3>{"  "} Don't have an account? Create one below!</h3>
                     <div id='createAccountInputName'>
                         <TextField className='inputText' label='First Name' variant="outlined" type='text' value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' size='small' style={{ gap: '10px', margin: '10px' }} />
                         <TextField className='inputText' label='Last Name' variant="outlined" type='text' value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' size='small' style={{ gap: '10px', margin: '10px' }} />

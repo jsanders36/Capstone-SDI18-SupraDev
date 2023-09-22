@@ -47,15 +47,19 @@ const ProjectSubmission = () => {
   }
 
   return (
-    <div className="submission">
+    <div className="submission" sx={{justifyContent: "center"}}>
 
                 <Card sx={{
                     minWidth: 400,
                     maxWidth: 1000,
                     m: 2,
-                    marginLeft: '10%',
+                    marginLeft: '20%',
                     padding: 1,
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    background: "rgba(255,255,255, 0.85)",
+                    borderRadius: '25px',
+                    marginTop: '25px'
+                    
                 }} id='submitContainer'>
                     <h3>Project Submission Form</h3>
 
