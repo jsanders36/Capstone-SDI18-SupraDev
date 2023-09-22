@@ -19,7 +19,7 @@ const Login = () => {
     const [usersSummary, setUsersSummary] = useState([])
     const [usernameLogin, setUsernameLogin] = useState('')
     const [passwordLogin, setPasswordLogin] = useState('')
-    const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token'])
+    const [setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token'])
     const navigate = useNavigate();
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Card, CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Paper, Grid } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Paper } from '@mui/material';
+
 const HomePage = () => {
     return (
         <Box

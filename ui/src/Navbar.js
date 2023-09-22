@@ -1,27 +1,45 @@
 //import './Navbar.css';
 
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, IconButton } from '@mui/material';
-import { useCookies, CookiesProvider } from 'react-cookie';
+import React, { useState } from 'react';
+import { Button, Avatar } from '@mui/material';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
+import NavbarConnect from './NavbarConnect';
 
 
 const Navbar = () => {
-    const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
+    const [sessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
     const navigate = useNavigate();
+    const [userObj, setUserObj] = useState([])
 
+    let loginButton;
     let logoutButton;
     let currentUserInfo;
     let profileButton;
     let requestsButton;
 
+    const userRefetch = async () => {
+        await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
+            .then((res) => res.json())
+            .then((fetchData) => setUserObj(fetchData[0]))
+    }
+
+    if (sessionCookies.username_token === undefined) {
+        loginButton = <Button className="button" onClick={() => navigate('/login')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Login Page</Button>;
+    } else {
+        loginButton = <></>
+    }
+
     if (sessionCookies.username_token) {
+        userRefetch();
         logoutButton = <Button onClick={() => { removeSessionCookies('username_token'); removeSessionCookies('user_id_token'); removeSessionCookies('userPriv_Token'); alert('You have been logged out'); navigate('/login')}} variant='outlined' color='error' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "red", borderColor: "red" }}>Logout</Button>;
-        currentUserInfo = <Button style={{ marginLeft: '50%', marginTop: '5px', marginBottom: '5px', outlineStyle: 'solid', outlineColor: 'blue', outlineWidth: '1px', backgroundColor: 'rgb(255, 255, 255, 0)' }}>
-            <svg xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+        currentUserInfo = <Avatar src={userObj.profile_pic} alt="User Avatar" style={{ float: 'right', outlineWidth: '1px', outlineColor: 'red', width: '50px', height: '50px' }} />
+
+        // <Button style={{ marginLeft: '50%', marginTop: '10px', marginBottom: '10px', outlineWidth: '1px', backgroundColor: 'rgb(255, 255, 255, 0)' }}>
+            // <Avatar src={userObj.profile_pic} alt="User Avatar" style={{ outlineWidth: '1px', outlineColor: 'red', width: '50px', height: '50px' }} />
+            {/* <svg xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
                 fill="blue">
                 <path
@@ -30,14 +48,14 @@ const Navbar = () => {
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round" />
-            </svg>
-            {`${sessionCookies.username_token} `}
-        </Button>
-        requestsButton = <Button onClick={() => navigate('/requests')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Requests</Button>;
+            </svg> */}
+            {/* {`${sessionCookies.username_token} `} */}
+        // </Button>
+        requestsButton = <Button onClick={() => navigate('/requests')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Submit Request</Button>;
         if (sessionCookies.userPriv_Token === true) {
-            profileButton = <Button onClick={() => navigate(`/supracoders/${sessionCookies.user_id_token}`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Admin Page</Button>
+            profileButton = <Button onClick={() => navigate(`/supracoders/${sessionCookies.user_id_token}`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', marginLeft: '10px', marginTop: '10px', marginBottom: '10px', marginRight: 'auto', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Admin Page</Button>
         } else {
-            profileButton = <Button onClick={() => navigate(`/users/`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>User Page</Button>
+            profileButton = <Button onClick={() => navigate(`/users/`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', marginLeft: '10px', marginTop: '10px', marginBottom: '10px', marginRight: 'auto', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>User Page</Button>
         }
     }
 
@@ -46,10 +64,11 @@ const Navbar = () => {
             <Button className="button" onClick={() => navigate('/')} variant='outlined' color='primary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Home</Button>
             <Button className="button" onClick={() => navigate('/projects')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Projects</Button>
             {requestsButton}
-            <Button className="button" onClick={() => navigate('/login')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Login Page</Button>
             {profileButton}
+            {loginButton}
             {logoutButton}
             {currentUserInfo}
+            {<NavbarConnect/>}
         </div>
     )
 }

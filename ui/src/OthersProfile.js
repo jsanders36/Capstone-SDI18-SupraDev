@@ -17,20 +17,20 @@ import Tabs from '@mui/material/Tabs';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { blueGrey } from '@mui/material/colors';
-import EditProfileForm from './EditProfileForm';
+// import EditProfileForm from './EditProfileForm';
 import { socialApi } from './social/index.js';
 import { RouterLink } from './components/router-link';
-import { Seo } from './components/seo';
+// import { Seo } from './components/seo';
 import { useMounted } from './hooks/use-mounted';
-import { usePageView } from './hooks/use-page-view';
+// import { usePageView } from './hooks/use-page-view';
 import { Layout as DashboardLayout } from './layouts/layout.js';
 import { paths } from './paths';
 import { SocialConnections } from './social/social-connections';
 import { SocialTimeline } from './social/social-timeline';
 import Projects from './Projects'
-import Modal from '@mui/material/Modal';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
+// import Modal from '@mui/material/Modal';
+// import Dialog from '@mui/material/Dialog';
+// import DialogActions from '@mui/material/DialogActions';
 
 const tabs = [
   { label: 'Timeline', value: 'timeline' },

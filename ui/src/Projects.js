@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Tabs, Tab, List, ListItem, Typography, Box, Card } from "@mui/material";
-import { useCookies, CookiesProvider } from 'react-cookie';
+import { Tabs, Tab, List, Typography, Box, Card } from "@mui/material";
+import { useCookies } from 'react-cookie';
 
 const Projects = (props) => {
   const { profile, ...other } = props;
