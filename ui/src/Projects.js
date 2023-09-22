@@ -55,7 +55,7 @@ const Projects = (props) => {
   };
 
   return (
-    <Box padding="20px" height="100vh" style={{ margin: '10px', background: 'rgba(255,255,255, 0.7)', borderRadius: '25px'}}>
+    <Box padding="20px" height="100vh" style={{ marginTop: "25px", marginLeft: "50px", marginRight: "50px", background: 'rgba(255,255,255, 0.85)', borderRadius: '25px'}}>
       <Typography variant="h4" gutterBottom style={{textAlign: "center"}}>
         {" "}
         Bounties{" "}

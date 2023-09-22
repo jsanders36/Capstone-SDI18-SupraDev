@@ -181,11 +181,11 @@ const SupracoderProfilePage = () => {
 
     if(userObj.is_supracoder === true) {
         return (
-            <Box display="flex" padding="20px" margin="20px" height="100vh" bgcolor="rgba(255, 255, 255, .7)">
+            <Box display="flex" padding="20px" height="100vh" bgcolor="rgba(255, 255, 255, .85)" sx={{borderRadius: '25px', marginTop: "25px", marginLeft: "50px", marginRight: "50px" }}>
 
                 {/* Side Navigation */}
                 <Box display="flex" flexDirection="column" gap="20px" width="250px" pr="20px">
-                    <Typography variant="h5" color="primary" mb="20px">Profile Navigation</Typography>
+                    <Typography variant="h5" color="primary" mb="20px" sx={{textAlign: 'center'}}>Profile Navigation</Typography>
 
                     {/* <Card variant="outlined">
                         <CardContent>
@@ -202,11 +202,11 @@ const SupracoderProfilePage = () => {
                     <Card variant="outlined">
                         <CardContent>
                             <Typography variant="h6">Bounties</Typography>
-                            <Button component={Link} to={`/supracoders/${id}/bounties`} variant="contained" color="primary" style={{ width: "90%", margin: '5px 0' }}>
+                            {/* <Button component={Link} to={`/supracoders/${id}/bounties`} variant="contained" color="primary" style={{ width: "90%", margin: '5px 0' }}>
                                 View Claimed Bounties
-                            </Button>
+                            </Button> */}
                             <Button component={Link} to={`/supracoders/${id}/bounties`} variant="contained" color="secondary" style={{ width: "90%", margin: '5px 0' }}>
-                                View Completed Bounties
+                                View Bounties
                             </Button>
                         </CardContent>
                     </Card>

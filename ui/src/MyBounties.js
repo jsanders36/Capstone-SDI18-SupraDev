@@ -42,18 +42,11 @@ const MyBounties = (props) => {
         setFilterVar(projects.filter((p) => p.accepted_by_id === parseInt(id)));
         break;
       case 1:
-        setFilterVar(projects.filter((p) => !p.is_accepted && p.is_approved && p.accepted_by_id === parseInt(id)));
+        setFilterVar(projects.filter((p) => !p.is_completed && p.is_accepted && p.is_approved && p.accepted_by_id === parseInt(id)));
         break;
       case 2:
-        setFilterVar(projects.filter((p) => p.is_accepted && p.is_approved && p.accepted_by_id === parseInt(id)));
-        break;
-      case 3:
         setFilterVar(projects.filter((p) => p.is_completed && p.is_approved && p.accepted_by_id === parseInt(id)));
         break;
-      case 4:
-        setFilterVar(projects.filter((p) => !p.is_approved && p.accepted_by_id === parseInt(id)));
-        break;
-
       default:
         setFilterVar(projects.filter((p) => p.accepted_by_id === parseInt(id)));
         break;
@@ -66,8 +59,8 @@ const MyBounties = (props) => {
   };
 
   return (
-    <Box padding="20px" height="100vh" style={{ margin: '10px', background: 'rgba(255,255,255, 0.7)', borderRadius: '25px'}}>
-        <Typography variant="h4" gutterBottom>
+    <Box padding="20px" height="100vh" style={{ marginTop: "25px", marginLeft: "50px", marginRight: "50px", background: 'rgba(255,255,255, 0.85)', borderRadius: '25px'}}>
+        <Typography variant="h4" gutterBottom style={{textAlign: "center"}}>
             {" "}
             {userObj.first_name}'s Bounties{" "}
         </Typography>
