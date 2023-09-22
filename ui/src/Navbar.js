@@ -8,7 +8,7 @@ import NavbarConnect from './NavbarConnect';
 
 
 const Navbar = () => {
-    const [sessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
+    const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
     const navigate = useNavigate();
     const [userObj, setUserObj] = useState([])
 
