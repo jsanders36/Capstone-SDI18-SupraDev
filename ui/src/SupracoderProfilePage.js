@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemText, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useCookies, CookiesProvider } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 import { SHA256 } from 'crypto-js';
 
 
@@ -19,12 +19,12 @@ const SupracoderProfilePage = () => {
     const [changePassword, setChangePassword] = useState(false)
     const [newPassword, setNewPassword] = useState('')
     const [editProfile, setEditProfile] = useState(false)
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [jobTitle, setJobTitle] = useState('')
-    const [email, setEmail] = useState('')
-    const [description, setDescription] = useState('')
-    const [profilePic, setProfilePic] = useState('')
+    // const [firstName, setFirstName] = useState('')
+    // const [lastName, setLastName] = useState('')
+    // const [jobTitle, setJobTitle] = useState('')
+    // const [email, setEmail] = useState('')
+    // const [description, setDescription] = useState('')
+    // const [profilePic, setProfilePic] = useState('')
     const [newFirstName, setNewFirstName] = useState('')
     const [newLastName, setNewLastName] = useState('')
     const [newJobTitle, setNewJobTitle] = useState('')
@@ -61,15 +61,6 @@ const SupracoderProfilePage = () => {
             }
         }
         totalProjs = numAcceptedProjs;
-    }
-
-    const userInfoDump = () => {
-        setFirstName(userObj.first_name)
-        setLastName(userObj.last_name)
-        setJobTitle(userObj.job_title)
-        setEmail(userObj.email)
-        setDescription(userObj.user_summary)
-        setProfilePic(userObj.profile_pic)
     }
 
     const patchPassword = () => {

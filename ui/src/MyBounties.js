@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Tabs, Tab, List, ListItem, Typography, Button, Card, CardContent, Box, Avatar, Divider, ListItemText, TextField } from "@mui/material";
-import { useCookies, CookiesProvider } from 'react-cookie';
+import { Tabs, Tab, List, ListItem, Typography, Box } from "@mui/material";
+import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
 
 const MyBounties = (props) => {

@@ -16,8 +16,8 @@ const UsersProjects = (props) => {
     fetch("http://localhost:8080/projects")
       .then((res) => res.json())
       .then((projectsData) => {
-        const approvedProjects = projectsData.filter((p) => ((p.submitter_id === sessionCookies.user_id_token)));
-        setProjects(approvedProjects);
+        const approvedProjects = projectsData.filter((p) => (p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
+        setProjects(projectsData);
         setFilterVar(approvedProjects);
       })
       .catch((err) => console.log(err));
@@ -28,23 +28,23 @@ const UsersProjects = (props) => {
 
     switch (newValue) {
       case 0:
-        setFilterVar(projects.filter((p) => p.is_approved));
+        setFilterVar(projects.filter((p) => p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
         break;
       case 1:
-        setFilterVar(projects.filter((p) => !p.is_accepted && !p.is_completed && p.is_approved));
+        setFilterVar(projects.filter((p) => !p.is_accepted && !p.is_completed && p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
         break;
       case 2:
-        setFilterVar(projects.filter((p) => p.is_accepted && p.is_approved));
+        setFilterVar(projects.filter((p) => p.is_accepted && p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
         break;
       case 3:
-        setFilterVar(projects.filter((p) => p.is_completed && p.is_approved));
+        setFilterVar(projects.filter((p) => p.is_completed && p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
         break;
       case 4:
-        setFilterVar(projects.filter((p) => !p.is_approved));
+        setFilterVar(projects.filter((p) => !p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
         break;
 
       default:
-        setFilterVar(projects.filter((p) => p.is_approved));
+        setFilterVar(projects.filter((p) => p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
         break;
     }
   };

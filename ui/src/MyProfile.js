@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import MessageChatSquareIcon from './icons/message-chat-square';
 import DotsHorizontalIcon from './icons/dots-horizontal';
 import Image03Icon from './icons/image-03';
-import UserPlus02Icon from './icons/user-plus-02';
+// import UserPlus02Icon from './icons/user-plus-02';
 import Edit from './icons/edit';
 
 import Avatar from '@mui/material/Avatar';
@@ -26,18 +26,18 @@ import { blueGrey } from '@mui/material/colors';
 import EditProfileForm from './EditProfileForm';
 import { socialApi } from './social/index.js';
 import { RouterLink } from './components/router-link';
-import { Seo } from './components/seo';
+// import { Seo } from './components/seo';
 import { useMounted } from './hooks/use-mounted';
 import { usePageView } from './hooks/use-page-view';
 import { Layout as DashboardLayout } from './layouts/layout.js';
 import { paths } from './paths';
 import { SocialConnections } from './social/social-connections';
 import { SocialTimeline } from './social/social-timeline';
-import Projects from './Projects'
+// import Projects from './Projects'
 import UsersProjects from './UsersProjects';
-import Modal from '@mui/material/Modal';
+// import Modal from '@mui/material/Modal';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
+// import DialogActions from '@mui/material/DialogActions';
 
 const tabs = [
   { label: 'Timeline', value: 'timeline' },
