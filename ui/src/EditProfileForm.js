@@ -33,6 +33,7 @@ const EditProfileForm = ({ user, onSubmit, onCancel }) => {
   const [email, setEmail] = React.useState(user.email);
   const [userSummary, setUserSummary] = React.useState(user.user_summary);
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedUser = {
@@ -43,6 +44,7 @@ const EditProfileForm = ({ user, onSubmit, onCancel }) => {
       email: email,
       user_summary: userSummary,
     };
+    window.location.reload();
     onSubmit(updatedUser)
       .then(() => {
         onCancel();

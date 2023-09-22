@@ -22,7 +22,7 @@ export const SocialTimeline = (props) => {
   const [chatPosts, setChatPosts] = useState([]);
 
   const userRefetch = async () => {
-    const userId = id ? id : sessionCookies.user_id_token; // Use sessionCookies ID if id param doesn't exist
+    const userId = id ? id : sessionCookies.user_id_token;
     await fetch(`http://localhost:8080/users/${userId}`)
       .then((res) => res.json())
       .then((fetchData) => setUserObj(fetchData[0]));
@@ -33,7 +33,7 @@ export const SocialTimeline = (props) => {
   }, [id]);
 
   const postFetch = async () => {
-    const userId = id ? id : sessionCookies.user_id_token; // Use sessionCookies ID if id param doesn't exist
+    const userId = id ? id : sessionCookies.user_id_token;
     await fetch(`http://localhost:8080/users/${userId}`)
       .then((res) => res.json())
       .then((fetchData) => setChatPosts(fetchData[0]));
@@ -55,12 +55,15 @@ export const SocialTimeline = (props) => {
         </Grid>
         <Grid lg={8} xs={12}>
           <Stack spacing={3}>
-            <SocialPostAdd />
+            <SocialPostAdd
+              authorAvatar={userObj.profile_pic}
+              authorName={userObj.first_name + " " + userObj.last_name}
+            />
             {posts.map((post) => (
               <SocialPostCard
                 key={post.id}
                 authorAvatar={userObj.profile_pic}
-                authorName={userObj.first_name + userObj.last_name}
+                authorName={userObj.first_name + " " +userObj.last_name}
                 comments={post.comments}
                 createdAt={post.createdAt}
                 isLiked={post.isLiked}

@@ -37,7 +37,7 @@ const Navbar = () => {
         if (sessionCookies.userPriv_Token === true) {
             profileButton = <Button onClick={() => navigate(`/supracoders/${sessionCookies.user_id_token}`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Admin Page</Button>
         } else {
-            profileButton = <Button onClick={() => navigate(`/users/${sessionCookies.user_id_token}`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>User Page</Button>
+            profileButton = <Button onClick={() => navigate(`/users/`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>User Page</Button>
         }
     }
 

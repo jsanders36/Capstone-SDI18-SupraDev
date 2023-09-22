@@ -28,7 +28,8 @@ export const SocialPostAdd = (props) => {
   const [userObj, setUserObj] = useState([]);
 
   const userRefetch = async () => {
-    await fetch(`http://localhost:8080/users/${id}`)
+    const userId = id ? id : sessionCookies.user_id_token;
+    await fetch(`http://localhost:8080/users/${userId}`)
         .then((res) => res.json())
         .then((fetchData) => setUserObj(fetchData[0]))
   }
@@ -53,7 +54,7 @@ export const SocialPostAdd = (props) => {
               borderColor:"black"
             }}
           >
-            {getInitials(user.name)}
+            {userObj.profile_pic}
           </Avatar>
           <Stack
             spacing={3}

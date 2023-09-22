@@ -66,10 +66,18 @@ export const SocialConnection = (props) => {
             <Typography
               color="text.secondary"
               gutterBottom
+              variant="subtitle3"
+            >
+              {""}  {connection.job_title}
+            </Typography>
+            <Typography
+              color="text.secondary"
+              gutterBottom
               variant="body2"
             >
               {connection.id} connections in common
             </Typography>
+
             {showConnect && (
               <Button
                 onClick={handleConnectionAdd}
