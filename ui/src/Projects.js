@@ -68,7 +68,7 @@ const Projects = (props) => {
         indicatorColor="primary"
         textColor="primary"
         bgcolor="primary">
-        
+
         <Tab bgcolor="blue" label="All" />
         <Tab label="Unaccepted" />
         <Tab label="Accepted" />
@@ -77,12 +77,12 @@ const Projects = (props) => {
 
       </Tabs>
 
-      <List>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: "20px" }}>
+
         {filterVar.map((project) => (
           <Card sx={{
-            minWidth: 400,
-            maxWidth: "95%",
-            height: 120,
+            height: 300,
+            width: '25%',
             m: 2,
             padding: 1,
             textAlign: 'center',
@@ -98,7 +98,7 @@ const Projects = (props) => {
             </div>
           </Card>
         ))}
-      </List>
+      </div>
     </Box>
   );
 };
