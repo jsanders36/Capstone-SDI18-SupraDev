@@ -87,7 +87,8 @@ const Projects = (props) => {
             padding: 1,
             textAlign: 'center',
             borderRadius: "15px",
-            background: "rgba(96,112,151, .85)"
+            background: "rgba(96,112,151, .85)",
+            cursor: "pointer"
           }}>
             <div
               key={project.id}
