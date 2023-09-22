@@ -181,7 +181,7 @@ const SupracoderProfilePage = () => {
 
     if(userObj.is_supracoder === true) {
         return (
-            <Box display="flex" padding="20px" height="100vh" bgcolor="rgba(255, 255, 255, .85)" sx={{borderRadius: '25px', marginTop: "25px", marginLeft: "50px", marginRight: "50px" }}>
+            <Box display="flex" padding="20px" height="100vh" bgcolor="rgba(255, 255, 255, .85)" sx={{borderRadius: '25px', marginTop: "25px", marginLeft: "50px", marginRight: "50px", marginBottom: "50px"}}>
 
                 {/* Side Navigation */}
                 <Box display="flex" flexDirection="column" gap="20px" width="250px" pr="20px">
