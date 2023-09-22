@@ -34,8 +34,8 @@ import DialogActions from '@mui/material/DialogActions';
 
 const tabs = [
   { label: 'Timeline', value: 'timeline' },
-  { label: 'Connections', value: 'connections' },
-  { label: 'Projects', value:'projects'}
+  { label: 'Connections', value: 'connections' }
+  // { label: 'Projects', value:'projects'}
 ];
 
 const useProfile = () => {

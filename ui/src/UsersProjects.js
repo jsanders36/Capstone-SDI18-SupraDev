@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Tabs, Tab, List, ListItem, Typography, Box, Card } from "@mui/material";
 import { useCookies, CookiesProvider } from 'react-cookie';
 
-const Projects = (props) => {
+const UsersProjects = (props) => {
   const { profile, ...other } = props;
   const [projects, setProjects] = useState([]);
   const [filterVar, setFilterVar] = useState([]);
@@ -16,8 +16,8 @@ const Projects = (props) => {
     fetch("http://localhost:8080/projects")
       .then((res) => res.json())
       .then((projectsData) => {
-        const approvedProjects = projectsData.filter((p) => p.is_approved);
-        setProjects(projectsData);
+        const approvedProjects = projectsData.filter((p) => ((p.submitter_id === sessionCookies.user_id_token)));
+        setProjects(approvedProjects);
         setFilterVar(approvedProjects);
       })
       .catch((err) => console.log(err));
@@ -55,7 +55,7 @@ const Projects = (props) => {
   };
 
   return (
-    <Box padding="20px" height="90%" style={{ marginTop: "25px", marginLeft: "50px", marginRight: "50px" , marginBottom: "50px", background: 'rgba(255,255,255, 0.85)', borderRadius: '25px'}}>
+    <Box padding="20px" height="100vh" style={{ marginTop: "25px", marginLeft: "50px", marginRight: "50px" , background: 'rgba(255,255,255, 0.85)', borderRadius: '25px'}}>
       <Typography variant="h4" gutterBottom style={{textAlign: "center"}}>
         {" "}
         Bounties{" "}
@@ -103,9 +103,9 @@ const Projects = (props) => {
   );
 };
 
-Projects.propTypes = {
+UsersProjects.propTypes = {
   projects: PropTypes.array,
   // profile: PropTypes.object.isRequired,
 };
 
-export default Projects;
+export default UsersProjects;

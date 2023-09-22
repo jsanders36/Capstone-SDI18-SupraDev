@@ -34,6 +34,7 @@ import { paths } from './paths';
 import { SocialConnections } from './social/social-connections';
 import { SocialTimeline } from './social/social-timeline';
 import Projects from './Projects'
+import UsersProjects from './UsersProjects';
 import Modal from '@mui/material/Modal';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -41,7 +42,7 @@ import DialogActions from '@mui/material/DialogActions';
 const tabs = [
   { label: 'Timeline', value: 'timeline' },
   { label: 'Connections', value: 'connections' },
-  { label: 'Projects', value:'projects'}
+  { label: 'My Projects', value:'projects'}
 ];
 
 const useProfile = () => {
@@ -406,7 +407,7 @@ useEffect(() => {
               />
             )}
             {currentTab === 'projects' && (
-              <Projects
+              <UsersProjects
                 projects={projects}
               />
             )}
