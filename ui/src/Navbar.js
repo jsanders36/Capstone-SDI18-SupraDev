@@ -66,8 +66,8 @@ const Navbar = () => {
             {requestsButton}
             {profileButton}
             {loginButton}
-            {logoutButton}
-            {currentUserInfo}
+            {/* {logoutButton} */}
+            {/* {currentUserInfo} */}
             {<NavbarConnect/>}
         </div>
     )
