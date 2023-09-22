@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Paper } from '@mui/material';
+import { CardContent, Typography, Box, Avatar, Divider, List, ListItem, ListItemAvatar, ListItemText, Paper, Grid, Card } from '@mui/material';
 
 const HomePage = () => {
     return (
