@@ -104,7 +104,7 @@ const Login = () => {
                     <h3>{"  "} Login</h3>
                     <form id='loginCreds'>
                         <TextField className='inputText' label='Username' variant="outlined" type='text' value={usernameLogin} onChange={(e) => setUsernameLogin(e.target.value)} placeholder='Username' size='small' style={{ gap: '10px', margin: '10px' }} />
-                        <TextField className='inputText' label='Password' variant="outlined" type='text' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password' size='small' style={{ gap: '10px', margin: '10px' }} />
+                        <TextField className='inputText' label='Password' variant="outlined" type='password' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password' size='small' style={{ gap: '10px', margin: '10px' }} />
                     </form>
                     <Button type='submit' onClick={() => LogIntoAccount()} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Login</Button>
                 </Card>
@@ -127,7 +127,7 @@ const Login = () => {
                     </div>
                     <div id='createAccountUserCreds'>
                         <TextField className='inputText' label='Username' variant="outlined" type='text' value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' size='small' style={{ gap: '10px', margin: '10px' }} />
-                        <TextField className='inputText' label='Password' variant="outlined" type='text' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' size='small' style={{ gap: '10px', margin: '10px' }} />
+                        <TextField className='inputText' label='Password' variant="outlined" type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' size='small' style={{ gap: '10px', margin: '10px' }} />
                     </div>
                     <div id='createAccountPicNDesc'>
                         <TextField className='inputText' label='Profile Picture URL' variant="outlined" type='text' value={profilePic} onChange={(e) => setProfilePic(e.target.value)} placeholder='Profile Picture URL' size='small' style={{ gap: '10px', margin: '10px' }} />
