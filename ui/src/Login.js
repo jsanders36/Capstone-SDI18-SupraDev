@@ -45,6 +45,7 @@ const Login = () => {
                     setSessionCookies('username_token', element.username, { path: '/'});
                     setSessionCookies('userPriv_Token', element.is_supracoder, { path: '/'})
                     navigate('/');
+                    window.location.reload();
                     setUsernameLogin('');
                     setPasswordLogin('');
                     alert(`Login successful for ${element.first_name} ${element.last_name}.`)
