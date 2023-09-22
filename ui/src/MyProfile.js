@@ -169,6 +169,14 @@ const GenUser = () => {
   const navigate = useNavigate();
   const [openEditModal, setOpenEditModal] = useState(false);
 
+  const userRefetch = async () => {
+    setFetchTime(false);
+    await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
+        .then((res) => res.json())
+      .then((fetchData) => setUserObj(fetchData[0]))
+    setFetchTime(true);
+    handleTabsChange(currentTab, 'timeline')
+  }
 
   const handleEditProfileClick = () => {
     setOpenEditModal(true);
@@ -183,9 +191,10 @@ const GenUser = () => {
       });
 
       if (response.status === 200) {
-        handleTabsChange(currentTab, 'timeline')
         userRefetch();
         navigate.push(`./${sessionCookies.user_id_token}`);
+        handleTabsChange(currentTab, 'timeline')
+        window.location.reload();
       } else {
         console.error('Failed to update profile');
       }
@@ -198,13 +207,7 @@ const GenUser = () => {
     setOpenEditModal(false);
   };
 
-  const userRefetch = async () => {
-    setFetchTime(false);
-    await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
-        .then((res) => res.json())
-      .then((fetchData) => setUserObj(fetchData[0]))
-      setFetchTime(true);
-  }
+
 
   const usersFetch = async () => {
     setFetchTime(true);

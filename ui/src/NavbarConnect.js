@@ -29,7 +29,7 @@ const RectangularSpeedDialIcon = () => {
     );
   };
 
-const Navbar = () => {
+const NavbarConnect = () => {
   const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies([
     'username_token',
     'user_id_token',
@@ -130,4 +130,4 @@ const Navbar = () => {
 );
 };
 
-export default Navbar;
+export default NavbarConnect;
