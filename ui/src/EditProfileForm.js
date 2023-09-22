@@ -64,6 +64,7 @@ const EditProfileForm = ({ user, onSubmit, onCancel }) => {
             variant="outlined"
             id="firstName"
             value={firstName}
+            style={{marginBottom: '10px'}}
             onChange={(e) => setFirstName(e.target.value)}
           />
         </div>
@@ -74,6 +75,7 @@ const EditProfileForm = ({ user, onSubmit, onCancel }) => {
             variant="outlined"
             id="lastName"
             value={lastName}
+            style={{marginBottom: '10px'}}
             onChange={(e) => setLastName(e.target.value)}
           />
         </div>
@@ -84,6 +86,7 @@ const EditProfileForm = ({ user, onSubmit, onCancel }) => {
             variant="outlined"
             id="jobTitle"
             value={jobTitle}
+            style={{marginBottom: '10px'}}
             onChange={(e) => setJobTitle(e.target.value)}
           />
         </div>
@@ -94,6 +97,7 @@ const EditProfileForm = ({ user, onSubmit, onCancel }) => {
             variant="outlined"
             id="profilePic"
             value={profilePic}
+            style={{marginBottom: '10px'}}
             onChange={(e) => setProfilePic(e.target.value)}
           />
         </div>
@@ -104,18 +108,22 @@ const EditProfileForm = ({ user, onSubmit, onCancel }) => {
             variant="outlined"
             id="email"
             value={email}
+            style={{marginBottom: '10px'}}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
         <div className="form-group">
-          <TextareaAutosize
-            style={{ minHeight: '100px', maxHeight: '300px' }}
+
+
+          <TextField
+            style={{marginBottom: '10px'}}
             fullWidth="100%"
+            multiline
+            rows={5}
             label="User Summary"
             variant="outlined"
             id="userSummary"
-            placeholder="User Summary..."
             value={userSummary}
             onChange={(e) => setUserSummary(e.target.value)}
           />

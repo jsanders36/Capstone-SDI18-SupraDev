@@ -54,12 +54,13 @@ const ProjectSubmission = () => {
                     maxWidth: 1000,
                     m: 2,
                     marginLeft: '20%',
+                    marginRight: '20%',
                     padding: 1,
                     textAlign: 'center',
                     background: "rgba(255,255,255, 0.85)",
                     borderRadius: '25px',
                     marginTop: '25px'
-                    
+
                 }} id='submitContainer'>
                     <h3>Project Submission Form</h3>
 
@@ -67,7 +68,7 @@ const ProjectSubmission = () => {
                         <TextField className='inputText' label='Project Name' variant="outlined" type='text' value={projectname} onChange={(e) => setProjectName(e.target.value)} placeholder='Project Name' size='small' style={{ gap: '10px', margin: '10px' }} />
                         <TextField className='inputText' label='Problem Description' variant="outlined" type='text' value={description} onChange={(e) => setDescription(e.target.value)} placeholder='Describe your problem' size='small' style={{ gap: '10px', margin: '10px', width: '800px'}} />
                   </form>
-                    <Button type='submit' onClick={() => handleSubmit()} variant='contained' color='success' style={{ gap: '10px', margin: '10px' }}>Submit</Button>
+                    <Button type='submit' onClick={() => handleSubmit()} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Submit</Button>
                 </Card>
     </div>
   );
