@@ -87,12 +87,13 @@ const Login = () => {
 
     return (
         <>
-            <Paper elevation={3} style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center', background: 'rgba(255,255,255, 0)', maxWidth: '920px', marginLeft: '25%', padding: '4px' }}>
+            <Paper elevation={0} style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center', background: 'rgba(255,255,255, 0)', maxWidth: '920px', marginLeft: '20%', marginRight: '20%', padding: '4px' }}>
                 <Card sx={{
                     minWidth: 400,
                     maxWidth: 512,
                     m: 2,
                     marginLeft: '20%',
+                    marginRight: '20%',
                     marginTop: '23px',
                     padding: 1,
                     textAlign: 'left',
@@ -113,6 +114,7 @@ const Login = () => {
                     maxWidth: 512,
                     m: 2,
                     marginLeft: '20%',
+                    marginRight: '20%',
                     padding: 1,
                     textAlign: 'left',
                     borderRadius: '25px',

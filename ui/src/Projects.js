@@ -20,6 +20,7 @@ const Projects = (props) => {
         setProjects(projectsData);
         setFilterVar(approvedProjects);
       })
+      .then(handleChange(selectedTab, 0))
       .catch((err) => console.log(err));
   }, []);
 
@@ -55,7 +56,7 @@ const Projects = (props) => {
   };
 
   return (
-    <Box padding="20px" height="100vh" style={{ marginTop: "25px", marginLeft: "50px", marginRight: "50px", background: 'rgba(255,255,255, 0.85)', borderRadius: '25px'}}>
+    <Box padding="20px" height="90%" style={{ marginTop: "25px", marginLeft: "50px", marginRight: "50px", background: 'rgba(255,255,255, 0.85)', borderRadius: '25px'}}>
       <Typography variant="h4" gutterBottom style={{textAlign: "center"}}>
         {" "}
         Bounties{" "}
@@ -68,7 +69,7 @@ const Projects = (props) => {
         indicatorColor="primary"
         textColor="primary"
         bgcolor="primary">
-        
+
         <Tab bgcolor="blue" label="All" />
         <Tab label="Unaccepted" />
         <Tab label="Accepted" />

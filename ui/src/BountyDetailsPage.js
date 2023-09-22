@@ -39,6 +39,7 @@ const BountyDetailsPage = () => {
             })
         })
         navigate('/projects');
+        window.location.reload()
 
     }
 
@@ -55,6 +56,7 @@ const BountyDetailsPage = () => {
             })
         })
         navigate('/projects');
+        window.location.reload()
     }
 
     const handleComplete = () => {
@@ -70,6 +72,7 @@ const BountyDetailsPage = () => {
             })
         })
         navigate('/projects');
+        window.location.reload()
     }
 
     const thanosSnap = () => {
@@ -90,9 +93,9 @@ const BountyDetailsPage = () => {
                     {bounty.name}
                 </Typography>
 
-                {sessionCookies.userPriv_Token === true ?  <Button onClick={() => handleAccept()} variant="contained" color="success" style={{ margin: '5px' }} >Accept This Project?</Button>  : <></>}
+                {(sessionCookies.userPriv_Token === true) && (bounty.is_approved === true ) && (bounty.is_accepted === false) && (bounty.is_completed === false) ?  <Button onClick={() => handleAccept()} variant="contained" color="success" style={{ margin: '5px' }} >Accept This Project?</Button>  : <></>}
 
-                {bounty.accepted_by_id === sessionCookies.user_id_token ?  <Button onClick={() => handleComplete()} variant="contained" color="success" style={{ margin: '5px' }} >Complete the project?</Button>  : <></>}
+                {(bounty.accepted_by_id === sessionCookies.user_id_token)  && (bounty.is_completed === false) ?  <Button onClick={() => handleComplete()} variant="contained" color="success" style={{ margin: '5px' }} >Complete the project?</Button>  : <></>}
 
                 <Divider style={{ marginBottom: '1.5rem' }} />
                 <Typography variant="h6" style={{ fontWeight: '500', color: '#616161' }}>Problem Statement:</Typography>
@@ -107,9 +110,9 @@ const BountyDetailsPage = () => {
                     Thank you for viewing this bounty detail. Check back often for updates!
                 </Typography>
 
-                {sessionCookies.userPriv_Token === true ?  <Button onClick={() => handleApprove()} variant="contained" color="success" style={{ margin: '5px' }} >Approve</Button>  : <></>}
+                {(sessionCookies.userPriv_Token === true) && (bounty.is_approved === false)  && (bounty.is_completed === false) ?  <Button onClick={() => handleApprove()} variant="contained" color="success" style={{ margin: '5px' }} >Approve</Button>  : <></>}
 
-                {sessionCookies.userPriv_Token === true ?  <Button onClick={() => thanosSnap()} variant="contained" color="error" style={{ margin: '5px' }}>Deny</Button>  : <></>}
+                {(sessionCookies.userPriv_Token === true)  && (bounty.is_completed === false) ?  <Button onClick={() => thanosSnap()} variant="contained" color="error" style={{ margin: '5px' }}>Deny</Button>  : <></>}
             </Paper>
         </Box>
     );
