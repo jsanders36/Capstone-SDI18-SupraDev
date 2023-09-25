@@ -222,7 +222,7 @@ const OtherUser = () => {
       }}
     >
       <Container maxWidth="lg">
-        <Box
+        {/* <Box
           style={{ backgroundImage: `url(${profile.cover})` }}
           sx={{
             backgroundPosition: 'center',
@@ -266,7 +266,7 @@ const OtherUser = () => {
           >
             Change Cover
           </Button>
-        </Box>
+        </Box> */}
         <Stack
           alignItems="center"
           direction="row"

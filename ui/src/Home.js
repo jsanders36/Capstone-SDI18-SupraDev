@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import {
     Avatar, Box, Card, CardContent, CardHeader, Grid, List, ListItem,
@@ -12,6 +12,7 @@ const HoverCard = styled(motion(Card))(({ theme }) => ({
     '&:hover': {
         transform: 'scale(1.05)',
         boxShadow: theme?.shadows?.[8] ?? '0px 4px 20px rgba(0, 0, 0, 0.2)',
+
     },
     transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
     borderRadius: '15px',
@@ -25,6 +26,16 @@ const HoverCard = styled(motion(Card))(({ theme }) => ({
 
 const HomePage = () => {
     const theme = useTheme();
+
+    const [spaceSoftware, setSpaceSoftware] = useState([]);
+
+    useEffect(() => {
+        // Fetch space-related software data from NASA's TechTransfer Software API
+        fetch('https://api.nasa.gov/techtransfer/software/?engine&api_key=6WY9lR6IeiiTvLJG4U5V4qnnJzPJlpgMkmV8uKj9')
+            .then(response => response.json())
+            .then(data => setSpaceSoftware(data.results.slice(0, 10))) // Limit to 10 items
+            .catch(error => console.error('Error fetching space software data:', error));
+    }, []);
 
     return (
         <Box
@@ -65,18 +76,23 @@ const HomePage = () => {
 
 
             <Container maxWidth="lg">
-                <Grid container spacing={4} direction="row">
-                    {/* Announcements */}
-                    <Grid item xs={12} md={6}>
-                        <HoverCard elevation={3} sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(5px)' }}>
-                            <CardHeader title="Announcements" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
+                <Grid container spacing={4} direction="column">
+                    {/* Space Software */}
+                    <Grid item xs={12}>
+                        <HoverCard className="card" elevation={3}>
+                            <CardHeader title="Space Software News" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
                             <CardContent>
-                                <Typography variant="h6" color="primary">
-                                    Top Bounty: Project X
-                                </Typography>
-                                <Typography variant="body1" mt={1}>
-                                    Project T has been finalized and deployed into...
-                                </Typography>
+                                {spaceSoftware.map((softwareItem, index) => (
+                                    <div key={index}>
+                                        <Typography variant="h6" color="primary">
+                                            {softwareItem[2].slice(0, 100)} {/* Limit to 50 characters */}
+                                        </Typography>
+                                        <Typography variant="body1" mt={1}>
+                                            {softwareItem[3].slice(0, 250)}... {/* Limit to 200 characters */}
+                                        </Typography>
+                                    </div>
+                                ))}
+
                             </CardContent>
                         </HoverCard>
                     </Grid>

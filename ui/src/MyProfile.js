@@ -21,6 +21,8 @@ import Tabs from '@mui/material/Tabs';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { blueGrey } from '@mui/material/colors';
+import { useTheme } from '@mui/system';
+import { motion } from 'framer-motion';
 
 
 import EditProfileForm from './EditProfileForm';
@@ -169,7 +171,12 @@ const GenUser = () => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const [openEditModal, setOpenEditModal] = useState(false);
-
+  const theme = useTheme();
+  const primaryMainColor = theme?.palette?.primary?.main || '#000';
+  const variants = {
+    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 50 },
+};
   const userRefetch = async () => {
     setFetchTime(false);
     await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
@@ -251,16 +258,35 @@ useEffect(() => {
         />
       ) : (
       <Box
-        component="main"
-        sx={{
-          backgroundColor: 'white',
-          flexGrow: 20,
-          py: 8,
-        }}
-      >
+      component={motion.div}
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      sx={{
+          backgroundImage: 'url(/path-to-your-background-image)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          '.heroSection': {
+              bgcolor: 'rgba(255, 255, 255, 0.8)',
+              backdropFilter: 'blur(10px)',
+              color: primaryMainColor,
+          },
+          '.card': {
+              minHeight: '200px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              backgroundColor: 'rgba(255, 255, 255, 0.9)',
+              backdropFilter: 'blur(5px)',
+          },
+            }}>
+            <Box  display="flex" padding="20px" height="200%" bgcolor="rgba(255, 255, 255, .85)" sx={{backgroundSize: 'cover', borderRadius: '25px', marginTop: "25px", marginLeft: "50px", marginRight: "50px", marginBottom: "50px" }}>
         <Container maxWidth="lg">
           <div>
-            <Box
+            {/* <Box
               style={{ backgroundImage: `url(${profile.cover})` }}
               sx={{
                 backgroundPosition: 'center',
@@ -304,7 +330,7 @@ useEffect(() => {
               >
                 Change Cover
               </Button>
-            </Box>
+            </Box> */}
             <Stack
               alignItems="center"
               direction="row"
@@ -357,7 +383,7 @@ useEffect(() => {
                       onClick={handleEditProfileClick}>
                       Edit Profile
                     </Button>
-                <Button
+                {/* <Button
                   component={RouterLink}
                   href={userObj.id === sessionCookies.user_id_token ? paths.chat : paths.chat.interact}
                   size="small"
@@ -369,7 +395,7 @@ useEffect(() => {
                   variant="contained"
                 >
                   Chat
-                </Button>
+                </Button> */}
               </Stack>
               <Tooltip title="More options">
                 <IconButton>
@@ -422,7 +448,8 @@ useEffect(() => {
 
               </Box>
 
-        </Container>
+              </Container>
+            </Box>
           </Box>
       )}
        <Dialog
