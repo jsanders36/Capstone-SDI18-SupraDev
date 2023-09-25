@@ -66,7 +66,7 @@ const ProjectSubmission = () => {
 
                <form id='projectSubmit'>
                         <TextField className='inputText' label='Project Name' variant="outlined" type='text' value={projectname} onChange={(e) => setProjectName(e.target.value)} placeholder='Project Name' size='small' style={{ gap: '10px', margin: '10px' }} />
-                        <TextField className='inputText' label='Problem Description' variant="outlined" type='text' value={description} onChange={(e) => setDescription(e.target.value)} placeholder='Describe your problem' size='small' style={{ gap: '10px', margin: '10px', width: '800px'}} />
+                        <TextField className='inputText' label='Problem Description' variant="outlined" type='text' value={description} onChange={(e) => setDescription(e.target.value)} placeholder='Describe your problem' size='small' multiline rows={5} style={{ gap: '10px', margin: '10px', width: '700px'}} />
                   </form>
                     <Button type='submit' onClick={() => handleSubmit()} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Submit</Button>
                 </Card>
