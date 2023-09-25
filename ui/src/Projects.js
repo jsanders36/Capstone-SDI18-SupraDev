@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Tabs, Tab, Typography, Box, Card } from "@mui/material";
+import { Tabs, Tab, Typography, Box, Card, Avatar } from "@mui/material";
 import { useCookies } from 'react-cookie';
 import { styled, useTheme } from '@mui/system';
 import { motion } from 'framer-motion';
@@ -15,7 +15,8 @@ const Projects = (props) => {
   const [filterVar, setFilterVar] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
-  const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
+  const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token']);
+  const [allUsers, setAllUsers] = useState([]);
 
 
 
@@ -26,18 +27,45 @@ const Projects = (props) => {
         const approvedProjects = projectsData.filter((p) => p.is_approved);
         setProjects(projectsData);
         setFilterVar(approvedProjects);
+        fetchUsers();
       })
       .catch((err) => console.log(err));
   }, []);
 
-  useEffect(() => {
-    fetch("http://localhost:8080/users")
+  const fetchUsers = () => {
+    fetch('http://localhost:8080/users')
       .then((res) => res.json())
-      .then((user) => {
-        setUsers(user);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+      .then((projectsData) => setAllUsers(projectsData))
+  }
+
+  const findSubmitter = (assocSubId) => {
+    let outputUsername;
+    let outputUserImg;
+    for (let element in allUsers) {
+      if (allUsers[element].id === assocSubId) {
+        outputUsername = allUsers[element].username;
+        outputUserImg = allUsers[element].profile_pic;
+        return (
+          <div style={{display: 'flex', position: 'absolute', bottom: '0'}}>
+            <p style={{marginBottom: 'auto', textAlign: 'left'}}><Avatar src={outputUserImg} alt="User Avatar" style={{ float: 'left', outlineWidth: '1px', outlineColor: 'red', width: '40px', height: '40px' }}/></p>
+            <p style={{marginLeft: '5px', marginTop: '22px'}}>{outputUsername}</p>
+          </div>
+        )
+      }
+    }
+  }
+
+  const findAcceptor = (assocAccId) => {
+    let outputUsername;
+    for (let element in allUsers) {
+      if (allUsers[element].id === assocAccId) {
+        outputUsername = allUsers[element].username;
+        return (
+          outputUsername
+        )
+      }
+    }
+  }
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -88,6 +116,7 @@ function truncateText(text, maxLength) {
 
 
   const cardStyle = {
+    position: 'relative',
     height: 300,
     width: '25%',
     margin: 8,
@@ -155,7 +184,7 @@ function truncateText(text, maxLength) {
             style={cardStyle}
             key={project.id}
             onClick={() => handleProjectClick(project.id)}>
-            <div key={project.id} style={{ textAlign: "center" }}>
+            <div key={project.id} style={{ textAlign: "center", marginBottom:'auto' }}>
               <h2>{project.name}</h2>
               <h3
                 style={{
@@ -166,19 +195,20 @@ function truncateText(text, maxLength) {
                     : "red",
                 }}>
                 {project.is_completed
-                  ? "complete"
+                  ? `Completed by ${findAcceptor(project.accepted_by_id)}`
                   : project.is_accepted
-                  ? "accepted"
-                  : "not accepted"}
+                  ? `Accepted by ${findAcceptor(project.accepted_by_id)}`
+                  : "Not Accepted"}
               </h3>
               <h3>
                 {/* {project.is_accepted ? "accepted by "  : "" } */}
               </h3>
 
-              <p style={{ marginLeft: "4px", textAlign: "left" }}>
+              <p style={{ marginLeft: "4px", marginTop: 'auto', textAlign: "left" }}>
                 Problem Statement: {truncateText(project.problem_statement, maxLength)}
               </p>
             </div>
+            {findSubmitter(project.submitter_id)}
           </HoverCard>
         ))}
       </div>
