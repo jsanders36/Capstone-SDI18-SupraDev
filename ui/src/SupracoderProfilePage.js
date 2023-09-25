@@ -152,7 +152,7 @@ const SupracoderProfilePage = () => {
                 </>
             )
         } else if (editProfile === true) {
-            
+
             return (
                 <>
                     <p><TextField id="newFirstName" variant="standard" placeholder={userObj.first_name} value={newFirstName} onChange={(e) => setNewFirstName(e.target.value)} style={{ margin: '2px' }} label="First Name" />
@@ -176,7 +176,7 @@ const SupracoderProfilePage = () => {
 
                 {/* Side Navigation */}
                 <Box display="flex" flexDirection="column" gap="20px" width="250px" pr="20px">
-                    <Typography variant="h5" color="primary" mb="20px" sx={{textAlign: 'center'}}>Profile Navigation</Typography>
+                    <Typography variant="h5" color="primary" mb="20px" sx={{ textAlign: 'center' }}>{`${userObj.first_name}`}'s Profile</Typography>
 
                     {/* <Card variant="outlined">
                         <CardContent>

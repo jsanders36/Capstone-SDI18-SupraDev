@@ -49,23 +49,23 @@ const NavbarConnect = () => {
 
   const adminActions = [
     { icon: <HomeIcon />, name: 'Home', link: '/' },
-    { icon: <BuildIcon />, name: 'Projects', link: '/projects' },
-    { icon: <AssignmentIndIcon />, name: 'Requests', link: '/requests' },
-    { icon: <AccountCircleIcon />, name: 'Profile', link: `/supracoders/${sessionCookies.user_id_token}` },
+    // { icon: <BuildIcon />, name: 'Projects', link: '/projects' },
+    // { icon: <AssignmentIndIcon />, name: 'Requests', link: '/requests' },
+    { icon: <AccountCircleIcon />, name: 'User Profile', link: `/users/` },
     { icon: <ExitToAppIcon />, name: 'Logout', onClick: handleLogout },
   ];
 
   const userActions = [
     { icon: <HomeIcon />, name: 'Home', link: '/' },
-    { icon: <BuildIcon />, name: 'Projects', link: '/projects' },
-    { icon: <AssignmentIndIcon />, name: 'Requests', link: '/requests' },
-    { icon: <AccountCircleIcon />, name: 'Profile', link: `/users/${sessionCookies.user_id_token}` },
+    // { icon: <BuildIcon />, name: 'Projects', link: '/projects' },
+    // { icon: <AssignmentIndIcon />, name: 'Requests', link: '/requests' },
+    { icon: <AccountCircleIcon />, name: 'User Profile', link: `/users/` },
     { icon: <ExitToAppIcon />, name: 'Logout', onClick: handleLogout },
   ];
 
   const loggedOutActions = [
     { icon: <HomeIcon />, name: 'Home', link: '/' },
-    { icon: <BuildIcon />, name: 'Projects', link: '/projects' },
+    // { icon: <BuildIcon />, name: 'Projects', link: '/projects' },
     { icon: <ExitToAppIcon />, name: 'Login Page', link: '/login' },
   ];
 
