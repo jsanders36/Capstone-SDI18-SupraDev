@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Tabs, Tab, Typography, Box, Card } from "@mui/material";
+import { Tabs, Tab, Typography, Box, Card, Avatar } from "@mui/material";
 import { useCookies } from 'react-cookie';
 import { styled, useTheme } from '@mui/system';
 import { motion } from 'framer-motion';
@@ -9,10 +9,16 @@ import { motion } from 'framer-motion';
 const Projects = (props) => {
   const { profile, ...other } = props;
   const [projects, setProjects] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [username, setUsername] = useState("")
+  const maxLength = 25;
   const [filterVar, setFilterVar] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
-  const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
+  const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token']);
+  const [allUsers, setAllUsers] = useState([]);
+
+
 
   useEffect(() => {
     fetch("http://localhost:8080/projects")
@@ -21,9 +27,45 @@ const Projects = (props) => {
         const approvedProjects = projectsData.filter((p) => p.is_approved);
         setProjects(projectsData);
         setFilterVar(approvedProjects);
+        fetchUsers();
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const fetchUsers = () => {
+    fetch('http://localhost:8080/users')
+      .then((res) => res.json())
+      .then((projectsData) => setAllUsers(projectsData))
+  }
+
+  const findSubmitter = (assocSubId) => {
+    let outputUsername;
+    let outputUserImg;
+    for (let element in allUsers) {
+      if (allUsers[element].id === assocSubId) {
+        outputUsername = allUsers[element].username;
+        outputUserImg = allUsers[element].profile_pic;
+        return (
+          <div style={{display: 'flex', position: 'absolute', bottom: '0'}}>
+            <p style={{marginBottom: 'auto', textAlign: 'left'}}><Avatar src={outputUserImg} alt="User Avatar" style={{ float: 'left', outlineWidth: '1px', outlineColor: 'red', width: '40px', height: '40px' }}/></p>
+            <p style={{marginLeft: '5px', marginTop: '22px'}}>{outputUsername}</p>
+          </div>
+        )
+      }
+    }
+  }
+
+  const findAcceptor = (assocAccId) => {
+    let outputUsername;
+    for (let element in allUsers) {
+      if (allUsers[element].id === assocAccId) {
+        outputUsername = allUsers[element].username;
+        return (
+          outputUsername
+        )
+      }
+    }
+  }
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -56,6 +98,7 @@ const Projects = (props) => {
     navigate(`/projects/${projectId}`);
   };
 
+
   const HoverCard = styled(motion(Card))({
     '&:hover': {
         transform: 'scale(1.05)',
@@ -64,7 +107,16 @@ const Projects = (props) => {
     transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
 });
 
+function truncateText(text, maxLength) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength) + '...';
+}
+
+
   const cardStyle = {
+    position: 'relative',
     height: 300,
     width: '25%',
     margin: 8,
@@ -75,10 +127,12 @@ const Projects = (props) => {
     cursor: "pointer"
   };
 
+
+
   return (
 
   <div>
-
+    <p>  </p>
 
     <Box
       padding="20px"
@@ -95,6 +149,7 @@ const Projects = (props) => {
       <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
         {" "}
         Bounties{" "}
+        {users.username}
       </Typography>
 
       <Tabs
@@ -129,30 +184,31 @@ const Projects = (props) => {
             style={cardStyle}
             key={project.id}
             onClick={() => handleProjectClick(project.id)}>
-            <div key={project.id} style={{ textAlign: "center" }}>
+            <div key={project.id} style={{ textAlign: "center", marginBottom:'auto' }}>
               <h2>{project.name}</h2>
               <h3
                 style={{
                   color: project.is_completed
                     ? "green"
                     : project.is_accepted
-                    ? "yellow"
+                    ? "blue"
                     : "red",
                 }}>
                 {project.is_completed
-                  ? "complete"
+                  ? `Completed by ${findAcceptor(project.accepted_by_id)}`
                   : project.is_accepted
-                  ? "accepted"
-                  : "not accepted"}
+                  ? `Accepted by ${findAcceptor(project.accepted_by_id)}`
+                  : "Not Accepted"}
               </h3>
               <h3>
                 {/* {project.is_accepted ? "accepted by "  : "" } */}
               </h3>
 
-              <p style={{ marginLeft: "4px", textAlign: "left" }}>
-                Problem Statement: {project.problem_statement}
+              <p style={{ marginLeft: "4px", marginTop: 'auto', textAlign: "left" }}>
+                Problem Statement: {truncateText(project.problem_statement, maxLength)}
               </p>
             </div>
+            {findSubmitter(project.submitter_id)}
           </HoverCard>
         ))}
       </div>
