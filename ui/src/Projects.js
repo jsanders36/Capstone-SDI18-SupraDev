@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Tabs, Tab, List, Typography, Box, Card } from "@mui/material";
+import { Tabs, Tab, Typography, Box, Card } from "@mui/material";
 import { useCookies } from 'react-cookie';
+import { styled, useTheme } from '@mui/system';
+import { motion } from 'framer-motion';
 
 const Projects = (props) => {
   const { profile, ...other } = props;
@@ -54,9 +56,43 @@ const Projects = (props) => {
     navigate(`/projects/${projectId}`);
   };
 
+  const HoverCard = styled(motion(Card))({
+    '&:hover': {
+        transform: 'scale(1.05)',
+        boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
+    },
+    transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+});
+
+  const cardStyle = {
+    height: 300,
+    width: '25%',
+    margin: 8,
+    padding: 8,
+    textAlign: 'center',
+    borderRadius: "15px",
+    background: "rgba(255,255,255, 0.85)",
+    cursor: "pointer"
+  };
+
   return (
-    <Box padding="20px" height="90%" style={{ marginTop: "25px", marginLeft: "50px", marginRight: "50px" , marginBottom: "50px", background: 'rgba(255,255,255, 0.85)', borderRadius: '25px'}}>
-      <Typography variant="h4" gutterBottom style={{textAlign: "center"}}>
+
+  <div>
+
+
+    <Box
+      padding="20px"
+      height="90%"
+      style={{
+        marginTop: "25px",
+        marginLeft: "50px",
+        marginRight: "50px",
+        marginBottom: "50px",
+        backgroundColor: "rgba(255,255,255, 0.85)",
+        borderRadius: "25px",
+        //background: "rgba(255,255,255, 0.85)"
+      }}>
+      <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
         {" "}
         Bounties{" "}
       </Typography>
@@ -68,39 +104,59 @@ const Projects = (props) => {
         indicatorColor="primary"
         textColor="primary"
         bgcolor="primary">
-
         <Tab bgcolor="blue" label="All" />
         <Tab label="Unaccepted" />
         <Tab label="Accepted" />
         <Tab label="Complete" />
-        {sessionCookies.userPriv_Token === true ?  <Tab label="Pending" /> : <></>}
-
+        {sessionCookies.userPriv_Token === true ? (
+          <Tab label="Pending" />
+        ) : (
+          <></>
+        )}
       </Tabs>
 
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", marginTop: "20px" }}>
+    </Box>
 
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          marginTop: "20px",
+        }}>
         {filterVar.map((project) => (
-          <Card sx={{
-            height: 300,
-            width: '25%',
-            m: 2,
-            padding: 1,
-            textAlign: 'center',
-            borderRadius: "15px",
-            background: "rgba(96,112,151, .85)",
-            cursor: "pointer"
-          }}>
-            <div
-              key={project.id}
-              onClick={() => handleProjectClick(project.id)}
-              style={{textAlign: "center"}}>
+          <HoverCard
+            style={cardStyle}
+            key={project.id}
+            onClick={() => handleProjectClick(project.id)}>
+            <div key={project.id} style={{ textAlign: "center" }}>
               <h2>{project.name}</h2>
-              <p style={{marginLeft: '4px', textAlign: "left"}}>Problem Statement: {project.problem_statement}</p>
+              <h3
+                style={{
+                  color: project.is_completed
+                    ? "green"
+                    : project.is_accepted
+                    ? "yellow"
+                    : "red",
+                }}>
+                {project.is_completed
+                  ? "complete"
+                  : project.is_accepted
+                  ? "accepted"
+                  : "not accepted"}
+              </h3>
+              <h3>
+                {/* {project.is_accepted ? "accepted by "  : "" } */}
+              </h3>
+
+              <p style={{ marginLeft: "4px", textAlign: "left" }}>
+                Problem Statement: {project.problem_statement}
+              </p>
             </div>
-          </Card>
+          </HoverCard>
         ))}
       </div>
-    </Box>
+      </div>
   );
 };
 
