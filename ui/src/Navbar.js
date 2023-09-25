@@ -17,7 +17,7 @@ const Navbar = () => {
     let currentUserInfo;
     let profileButton;
     let requestsButton;
-
+    let navConnect;
     const userRefetch = async () => {
         await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
             .then((res) => res.json())
@@ -26,9 +26,13 @@ const Navbar = () => {
 
     if (sessionCookies.username_token === undefined) {
         loginButton = <Button className="button" onClick={() => navigate('/login')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Login Page</Button>;
+        navConnect = <></>
     } else {
         loginButton = <></>
+        navConnect = <NavbarConnect/>
     }
+
+
 
     if (sessionCookies.username_token) {
         userRefetch();
@@ -53,6 +57,7 @@ const Navbar = () => {
         // </Button>
         requestsButton = <Button onClick={() => navigate('/requests')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Submit Request</Button>;
         if (sessionCookies.userPriv_Token === true) {
+            console.log('sussy')
             profileButton = <Button onClick={() => navigate(`/supracoders/${sessionCookies.user_id_token}`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', marginLeft: '10px', marginTop: '10px', marginBottom: '10px', marginRight: 'auto', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Admin Page</Button>
         } else {
             profileButton = <Button onClick={() => navigate(`/users/`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', marginLeft: '10px', marginTop: '10px', marginBottom: '10px', marginRight: 'auto', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>User Page</Button>
@@ -68,7 +73,7 @@ const Navbar = () => {
             {loginButton}
             {/* {logoutButton} */}
             {/* {currentUserInfo} */}
-            {<NavbarConnect/>}
+            {navConnect}
         </div>
     )
 }
