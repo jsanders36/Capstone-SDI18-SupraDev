@@ -117,7 +117,7 @@ function truncateText(text, maxLength) {
 
   const cardStyle = {
     position: 'relative',
-    height: 300,
+    height: 200,
     width: '25%',
     margin: 8,
     padding: 8,
