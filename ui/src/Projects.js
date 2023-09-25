@@ -9,11 +9,16 @@ import { motion } from 'framer-motion';
 const Projects = (props) => {
   const { profile, ...other } = props;
   const [projects, setProjects] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [username, setUsername] = useState("")
+  const maxLength = 25;
   const [filterVar, setFilterVar] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
   const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token']);
   const [allUsers, setAllUsers] = useState([]);
+
+
 
   useEffect(() => {
     fetch("http://localhost:8080/projects")
@@ -93,6 +98,7 @@ const Projects = (props) => {
     navigate(`/projects/${projectId}`);
   };
 
+
   const HoverCard = styled(motion(Card))({
     '&:hover': {
         transform: 'scale(1.05)',
@@ -100,6 +106,14 @@ const Projects = (props) => {
     },
     transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
 });
+
+function truncateText(text, maxLength) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength) + '...';
+}
+
 
   const cardStyle = {
     position: 'relative',
@@ -113,10 +127,12 @@ const Projects = (props) => {
     cursor: "pointer"
   };
 
+
+
   return (
 
   <div>
-
+    <p>  </p>
 
     <Box
       padding="20px"
@@ -133,6 +149,7 @@ const Projects = (props) => {
       <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
         {" "}
         Bounties{" "}
+        {users.username}
       </Typography>
 
       <Tabs
@@ -188,7 +205,7 @@ const Projects = (props) => {
               </h3>
 
               <p style={{ marginLeft: "4px", marginTop: 'auto', textAlign: "left" }}>
-                Problem Statement: {project.problem_statement}
+                Problem Statement: {truncateText(project.problem_statement, maxLength)}
               </p>
             </div>
             {findSubmitter(project.submitter_id)}
