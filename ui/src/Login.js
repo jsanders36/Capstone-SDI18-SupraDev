@@ -38,13 +38,13 @@ const Login = () => {
             console.log(element)
             if (element.username === usernameLogin) {
                 accountMatch = true;
-                if(element.password === SHA256(passwordLogin).toString()) {
+                if (element.password === SHA256(passwordLogin).toString()) {
                     removeSessionCookies('user_id_token');
                     removeSessionCookies('username_token');
-                    setSessionCookies('user_id_token', element.id, { path: '/'});
-                    setSessionCookies('username_token', element.username, { path: '/'});
-                    setSessionCookies('userPriv_Token', element.is_supracoder, { path: '/'})
-                    navigate('/');
+                    setSessionCookies('user_id_token', element.id, { path: '/' });
+                    setSessionCookies('username_token', element.username, { path: '/' });
+                    setSessionCookies('userPriv_Token', element.is_supracoder, { path: '/' })
+                    navigate('/home');
                     window.location.reload();
                     setUsernameLogin('');
                     setPasswordLogin('');
@@ -88,60 +88,175 @@ const Login = () => {
 
     return (
         <>
-            <Paper elevation={0} style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center', background: 'rgba(255,255,255, 0)', maxWidth: '920px', marginLeft: '20%', marginRight: '20%', padding: '4px' }}>
-                <Card sx={{
-                    minWidth: 400,
-                    maxWidth: 512,
-                    m: 2,
-                    marginLeft: '20%',
-                    marginRight: '20%',
-                    marginTop: '23px',
-                    padding: 1,
-                    textAlign: 'left',
-                    borderRadius: '25px',
-                    background: 'rgba(255,255,255, 0.85)'
-
-                }} id='loginContainer'>
-                    <h3>{"  "} Login</h3>
+            <Paper
+                elevation={0}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    background: 'rgba(255,255,255, 0)',
+                    margin: '0 auto',
+                    padding: '20px',
+                    maxWidth: '920px',
+                }}
+            >
+                <Card
+                    sx={{
+                        width: ['90%', '70%', '60%'],
+                        m: 2,
+                        padding: 2,
+                        textAlign: 'center',
+                        borderRadius: '25px',
+                        background: 'rgba(255,255,255, 0.9)',
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    }}
+                    id='loginContainer'
+                >
+                    <h3>Login</h3>
                     <form id='loginCreds'>
-                        <TextField className='inputText' label='Username' variant="outlined" type='text' value={usernameLogin} onChange={(e) => setUsernameLogin(e.target.value)} placeholder='Username' size='small' style={{ gap: '10px', margin: '10px' }} />
-                        <TextField className='inputText' label='Password' variant="outlined" type='password' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Password' size='small' style={{ gap: '10px', margin: '10px' }} />
+                        <TextField
+                            fullWidth
+                            className='inputText'
+                            label='Username'
+                            variant="outlined"
+                            type='text'
+                            value={usernameLogin}
+                            onChange={(e) => setUsernameLogin(e.target.value)}
+                            placeholder='Username'
+                            size='small'
+                            margin='normal'
+                        />
+                        <TextField
+                            fullWidth
+                            className='inputText'
+                            label='Password'
+                            variant="outlined"
+                            type='password'
+                            value={passwordLogin}
+                            onChange={(e) => setPasswordLogin(e.target.value)}
+                            placeholder='Password'
+                            size='small'
+                            margin='normal'
+                        />
+                        <Button
+                            fullWidth
+                            type='submit'
+                            onClick={() => LogIntoAccount()}
+                            variant='contained'
+                            color='secondary'
+                            style={{ marginTop: '15px' }}
+                        >
+                            Login
+                        </Button>
                     </form>
-                    <Button type='submit' onClick={() => LogIntoAccount()} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Login</Button>
                 </Card>
 
-                <Card sx={{
-                    minWidth: 400,
-                    maxWidth: 512,
-                    m: 2,
-                    marginLeft: '20%',
-                    marginRight: '20%',
-                    padding: 1,
-                    textAlign: 'left',
-                    borderRadius: '25px',
-                    background: 'rgba(255,255,255, 0.85)'
-                }} id='createAccountContainer'>
-                    <h3>{"  "} Don't have an account? Create one below!</h3>
+                <Card
+                    sx={{
+                        width: ['90%', '70%', '60%'],
+                        m: 2,
+                        padding: 2,
+                        textAlign: 'center',
+                        borderRadius: '25px',
+                        background: 'rgba(255,255,255, 0.9)',
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                    }}
+                    id='createAccountContainer'
+                >
+                    <h3>Create Account</h3>
                     <div id='createAccountInputName'>
-                        <TextField className='inputText' label='First Name' variant="outlined" type='text' value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder='First Name' size='small' style={{ gap: '10px', margin: '10px' }} />
-                        <TextField className='inputText' label='Last Name' variant="outlined" type='text' value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder='Last Name' size='small' style={{ gap: '10px', margin: '10px' }} />
+                        <TextField
+                            fullWidth
+                            className='inputText'
+                            label='First Name'
+                            variant="outlined"
+                            type='text'
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            placeholder='First Name'
+                            size='small'
+                            margin='normal'
+                        />
+                        <TextField
+                            fullWidth
+                            className='inputText'
+                            label='Last Name'
+                            variant="outlined"
+                            type='text'
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            placeholder='Last Name'
+                            size='small'
+                            margin='normal'
+                        />
                     </div>
                     <div id='createAccountUserCreds'>
-                        <TextField className='inputText' label='Username' variant="outlined" type='text' value={username} onChange={(e) => setUsername(e.target.value)} placeholder='Username' size='small' style={{ gap: '10px', margin: '10px' }} />
-                        <TextField className='inputText' label='Password' variant="outlined" type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' size='small' style={{ gap: '10px', margin: '10px' }} />
+                        <TextField
+                            fullWidth
+                            className='inputText'
+                            label='Username'
+                            variant="outlined"
+                            type='text'
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder='Username'
+                            size='small'
+                            margin='normal'
+                        />
+                        <TextField
+                            fullWidth
+                            className='inputText'
+                            label='Password'
+                            variant="outlined"
+                            type='password'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder='Password'
+                            size='small'
+                            margin='normal'
+                        />
                     </div>
                     <div id='createAccountPicNDesc'>
-                        <TextField className='inputText' label='Profile Picture URL' variant="outlined" type='text' value={profilePic} onChange={(e) => setProfilePic(e.target.value)} placeholder='Profile Picture URL' size='small' style={{ gap: '10px', margin: '10px' }} />
-                        <TextField className='inputText' label='User Description' variant="outlined" type='text' multiline rows={3} value={userSummary} onChange={(e) => setUserSummary(e.target.value)} placeholder='User Description' size='small' style={{ gap: '10px', margin: '10px' }} />
+                        <TextField
+                            fullWidth
+                            className='inputText'
+                            label='Profile Picture URL'
+                            variant="outlined"
+                            type='text'
+                            value={profilePic}
+                            onChange={(e) => setProfilePic(e.target.value)}
+                            placeholder='Profile Picture URL'
+                            size='small'
+                            margin='normal'
+                        />
+                        <TextField
+                            fullWidth
+                            className='inputText'
+                            label='User Description'
+                            variant="outlined"
+                            type='text'
+                            multiline
+                            rows={3}
+                            value={userSummary}
+                            onChange={(e) => setUserSummary(e.target.value)}
+                            placeholder='User Description'
+                            size='small'
+                            margin='normal'
+                        />
                     </div>
-                    <Button onClick={() => CreateAccount()} variant='contained' color='secondary' style={{ gap: '10px', margin: '10px' }}>Create Account</Button>
+                    <Button
+                        fullWidth
+                        onClick={() => CreateAccount()}
+                        variant='contained'
+                        color='secondary'
+                        style={{ marginTop: '15px' }}
+                    >
+                        Create Account
+                    </Button>
                 </Card>
             </Paper>
         </>
-    )
-
+    );
 }
-
-
 
 export default Login;
