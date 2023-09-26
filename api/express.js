@@ -41,6 +41,7 @@ app.post('/users', (req, res) => {
         req.body.profile_pic,
         req.body.user_summary,
         req.body.is_supracoder,
+        req.body.supradoubloons,
         `post was successful`
       );
       console.log('post was successful')
@@ -61,6 +62,7 @@ app.patch('/users/:id', (req, res) => {
       profile_pic: req.body.profile_pic,
       user_summary: req.body.user_summary,
       is_supracoder: req.body.is_supracoder,
+      supradoubloons: req.body.supradoubloons,
     })
     .then((updateRows) => res.status(200).send('user updated'))
 })
@@ -105,7 +107,7 @@ app.get('/projects/:id', (req, res) => {
 
 
 app.post('/projects', (req, res) => {
-  const { submitter_id, accepted_by_id, name, problem_statement, is_accepted, is_approved, is_completed } = req.body;
+  const { submitter_id, accepted_by_id, name, problem_statement, is_accepted, is_approved, is_completed, bounty_payout, github_url } = req.body;
 
   knex("user_table")
     .whereIn('id', [submitter_id, accepted_by_id])
@@ -124,6 +126,9 @@ app.post('/projects', (req, res) => {
           is_completed,
           submitter_id,
           accepted_by_id,
+          bounty_payout,
+          github_url,
+
         })
         .then((newProject) => {
           res.status(201).send("Project created successfully");
@@ -193,6 +198,8 @@ app.patch('/projects/:id', (req, res) => {
       is_accepted: req.body.is_accepted,
       accepted_by_id: req.body.accepted_by_id,
       is_completed: req.body.is_completed,
+      bounty_payout: req.body.bounty_payout,
+      github_url: req.body.github_url,
     })
     .then((updateRows) => res.status(200).send('project updated'))
 })
