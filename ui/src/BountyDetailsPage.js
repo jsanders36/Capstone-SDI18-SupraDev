@@ -142,7 +142,7 @@ const BountyDetailsPage = () => {
             gutterBottom
             color="blue"
             style={{ fontWeight: "bold", marginBottom: "1.5rem" }}>
-            Bounty: {bounty.bounty_payout}
+            {bounty.bounty_payout}
             {sessionCookies.userPriv_Token === true &&
             bounty.is_approved === false &&
             bounty.is_completed === false ? (
@@ -150,7 +150,7 @@ const BountyDetailsPage = () => {
             ) : (
               <></>
             )}
-            ! Supra Doubloons
+            <> </> Supra Doubloons!
           </Typography>
 
           {sessionCookies.userPriv_Token === true &&
