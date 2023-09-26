@@ -9,6 +9,26 @@
   }
 }
 
+@keyframes moveBackground {
+  0%,
+  100% {
+    background-position: center 0;
+  }
+  50% {
+    background-position: center 100px;
+  }
+}
+
+@keyframes zoomIn {
+  0%,
+  100% {
+    background-size: 100% 100%;
+  }
+  50% {
+    background-size: 120% 120%;
+  }
+}
+
 .landing-container {
   display: flex;
   flex-direction: column;
@@ -19,6 +39,8 @@
     url("https://wallpapers.com/images/hd/cyber-background-bjpm7sds6dv0wed5.jpg");
   background-size: cover;
   background-position: center;
+  animation: moveBackground 5s infinite;
+  animation: zoomIn 5s infinite;
 }
 
 .logo-container {
