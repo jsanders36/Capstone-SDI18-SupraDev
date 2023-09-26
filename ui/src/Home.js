@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Avatar, Box, Card, CardContent, CardHeader, Grid, List, ListItem,
@@ -7,6 +7,7 @@ import {
 import { styled, useTheme } from '@mui/system';
 import { motion } from 'framer-motion';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Notification from './Notifications'
 
 const HoverCard = styled(motion(Card))(({ theme }) => ({
     '&:hover': {
@@ -26,8 +27,26 @@ const HoverCard = styled(motion(Card))(({ theme }) => ({
 
 const HomePage = () => {
     const theme = useTheme();
+    const [projects, setProjects] = useState([]);
+    const [allUsers, setAllUsers] = useState([]);
 
+    useEffect(() => {
+        // Fetch the projects
+        fetch("http://localhost:8080/projects")
+            .then((res) => res.json())
+            .then((projectData) => {
+                setProjects(projectData);
+            })
+            .catch((err) => console.log(err));
 
+        // Fetch the users
+        fetch("http://localhost:8080/users")
+            .then((res) => res.json())
+            .then((userData) => {
+                setAllUsers(userData);
+            })
+            .catch((err) => console.log(err));
+    }, []);
 
     const spaceSoftware = [
         {
@@ -111,14 +130,14 @@ const HomePage = () => {
                             <CardHeader title="Space Software News" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
                             <CardContent>
                                 {spaceSoftware.map((softwareItem, index) => (
-                                   <div key={index}>
-                                   <Typography variant="h6" color="primary">
-                                     <a href={softwareItem.link} target="_blank" rel="noopener noreferrer">{softwareItem.title.slice(0, 100)}</a>
-                                   </Typography>
-                                   <Typography variant="body1" mt={1}>
-                                     {softwareItem.description.slice(0, 250)}...
-                                   </Typography>
-                                 </div>
+                                    <div key={index}>
+                                        <Typography variant="h6" color="primary">
+                                            <a href={softwareItem.link} target="_blank" rel="noopener noreferrer">{softwareItem.title.slice(0, 100)}</a>
+                                        </Typography>
+                                        <Typography variant="body1" mt={1}>
+                                            {softwareItem.description.slice(0, 250)}...
+                                        </Typography>
+                                    </div>
                                 ))}
 
                             </CardContent>
@@ -148,6 +167,13 @@ const HomePage = () => {
                                 <Typography variant="subtitle1" color="textSecondary">
                                     You have 3 new project invitations!
                                 </Typography>
+                                <div className="notification-section">
+                                    {projects.map((project) => (
+                                        <Notification key={project.id} project={project} username={findUsername(project.submitter_id)} />
+
+
+                                    ))}
+                                </div>
                             </CardContent>
                         </HoverCard>
                     </Grid>

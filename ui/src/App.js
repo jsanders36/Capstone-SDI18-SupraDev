@@ -19,6 +19,7 @@ import OtherUser from "./OthersProfile";
 // import SupraCoderDetails from "./SupraCoderDetails";
 import ChatPage from "./ChatPage";
 
+
 function Content() {
   const location = useLocation();
 
