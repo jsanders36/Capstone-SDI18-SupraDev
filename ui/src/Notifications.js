@@ -26,7 +26,8 @@ const Notification = ({ project, username, submitter, submitterImg, acceptedImg,
             ? `${project.name} project has been accepted by ${username}`
             : `${project.name} project has been created by ${submitter}`}
         </Typography>
-      </div>
+            </div>
+
       </Stack>
   </Box>
 );

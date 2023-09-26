@@ -188,7 +188,7 @@ const Projects = (props) => {
               <h2>{truncateText(project.name, maxLength)}</h2>
 
               <h4>
-                Bounty: {project.bounty_payout}!
+                Points {project.bounty_payout}!
               </h4>
 
               <h3
