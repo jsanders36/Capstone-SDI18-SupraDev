@@ -18,9 +18,7 @@ const Notification = ({ project, username, submitter, submitterImg, acceptedImg,
                     </a>
                 }
             </p>
-            <a href={`http://localhost:3000/projects/${project.id}`}>
                 {project.is_completed ? `${project.name} project has been completed by ${username}` : project.is_accepted ? `${project.name} project has been accepted by ${username}` : `${project.name} project has been created by ${submitter}`}
-            </a>
         </Typography>
     </>
 );
