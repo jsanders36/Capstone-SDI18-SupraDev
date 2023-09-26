@@ -144,12 +144,17 @@ const SupracoderProfilePage = () => {
     const personalInfoRender = () => {
         if (editProfile === false) {
             return (
-                <>
-                    <Typography variant="subtitle1">{userObj.first_name} {userObj.last_name}</Typography>
-                    <Typography variant="subtitle1">Job Title: {userObj.job_title}</Typography>
-                    <Typography variant="subtitle1">Email: {userObj.email}</Typography>
-                    <Typography variant="body1">Description: {userObj.user_summary}</Typography>
-                </>
+                <div style={{display: 'flex'}}>
+                    <div>
+                        <Typography variant="subtitle1">{userObj.first_name} {userObj.last_name}</Typography>
+                        <Typography variant="subtitle1">Job Title: {userObj.job_title}</Typography>
+                        <Typography variant="subtitle1">Email: {userObj.email}</Typography>
+                        <Typography variant="body1">Description: {userObj.user_summary}</Typography>
+                    </div>
+                    <h2 style={{display: 'flex', marginLeft: '100px'}}>
+                        <p>Earned Doubloons:</p><img src='https://github.com/jsanders36/Capstone-SDI18-SupraDev/blob/main/ui/public/supradoubloon.png?raw=true' style={{marginTop: '27px', marginLeft: '25px', marginRight: '7px'}} alt='supradoubloons' height='30px' width='30px'/><p style={{color: 'blue'}}>{userObj.supradoubloons}</p>
+                    </h2>
+                </div>
             )
         } else if (editProfile === true) {
 
