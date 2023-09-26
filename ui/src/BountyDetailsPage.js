@@ -102,8 +102,8 @@ const BountyDetailsPage = () => {
     }
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" bgcolor="#f5f5f5">
-            <Paper elevation={5} style={{ padding: '40px', maxWidth: '800px', width: '100%' }}>
+        <Box display="flex" justifyContent="center" minHeight="100vh" bgcolor="rgba(255, 255, 255, 0)">
+            <Paper elevation={5} style={{borderRadius: '25px', background:'rgba(255,255,255, 0.85)', padding: '40px', marginTop: '25px', maxHeight: '400px', maxWidth: '800px', width: '100%' }}>
                 <Typography variant="h4" gutterBottom style={{ fontWeight: 'bold', marginBottom: '1.5rem' }}>
                     {bounty.name}
                 </Typography>
