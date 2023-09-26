@@ -218,7 +218,7 @@ const Projects = (props) => {
 
 Projects.propTypes = {
   projects: PropTypes.array,
-  allUsers: PropTypes.array,
+  outputUsername: PropTypes.array
   // profile: PropTypes.object.isRequired,
 };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Avatar, Box, Card, CardContent, CardHeader, Grid, List, ListItem,
-    ListItemAvatar, ListItemText, Typography, Paper, Button, Container,
+    ListItemAvatar, ListItemText, Typography, Paper, Button, Container, Divider
 } from '@mui/material';
 import { styled, useTheme } from '@mui/system';
 import { motion } from 'framer-motion';
@@ -47,6 +47,76 @@ const HomePage = () => {
             })
             .catch((err) => console.log(err));
     }, []);
+
+    const findSubmitter = (assocSubId) => {
+        let outputUsername;
+        for (let element in allUsers) {
+          if (allUsers[element].id === assocSubId) {
+            outputUsername = allUsers[element].username;
+            return (
+                outputUsername
+            )
+          }
+        }
+      }
+      const findSubmitterImg = (assocSubId) => {
+        let outputUserImg;
+        for (let element in allUsers) {
+          if (allUsers[element].id === assocSubId) {
+            outputUserImg = allUsers[element].profile_pic;
+            return (
+                outputUserImg
+            )
+          }
+        }
+      }
+
+      const findAcceptedImg = (assocSubId) => {
+        let outputUserImg;
+        for (let element in allUsers) {
+          if (allUsers[element].id === assocSubId) {
+            outputUserImg = allUsers[element].profile_pic;
+            return (
+                outputUserImg
+            )
+          }
+        }
+      }
+      const findSubmittedUserId= (assocSubId) => {
+        let UserId;
+        for (let element in allUsers) {
+          if (allUsers[element].id === assocSubId) {
+            UserId = allUsers[element].id;
+            return (
+                UserId
+            )
+          }
+        }
+      }
+
+      const findAcceptedUserId= (assocSubId) => {
+        let UserId;
+        for (let element in allUsers) {
+          if (allUsers[element].id === assocSubId) {
+            UserId = allUsers[element].id;
+            return (
+                UserId
+            )
+          }
+        }
+      }
+
+      const findAcceptor = (assocAccId) => {
+        let outputUsername;
+        for (let element in allUsers) {
+          if (allUsers[element].id === assocAccId) {
+            outputUsername = allUsers[element].username;
+            return (
+              outputUsername
+            )
+          }
+        }
+      }
 
     const spaceSoftware = [
         {
@@ -102,7 +172,13 @@ const HomePage = () => {
                 textAlign: 'center',
                 padding: '40px 0',
                 mb: 4,
-                backgroundImage: 'linear-gradient(135deg, #020024 0%, #090979 37%, #00d4ff 100%)',
+                // backgroundColor: '#261928',
+                backgroundImage: 'url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/9-abstract-smoke-duxx.jpg)',
+                // 'linear-gradient(135deg, #020024 0%, #090979 37%, #00d4ff 100%)',
+                // backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'fixed',
                 color: '#FFF',
                 borderRadius: '15px',
             }}>
@@ -120,31 +196,54 @@ const HomePage = () => {
                     </Box>
                 </Link>
             </Paper>
+            <Grid container spacing={4} sx={{ width: '100%' }}>
+                    {/* Notifications */}
+                <Grid item xs={6} md={3}>
+                    <Card elevation={3} sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(5px)' }}>
+                        <CardHeader title="Recent Activity" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
+                            <CardContent>
+                                <Typography variant="subtitle1" color="textSecondary">
+                                    {`There are currently ${projects.length} projects being worked`}
+                                </Typography>
+                                {[...projects].reverse().map((project) => (
+                                <div className="notification-section" key={project.id}>
+                                    <Notification
+                                        key={project.id}
+                                        project={project}
+                                        username={findAcceptor(project.accepted_by_id)}
+                                        submitter={findSubmitter(project.submitter_id)}
+                                        submittedUserId={project.submitter_id}
+                                        acceptedUserId={project.accepted_by_id}
+                                        submitterImg={findSubmitterImg(project.submitter_id)}
+                                        acceptedImg={findAcceptedImg(project.accepted_by_id)}
+                                    />
+                                </div>
+                                ))}
+                            </CardContent>
+                    </Card>
+                </Grid>
 
-
-            <Container maxWidth="lg">
-                <Grid container spacing={4} direction="column">
                     {/* Space Software */}
-                    <Grid item xs={12}>
-                        <HoverCard className="card" elevation={3}>
-                            <CardHeader title="Space Software News" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
+                <Grid item xs={15} md={9}>
+                    <Card className="card" elevation={3}>
+                        <CardHeader title="Space Software News" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
                             <CardContent>
                                 {spaceSoftware.map((softwareItem, index) => (
-                                    <div key={index}>
-                                        <Typography variant="h6" color="primary">
-                                            <a href={softwareItem.link} target="_blank" rel="noopener noreferrer">{softwareItem.title.slice(0, 100)}</a>
-                                        </Typography>
-                                        <Typography variant="body1" mt={1}>
-                                            {softwareItem.description.slice(0, 250)}...
-                                        </Typography>
-                                    </div>
+                                <div key={index}>
+                                    <Typography variant="h6" color="primary">
+                                        <a href={softwareItem.link} target="_blank" rel="noopener noreferrer">{softwareItem.title.slice(0, 100)}</a>
+                                    </Typography>
+                                    <Typography variant="body1" mt={1}>
+                                        {softwareItem.description.slice(0, 500)}...
+                                    </Typography>
+                                </div>
                                 ))}
-
                             </CardContent>
-                        </HoverCard>
-                    </Grid>
+                    </Card>
+                </Grid>
+            </Grid>
 
-                    {/* Highlights */}
+                    {/* Highlights
                     <Grid item xs={12} md={6}>
                         <HoverCard elevation={3} sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(5px)' }}>
                             <CardHeader title="Highlights" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
@@ -157,28 +256,12 @@ const HomePage = () => {
                                 </Typography>
                             </CardContent>
                         </HoverCard>
-                    </Grid>
-
+                    </Grid> */}
+                    <Divider orientation="vertical" flexItem />
                     {/* Latest Notifications */}
-                    <Grid item xs={12} md={6}>
-                        <HoverCard elevation={3} sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(5px)' }}>
-                            <CardHeader title="Latest Notifications" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
-                            <CardContent>
-                                <Typography variant="subtitle1" color="textSecondary">
-                                    You have 3 new project invitations!
-                                </Typography>
-                                <div className="notification-section">
-                                    {projects.map((project) => (
-                                        <Notification key={project.id} project={project} username={findUsername(project.submitter_id)} />
 
 
-                                    ))}
-                                </div>
-                            </CardContent>
-                        </HoverCard>
-                    </Grid>
-
-                    {/* User Activity */}
+                    {/* User Activity
                     <Grid item xs={12} md={6}>
                         <HoverCard elevation={3} sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(5px)' }}>
                             <CardHeader title="Recent Activity" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
@@ -211,20 +294,15 @@ const HomePage = () => {
                                 </List>
                             </CardContent>
                         </HoverCard>
-                    </Grid>
+                    </Grid> */}
 
-                    {/* Footer */}
-                    <Grid item xs={12}>
                         <Box sx={{ width: '100%', textAlign: 'center', mt: 4, color: 'white', backgroundImage: 'linear-gradient(135deg, #020024 0%, #090979 37%, #00d4ff 100%)' }}>
 
                             <Typography variant="body2">
                                 © 2023 Supra Dev. All Rights Reserved.
                             </Typography>
                         </Box>
-                    </Grid>
-                </Grid>
-            </Container>
-        </Box>
+            </Box>
     );
 };
 
