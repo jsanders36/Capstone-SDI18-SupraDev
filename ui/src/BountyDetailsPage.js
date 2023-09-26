@@ -106,10 +106,11 @@ const BountyDetailsPage = () => {
     }
 
     return (
+    <>
       <Box display="flex" justifyContent="center" minHeight="100vh" bgcolor="rgba(255, 255, 255, 0)">
-          
+
         <Paper elevation={5} style={{borderRadius: '25px', background:'rgba(255,255,255, 0.85)', padding: '40px', marginTop: '25px', maxHeight: '400px', maxWidth: '800px', width: '100%' }}>
-                
+
           <Typography
             variant="h4"
             gutterBottom
@@ -288,6 +289,7 @@ const BountyDetailsPage = () => {
                 {(sessionCookies.userPriv_Token === true) && (bounty.is_approved === false) && (bounty.is_completed === false)?  <Button onClick={() => thanosSnap()} variant="contained" color="error" style={{ margin: '5px' }}>Deny</Button>  : <></>}
             </Paper>
         </Box>
+    </>
     );
 }
 
