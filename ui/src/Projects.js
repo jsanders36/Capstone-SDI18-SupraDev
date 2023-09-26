@@ -11,7 +11,7 @@ const Projects = (props) => {
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
   const [username, setUsername] = useState("")
-  const maxLength = 25;
+  const maxLength = 22;
   const [filterVar, setFilterVar] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
   const navigate = useNavigate();
@@ -117,7 +117,7 @@ function truncateText(text, maxLength) {
 
   const cardStyle = {
     position: 'relative',
-    height: 200,
+    height: 220,
     width: '25%',
     margin: 8,
     padding: 8,
@@ -186,6 +186,11 @@ function truncateText(text, maxLength) {
             onClick={() => handleProjectClick(project.id)}>
             <div key={project.id} style={{ textAlign: "center", marginBottom:'auto' }}>
               <h2>{truncateText(project.name, maxLength)}</h2>
+
+              <h4>
+                Bounty: {project.bounty_payout}!
+              </h4>
+
               <h3
                 style={{
                   color: project.is_completed
@@ -200,9 +205,7 @@ function truncateText(text, maxLength) {
                   ? `Accepted by ${findAcceptor(project.accepted_by_id)}`
                   : "Not Accepted"}
               </h3>
-              <h3>
-                {/* {project.is_accepted ? "accepted by "  : "" } */}
-              </h3>
+
 
               <p style={{ marginLeft: "4px", marginTop: 'auto', textAlign: "left" }}>
                 Problem Statement: {truncateText(project.problem_statement, maxLength)}
