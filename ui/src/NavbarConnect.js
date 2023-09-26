@@ -40,14 +40,14 @@ const NavbarConnect = () => {
     { icon: <ExitToAppIcon />, name: 'Logout', onClick: handleLogout },
   ];
   const userActions = [
-    { icon: <HomeIcon />, name: 'Home', link: '/' },
+    { icon: <HomeIcon />, name: 'Home', link: '/home' },
     // { icon: <BuildIcon />, name: 'Projects', link: '/projects' },
     // { icon: <AssignmentIndIcon />, name: 'Requests', link: '/requests' },
     { icon: <AccountCircleIcon />, name: 'User Profile', link: `/users/` },
     { icon: <ExitToAppIcon />, name: 'Logout', onClick: handleLogout },
   ];
   const loggedOutActions = [
-    { icon: <HomeIcon />, name: 'Home', link: '/' },
+    { icon: <HomeIcon />, name: 'Home', link: '/home' },
     // { icon: <BuildIcon />, name: 'Projects', link: '/projects' },
 
     { icon: <ExitToAppIcon />, name: 'Login Page', link: '/login' },

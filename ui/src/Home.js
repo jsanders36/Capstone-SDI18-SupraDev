@@ -196,15 +196,15 @@ const HomePage = () => {
                     </Box>
                 </Link>
             </Paper>
-            <Grid container spacing={4} sx={{ width: '100%' }}>
+            <Grid container spacing={2} sx={{ width: '100%' }}>
                     {/* Notifications */}
-                <Grid item xs={6} md={3}>
+                <Grid item xs={20} md={3}>
                     <Card elevation={3} sx={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(5px)' }}>
                         <CardHeader title="Recent Activity" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
-                            <CardContent>
-                                <Typography variant="subtitle1" color="textSecondary">
-                                    {`There are currently ${projects.length} projects being worked`}
-                                </Typography>
+                        <Typography variant="subtitle2" color="textSecondary">
+                                    {/* {`There are currently ${projects.length} projects being worked`} */}
+                        </Typography>
+                        <CardContent>
                                 {[...projects].reverse().map((project) => (
                                 <div className="notification-section" key={project.id}>
                                     <Notification
@@ -224,7 +224,7 @@ const HomePage = () => {
                 </Grid>
 
                     {/* Space Software */}
-                <Grid item xs={15} md={9}>
+                <Grid item xs={10} md={9}>
                     <Card className="card" elevation={3}>
                         <CardHeader title="Space Software News" titleTypographyProps={{ variant: 'h5', fontWeight: 'bold' }} />
                             <CardContent>
