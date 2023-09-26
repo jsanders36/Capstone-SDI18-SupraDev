@@ -117,7 +117,7 @@ function truncateText(text, maxLength) {
 
   const cardStyle = {
     position: 'relative',
-    height: 300,
+    height: 200,
     width: '25%',
     margin: 8,
     padding: 8,
@@ -185,7 +185,7 @@ function truncateText(text, maxLength) {
             key={project.id}
             onClick={() => handleProjectClick(project.id)}>
             <div key={project.id} style={{ textAlign: "center", marginBottom:'auto' }}>
-              <h2>{project.name}</h2>
+              <h2>{truncateText(project.name, maxLength)}</h2>
               <h3
                 style={{
                   color: project.is_completed

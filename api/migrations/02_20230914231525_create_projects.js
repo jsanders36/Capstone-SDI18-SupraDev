@@ -14,6 +14,8 @@ exports.up = function(knex) {
     table.integer('accepted_by_id');
     table.foreign('accepted_by_id').references('user_table.id');
     table.boolean('is_completed');
+    table.integer('bounty_payout');
+    table.string('github_url')
   })
 };
 

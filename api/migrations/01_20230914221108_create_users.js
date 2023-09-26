@@ -14,6 +14,7 @@ exports.up = function(knex) {
     table.string('profile_pic');
     table.string('user_summary');
     table.boolean('is_supracoder');
+    table.integer('supradoubloons');
   });
 };
 
