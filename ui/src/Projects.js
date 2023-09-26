@@ -46,9 +46,9 @@ const Projects = (props) => {
         outputUsername = allUsers[element].username;
         outputUserImg = allUsers[element].profile_pic;
         return (
-          <div style={{display: 'flex', position: 'absolute', bottom: '0'}}>
-            <p style={{marginBottom: 'auto', textAlign: 'left'}}><Avatar src={outputUserImg} alt="User Avatar" style={{ float: 'left', outlineWidth: '1px', outlineColor: 'red', width: '40px', height: '40px' }}/></p>
-            <p style={{marginLeft: '5px', marginTop: '22px'}}>{outputUsername}</p>
+          <div style={{ display: 'flex', position: 'absolute', bottom: '0' }}>
+            <p style={{ marginBottom: 'auto', textAlign: 'left' }}><Avatar src={outputUserImg} alt="User Avatar" style={{ float: 'left', outlineWidth: '1px', outlineColor: 'red', width: '40px', height: '40px' }} /></p>
+            <p style={{ marginLeft: '5px', marginTop: '22px' }}>{outputUsername}</p>
           </div>
         )
       }
@@ -101,18 +101,18 @@ const Projects = (props) => {
 
   const HoverCard = styled(motion(Card))({
     '&:hover': {
-        transform: 'scale(1.05)',
-        boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
+      transform: 'scale(1.05)',
+      boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
     },
     transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-});
+  });
 
-function truncateText(text, maxLength) {
-  if (text.length <= maxLength) {
-    return text;
+  function truncateText(text, maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    return text.slice(0, maxLength) + '...';
   }
-  return text.slice(0, maxLength) + '...';
-}
 
 
   const cardStyle = {
@@ -131,46 +131,46 @@ function truncateText(text, maxLength) {
 
   return (
 
-  <div>
-    <p>  </p>
+    <div>
+      <p>  </p>
 
-    <Box
-      padding="20px"
-      height="90%"
-      style={{
-        marginTop: "25px",
-        marginLeft: "50px",
-        marginRight: "50px",
-        marginBottom: "50px",
-        backgroundColor: "rgba(255,255,255, 0.85)",
-        borderRadius: "25px",
-        //background: "rgba(255,255,255, 0.85)"
-      }}>
-      <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
-        {" "}
-        Bounties{" "}
-        {users.username}
-      </Typography>
+      <Box
+        padding="20px"
+        height="90%"
+        style={{
+          marginTop: "25px",
+          marginLeft: "50px",
+          marginRight: "50px",
+          marginBottom: "50px",
+          backgroundColor: "rgba(255,255,255, 0.85)",
+          borderRadius: "25px",
+          //background: "rgba(255,255,255, 0.85)"
+        }}>
+        <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
+          {" "}
+          Bounties{" "}
+          {users.username}
+        </Typography>
 
-      <Tabs
-        value={selectedTab}
-        onChange={handleChange}
-        variant="fullWidth"
-        indicatorColor="primary"
-        textColor="primary"
-        bgcolor="primary">
-        <Tab bgcolor="blue" label="All" />
-        <Tab label="Unaccepted" />
-        <Tab label="Accepted" />
-        <Tab label="Complete" />
-        {sessionCookies.userPriv_Token === true ? (
-          <Tab label="Pending" />
-        ) : (
-          <></>
-        )}
-      </Tabs>
+        <Tabs
+          value={selectedTab}
+          onChange={handleChange}
+          variant="fullWidth"
+          indicatorColor="primary"
+          textColor="primary"
+          bgcolor="primary">
+          <Tab bgcolor="blue" label="All" />
+          <Tab label="Unaccepted" />
+          <Tab label="Accepted" />
+          <Tab label="Complete" />
+          {sessionCookies.userPriv_Token === true ? (
+            <Tab label="Pending" />
+          ) : (
+            <></>
+          )}
+        </Tabs>
 
-    </Box>
+      </Box>
 
       <div
         style={{
@@ -196,14 +196,14 @@ function truncateText(text, maxLength) {
                   color: project.is_completed
                     ? "green"
                     : project.is_accepted
-                    ? "blue"
-                    : "red",
+                      ? "blue"
+                      : "red",
                 }}>
                 {project.is_completed
                   ? `Completed by ${findAcceptor(project.accepted_by_id)}`
                   : project.is_accepted
-                  ? `Accepted by ${findAcceptor(project.accepted_by_id)}`
-                  : "Not Accepted"}
+                    ? `Accepted by ${findAcceptor(project.accepted_by_id)}`
+                    : "Not Accepted"}
               </h3>
 
 
@@ -215,12 +215,13 @@ function truncateText(text, maxLength) {
           </HoverCard>
         ))}
       </div>
-      </div>
+    </div>
   );
 };
 
 Projects.propTypes = {
   projects: PropTypes.array,
+  outputUsername: PropTypes.array
   // profile: PropTypes.object.isRequired,
 };
 
