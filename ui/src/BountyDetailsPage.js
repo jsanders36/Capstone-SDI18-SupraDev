@@ -7,6 +7,7 @@ const BountyDetailsPage = () => {
   const [bounty, setBounty] = useState(null);
   const { projectId } = useParams();
   const [doubloons, setDoubloons] = useState("")
+  const [gitlink, setGitlink] = useState("")
   const [sessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
@@ -66,7 +67,8 @@ const BountyDetailsPage = () => {
       },
       body: JSON.stringify({
         "is_accepted": true,
-        "accepted_by_id": sessionCookies.user_id_token
+        "accepted_by_id": sessionCookies.user_id_token,
+        "github_url": gitlink
       })
     })
     navigate('/projects');
@@ -166,6 +168,8 @@ const BountyDetailsPage = () => {
             bounty.is_approved === true &&
             bounty.is_accepted === false &&
             bounty.is_completed === false ? (
+
+
             <Button
               onClick={() => handleAccept()}
               variant="contained"
@@ -177,6 +181,29 @@ const BountyDetailsPage = () => {
             <></>
           )}
 
+          {/* Github REPO Text Input */}
+
+          {sessionCookies.userPriv_Token === true &&
+            bounty.is_approved === true &&
+            bounty.is_accepted === false &&
+            bounty.is_completed === false ? (
+            <TextField
+              fullWidth
+              className="inputText"
+              label="Github Link"
+              variant="outlined"
+              type="text"
+              value={gitlink}
+              onChange={(e) => setGitlink(e.target.value)}
+              placeholder="Github Link"
+              size="small"
+              margin="normal"
+            />
+          ) : (
+            <></>
+          )}
+          {/* Github REPO Text Input */}
+
           {bounty.accepted_by_id === sessionCookies.user_id_token &&
             bounty.is_completed === false &&
             bounty.is_accepted === true ? (
@@ -185,7 +212,7 @@ const BountyDetailsPage = () => {
               variant="contained"
               color="error"
               style={{ margin: "5px" }}>
-              Unaccept this project?
+              Drop this project?
             </Button>
           ) : (
             <></>
@@ -230,6 +257,25 @@ const BountyDetailsPage = () => {
             style={{ fontSize: "1rem", marginTop: "0.5rem" }}>
             {bounty.submitter_id}
           </Typography>
+
+          {/* Git Text render */}
+
+          <Typography
+            variant="h6"
+            style={{ fontWeight: "500", color: "#616161" }}>
+            Github Link:
+          </Typography>
+
+          <Typography
+            paragraph
+            style={{ fontWeight: "1rem", marginBottom: "1.5rem" }}>
+            {bounty.github_url}
+
+          </Typography>
+
+          {/* Git Text render */}
+
+
           <Typography
             color="textSecondary"
             align="right"
