@@ -32,9 +32,9 @@ const UserList = (props) => {
         outputUsername = allUsers[element].username;
         outputUserImg = allUsers[element].profile_pic;
         return (
-          <div style={{ display: 'flex', position: 'absolute', bottom: '0' }}>
-            <p style={{ marginBottom: 'auto', textAlign: 'left' }}><Avatar src={outputUserImg} alt="User Avatar" style={{ float: 'left', outlineWidth: '1px', outlineColor: 'red', width: '40px', height: '40px' }} /></p>
-            <p style={{ marginLeft: '5px', marginTop: '22px' }}>{outputUsername}</p>
+          <div style={{ display: 'flex', alignSelf: "center", flexDirection: "row"}}>
+            <p style={{ textAlign: 'left' }}><Avatar src={outputUserImg} alt="User Avatar" style={{ outlineWidth: '1px', outlineColor: 'red', width: '100px', height: '100px' }} /></p>
+            <h2 style={{ marginLeft: "20px", marginTop: "50px" }}>{outputUsername}</h2>
           </div>
         )
       }
@@ -59,8 +59,8 @@ const UserList = (props) => {
 
   const cardStyle = {
     position: 'relative',
-    height: 220,
-    width: '25%',
+    height: 200,
+    width: '20%',
     margin: 8,
     padding: 8,
     textAlign: 'center',
@@ -69,12 +69,26 @@ const UserList = (props) => {
     cursor: "pointer"
   };
 
+  const cardStyleSupra = {
+    position: 'relative',
+    height: 200,
+    width: '20%',
+    margin: 8,
+    padding: 8,
+    textAlign: 'center',
+    borderRadius: "15px",
+    background: "rgba(189,201,255, 0.85)",
+    cursor: "pointer"
+  };
 
+  const handleUserClick = (userid) => {
+    // Navigate to the detailed summary page for the clicked project
+    navigate(`/users/${userid}`);
+  };
 
   return (
-
     <div>
-      <p>  </p>
+      <p> </p>
 
       <Box
         padding="20px"
@@ -92,7 +106,6 @@ const UserList = (props) => {
           {" "}
           User List{" "}
         </Typography>
-
       </Box>
 
       <div
@@ -104,14 +117,20 @@ const UserList = (props) => {
         }}>
         {allUsers.map((user) => (
           <HoverCard
-            style={cardStyle}
-            key={user.id}>
-            <div key={user.id} style={{ textAlign: "center", marginBottom:'auto' }}>
-              <h2>{user.username}</h2>
-
-              <h3> { user.is_supracoder ? "Supra Coder!" : <></> }</h3>
+            style={ user.is_supracoder ? cardStyleSupra : cardStyle}
+            key={user.id}
+            onClick={() => handleUserClick(user.id)}>
+            <div
+              key={user.id}
+              style={{ textAlign: "center", marginBottom: "auto" }}>
+              <div>
+              {" "}
+              {findSubmitter(user.id)}{" "}
             </div>
-            {findSubmitter(user.id)}
+            <h3> {user.is_supracoder ? "Supra Coder!" : <></>}</h3>
+
+            </div>
+
           </HoverCard>
         ))}
       </div>
