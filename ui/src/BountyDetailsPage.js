@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Paper, Typography, Box, Divider, TextField, List, ListItem } from '@mui/material';
+import { Button, Paper, Typography, Box, Divider, TextField, List, ListItem, Avatar } from '@mui/material';
 import { useCookies } from 'react-cookie';
 
 const BountyDetailsPage = () => {
@@ -8,10 +8,12 @@ const BountyDetailsPage = () => {
   const { projectId } = useParams();
   const [doubloons, setDoubloons] = useState("")
   const [gitlink, setGitlink] = useState("")
-  const [sessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
+  const [sessionCookies, setSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+  const [chatposts, setChatposts] = useState([]);
+  const [userdata, setUserdata] = useState([])
 
   const handleAddComment = () => {
     if (newComment.trim()) {
@@ -23,11 +25,38 @@ const BountyDetailsPage = () => {
     setNewComment(e.target.value);
   };
 
+  const fetchUsers = async () => {
+    await fetch(`http://localhost:8080/users`)
+        .then((res) => res.json())
+        .then((fetchedUserData) => setUserdata(fetchedUserData))
+  }
+
+  const userImgRender = (userIdFromPost) => {
+    let imgToRender = '';
+    let idOfMatch;
+    for (let element in userdata) {     
+      if (userdata[element].id == userIdFromPost) {
+        imgToRender = userdata[element].profile_pic;
+        idOfMatch = userdata[element].id;
+      }
+    }
+    return (
+        <div>
+            <Avatar src={imgToRender} alt="User Avatar" style={{ float: 'left', outlineWidth: '1px', outlineColor: 'red', width: '40px', height: '40px' }}/>
+        </div>
+    )
+  }
+
+  const fetchPosts = async () => {
+    await fetch(`http://localhost:8080/bounties/${projectId}/messages`)
+        .then((res) => res.json())
+        .then((commentData) => setChatposts(commentData))
+  } 
+
   useEffect(() => {
     fetch(`http://localhost:8080/projects/${projectId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Fetched data:", data);
         if (data && data.length) {
           setBounty(data[0]);
         }
@@ -35,7 +64,9 @@ const BountyDetailsPage = () => {
       .catch((error) => {
         console.error("There was an error fetching the bounty:", error);
       });
-  }, [projectId]);
+      fetchPosts();
+      fetchUsers();
+  }, []);
 
   if (!bounty) {
     return <Typography align="center" style={{ marginTop: '2rem' }}>Loading...</Typography>;
@@ -57,6 +88,25 @@ const BountyDetailsPage = () => {
 
 
   }
+
+  const postCommentFetch = ()=> {
+    console.log(typeof(parseInt(projectId)))
+    console.log(typeof(sessionCookies.user_id_token))
+    console.log(typeof(newComment))
+    
+    fetch(`http://localhost:8080/bounties/${projectId}/messages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "project_id": parseInt(projectId),
+        "user_id": sessionCookies.user_id_token,
+        "post_text": newComment
+      })
+    })
+  }
+
 
   const handleAccept = () => {
 
@@ -120,7 +170,7 @@ const BountyDetailsPage = () => {
   return (
     <>
       <Box display="flex" justifyContent="center" minHeight="100vh" bgcolor="rgba(255, 255, 255, 0)">
-        <Paper elevation={5} style={{ borderRadius: '25px', background: 'rgba(255,255,255, 0.85)', padding: '40px', marginTop: '25px', maxWidth: '800px', width: '100%', overflow: 'auto' }}>
+        <Paper elevation={5} style={{ borderRadius: '25px', background: 'rgba(255,255,255, 0.85)', padding: '40px', marginTop: '25px', maxWidth: '800px', width: '100%', overflow: 'auto', marginBottom: "50px" }}>
 
           <Typography
             variant="h4"
@@ -153,7 +203,7 @@ const BountyDetailsPage = () => {
             gutterBottom
             color="blue"
             style={{ fontWeight: "bold", marginBottom: "1.5rem" }}>
-            {bounty.bounty_payout}
+
             {sessionCookies.userPriv_Token === true &&
               bounty.is_approved === false &&
               bounty.is_completed === false ? (
@@ -161,7 +211,10 @@ const BountyDetailsPage = () => {
             ) : (
               <></>
             )}
-            <> </> Supra Doubloons!
+            <> </> 
+            <div style={{display: 'flex'}}>
+                <p>Reward:</p><img src='https://github.com/jsanders36/Capstone-SDI18-SupraDev/blob/main/ui/public/supradoubloon.png?raw=true' style={{marginTop: '25px', marginLeft: '25px', marginRight: '7px'}} alt='supradoubloons' height='30px' width='30px'/><p style={{color: 'blue'}}>{bounty.bounty_payout}</p>
+            </div>
           </Typography>
 
           {sessionCookies.userPriv_Token === true &&
@@ -250,29 +303,15 @@ const BountyDetailsPage = () => {
           <Typography
             variant="h6"
             style={{ fontWeight: "500", color: "#616161" }}>
-            Submitter ID:
+            Submitter ID: {bounty.submitter_id}
           </Typography>
-          <Typography
-            paragraph
-            style={{ fontSize: "1rem", marginTop: "0.5rem" }}>
-            {bounty.submitter_id}
-          </Typography>
-
           {/* Git Text render */}
 
           <Typography
             variant="h6"
             style={{ fontWeight: "500", color: "#616161" }}>
-            Github Link:
+            Github Link: {bounty.github_url}
           </Typography>
-
-          <Typography
-            paragraph
-            style={{ fontWeight: "1rem", marginBottom: "1.5rem" }}>
-            {bounty.github_url}
-
-          </Typography>
-
           {/* Git Text render */}
 
 
@@ -315,14 +354,19 @@ const BountyDetailsPage = () => {
           <Box marginTop="2rem">
             <Typography variant="h5">Comments</Typography>
             <List>
-              {comments.map((comment, index) => (
-                <ListItem key={index}>
-                  <Typography>{comment}</Typography>
-                </ListItem>
+              {chatposts.map((comment, index) => (
+                <div>
+                    <ListItem key={index}>
+                        <div style={{display:'flex'}}>
+                            <div style={{}}>{userImgRender(comment.user_id)}</div>
+                            <Typography>{comment.post_text}</Typography>
+                        </div>
+                    </ListItem>
+                </div>
               ))}
             </List>
             <TextField fullWidth variant="outlined" placeholder="Add a comment" value={newComment} onChange={handleCommentChange} />
-            <Button onClick={handleAddComment} variant="contained" color="primary" style={{ marginTop: '1rem' }}>
+            <Button onClick={() => {postCommentFetch(); fetchPosts();}} variant="contained" color="primary" style={{ marginTop: '1rem' }}>
               Add Comment
             </Button>
           </Box>

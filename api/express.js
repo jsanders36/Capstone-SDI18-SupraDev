@@ -161,19 +161,8 @@ app.get('/bounties/:bountyId/messages', (req, res) => {
 
 //Bounty Post
 app.post('/bounties/:bountyId/messages', (req, res) => {
-  const bountyId = req.params.bountyId;
-  const { userId, text } = req.body;
-
-  if (!bountyId) {
-    return res.status(400).send('Bounty ID is missing or invalid.');
-  }
-
   knex('chatposts')
-    .insert({
-      project_id: bountyId,
-      user_id: userId,
-      post_text: text
-    })
+    .insert(req.body)
     .returning('*')
     .then(messages => {
       const createdMessage = messages[0];
