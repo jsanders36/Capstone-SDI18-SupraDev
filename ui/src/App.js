@@ -18,7 +18,11 @@ import GenUser from "./MyProfile";
 import OtherUser from "./OthersProfile";
 // import SupraCoderDetails from "./SupraCoderDetails";
 import ChatPage from "./ChatPage";
+
+import { Helmet } from "react-helmet";
+
 import UserList from "./UserList"
+
 
 
 function Content() {
@@ -26,6 +30,13 @@ function Content() {
 
   return (
     <>
+      <div>
+      <Helmet htmlAttributes>
+        <html lang="en" />
+        <title>Supra Dev</title>
+        <meta name="Supra Dev App" content="Supra Dev App" />
+      </Helmet>
+    </div>
       {location.pathname !== "/" && <Navbar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />
