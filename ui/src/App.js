@@ -18,7 +18,11 @@ import GenUser from "./MyProfile";
 import OtherUser from "./OthersProfile";
 // import SupraCoderDetails from "./SupraCoderDetails";
 import ChatPage from "./ChatPage";
+
 import { Helmet } from "react-helmet";
+
+import UserList from "./UserList"
+
 
 
 function Content() {
@@ -53,6 +57,7 @@ function Content() {
         {/* <Route path="/user-profile/:id" element={<OtherUser />} /> */}
         <Route path="/users/:id" element={<OtherUser />} />
         {/* <Route path="/supracoders/:id" element={<SupraCoderDetails />} /> */}
+        <Route path="/userlist" element={<UserList />} />
       </Routes>
     </>
   );
