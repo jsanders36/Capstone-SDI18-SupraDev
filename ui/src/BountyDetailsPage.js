@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Paper, Typography, Box, Divider, TextField, List, ListItem } from '@mui/material';
 import { useCookies } from 'react-cookie';
+import ChatPage from './ChatPage'
 
 const BountyDetailsPage = () => {
   const [bounty, setBounty] = useState(null);
@@ -12,6 +13,11 @@ const BountyDetailsPage = () => {
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+  const [isChatVisible, setIsChatVisible] = useState(false);
+
+  const toggleChat = () => {
+    setIsChatVisible(!isChatVisible);
+  };
 
   const handleAddComment = () => {
     if (newComment.trim()) {
@@ -118,17 +124,16 @@ const BountyDetailsPage = () => {
   }
 
   return (
-    <>
-      <Box display="flex" justifyContent="center" minHeight="100vh" bgcolor="rgba(255, 255, 255, 0)">
-        <Paper elevation={5} style={{ borderRadius: '25px', background: 'rgba(255,255,255, 0.85)', padding: '40px', marginTop: '25px', maxWidth: '800px', width: '100%', overflow: 'auto' }}>
-
+    <Box display="flex" justifyContent="center" minHeight="100vh" bgcolor="rgba(255, 255, 255, 0)">
+      <Box display="flex" flexDirection="row" width="100%" maxWidth="1200px" margin="auto">
+        {/* Bounty Details */}
+        <Paper elevation={5} style={{ borderRadius: '25px', background: 'rgba(255,255,255, 0.85)', padding: '40px', marginTop: '25px', flex: '1', overflow: 'auto' }}>
           <Typography
             variant="h4"
             gutterBottom
             style={{ fontWeight: "bold", marginBottom: "1.5rem" }}>
             {bounty.name}
           </Typography>
-
           {sessionCookies.userPriv_Token === true &&
             bounty.is_approved === false &&
             bounty.is_completed === false ? (
@@ -326,10 +331,24 @@ const BountyDetailsPage = () => {
               Add Comment
             </Button>
           </Box>
+
+          {/* Button to toggle chat visibility */}
+          <Button onClick={toggleChat} variant="contained" color="primary" style={{ marginTop: '1rem' }}>
+            {isChatVisible ? "Hide Chat" : "Show Chat"}
+          </Button>
         </Paper>
+
+        {/* Conditionally render ChatPage component */}
+        {isChatVisible && (
+          <Box style={{ marginLeft: '20px', maxWidth: '400px', width: '100%', overflow: 'auto' }}>
+            <ChatPage bountyId={projectId} userId={sessionCookies.user_id_token} />
+
+          </Box>
+        )}
       </Box>
-    </>
+    </Box>
   );
+
 }
 
 export default BountyDetailsPage;

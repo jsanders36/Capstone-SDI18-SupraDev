@@ -168,6 +168,11 @@ app.post('/bounties/:bountyId/messages', (req, res) => {
     return res.status(400).send('Bounty ID is missing or invalid.');
   }
 
+  if (!bountyId || !userId || !text) {
+    return res.status(400).send('Missing or invalid parameters.');
+  }
+
+
   knex('chatposts')
     .insert({
       project_id: bountyId,
