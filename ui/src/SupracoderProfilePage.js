@@ -151,9 +151,6 @@ const SupracoderProfilePage = () => {
                         <Typography variant="subtitle1">Email: {userObj.email}</Typography>
                         <Typography variant="body1">Description: {userObj.user_summary}</Typography>
                     </div>
-                    <h2 style={{display: 'flex', marginLeft: '100px'}}>
-                        <p>Earned Doubloons:</p><img src='https://github.com/jsanders36/Capstone-SDI18-SupraDev/blob/main/ui/public/supradoubloon.png?raw=true' style={{marginTop: '27px', marginLeft: '25px', marginRight: '7px'}} alt='supradoubloons' height='30px' width='30px'/><p style={{color: 'blue'}}>{userObj.supradoubloons}</p>
-                    </h2>
                 </div>
             )
         } else if (editProfile === true) {
@@ -215,8 +212,11 @@ const SupracoderProfilePage = () => {
                 <Box flex={1} pl="20px">
 
                     {/* User Avatar & Details */}
-                    <Box display="flex" alignItems="center" gap="20px" mb="30px">
+                    <Box display="flex" alignItems="center" gap="20px" mb="30px" style={{position: 'relative'}}>
                         <Avatar src={userObj.profile_pic} alt="User Avatar" style={{ width: '150px', height: '150px' }} />
+                        <h2 style={{position: 'absolute', top: '0', right: '0', display: 'flex', marginLeft: '100px', float: 'right'}}>
+                            <p>Earned Doubloons:</p><img src='https://github.com/jsanders36/Capstone-SDI18-SupraDev/blob/main/ui/public/supradoubloon.png?raw=true' style={{marginTop: '27px', marginLeft: '25px', marginRight: '7px'}} alt='supradoubloons' height='30px' width='30px'/><p style={{color: 'blue'}}>{userObj.supradoubloons}</p>
+                        </h2>
                         <Box>
                             {console.log(userObj.username)}
                             <Typography variant="h5" gutterBottom>{userObj.username}</Typography>

@@ -117,7 +117,7 @@ const Projects = (props) => {
 
   const cardStyle = {
     position: 'relative',
-    height: 220,
+    height: 200,
     width: '25%',
     margin: 8,
     padding: 8,
@@ -186,11 +186,6 @@ const Projects = (props) => {
             onClick={() => handleProjectClick(project.id)}>
             <div key={project.id} style={{ textAlign: "center", marginBottom:'auto' }}>
               <h2>{truncateText(project.name, maxLength)}</h2>
-
-              <h4>
-                Points {project.bounty_payout}!
-              </h4>
-
               <h3
                 style={{
                   color: project.is_completed
@@ -211,7 +206,12 @@ const Projects = (props) => {
                 Problem Statement: {truncateText(project.problem_statement, maxLength)}
               </p>
             </div>
-            {findSubmitter(project.submitter_id)}
+            <div style={{display: 'flex'}}>
+              {findSubmitter(project.submitter_id)}
+              <strong style={{position: 'absolute', bottom: '0', right: '0', display: 'flex', marginRight: '8px'}}>
+                  <p>Reward:</p><img src='https://github.com/jsanders36/Capstone-SDI18-SupraDev/blob/main/ui/public/supradoubloon.png?raw=true' style={{marginTop: '18px', marginLeft: '5px', marginRight: '2px'}} alt='supradoubloons' height='20px' width='20px'/><p style={{color: 'blue'}}>{project.bounty_payout}</p>
+              </strong>
+            </div>
           </HoverCard>
         ))}
       </div>
