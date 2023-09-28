@@ -14,6 +14,7 @@ const BountyDetailsPage = () => {
   const [newComment, setNewComment] = useState('');
   const [chatposts, setChatposts] = useState([]);
   const [userdata, setUserdata] = useState([])
+  const [currentUserDoubloons, setCurrentUserDoubloons] = useState()
 
   const handleAddComment = () => {
     if (newComment.trim()) {
@@ -29,6 +30,12 @@ const BountyDetailsPage = () => {
     await fetch(`http://localhost:8080/users`)
         .then((res) => res.json())
         .then((fetchedUserData) => setUserdata(fetchedUserData))
+  }
+
+  const fetchCurrentUserDoubloons = async () => {
+    await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
+        .then((res) => res.json())
+        .then((doubloonies) => {setCurrentUserDoubloons(doubloonies[0].supradoubloons)})
   }
 
   const userImgRender = (userIdFromPost) => {
@@ -66,6 +73,7 @@ const BountyDetailsPage = () => {
       });
       fetchPosts();
       fetchUsers();
+      fetchCurrentUserDoubloons()
   }, []);
 
   if (!bounty) {
@@ -141,8 +149,7 @@ const BountyDetailsPage = () => {
     window.location.reload();
   }
 
-  const handleComplete = () => {
-
+  const patchToComplete = () => {
     fetch(`http://localhost:8080/projects/${projectId}`, {
       method: "PATCH",
       headers: {
@@ -153,6 +160,29 @@ const BountyDetailsPage = () => {
         "is_accepted": false
       })
     })
+  }
+
+  const updateUserDoubloonCount = async () => {
+    await fetchCurrentUserDoubloons();
+    console.log(currentUserDoubloons)
+    console.log(bounty.bounty_payout)
+    let newDoubloonCount = currentUserDoubloons + bounty.bounty_payout;
+    console.log(newDoubloonCount);
+
+    await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "supradoubloons": newDoubloonCount,
+      })
+    })
+  }
+
+  const handleComplete = () => {
+    updateUserDoubloonCount();
+    patchToComplete();
     navigate('/projects');
   }
 

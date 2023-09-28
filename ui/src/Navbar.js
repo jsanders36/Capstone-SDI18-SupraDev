@@ -1,6 +1,6 @@
 //import './Navbar.css';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Avatar } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
@@ -18,11 +18,16 @@ const Navbar = () => {
     let profileButton;
     let requestsButton;
     let navConnect;
+
     const userRefetch = async () => {
         await fetch(`http://localhost:8080/users/${sessionCookies.user_id_token}`)
             .then((res) => res.json())
             .then((fetchData) => setUserObj(fetchData[0]))
     }
+
+    useEffect(() => {
+        userRefetch();
+    }, [sessionCookies.username_token])
 
     if (sessionCookies.username_token === undefined) {
         loginButton = <Button className="button" onClick={() => navigate('/login')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Login Page</Button>;
@@ -35,7 +40,7 @@ const Navbar = () => {
 
 
     if (sessionCookies.username_token) {
-        userRefetch();
+        // userRefetch();
         logoutButton = <Button onClick={() => { removeSessionCookies('username_token'); removeSessionCookies('user_id_token'); removeSessionCookies('userPriv_Token'); alert('You have been logged out'); navigate('/login') }} variant='outlined' color='error' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "red", borderColor: "red" }}>Logout</Button>;
         currentUserInfo = <Avatar src={userObj.profile_pic} alt="User Avatar" style={{ float: 'right', outlineWidth: '1px', outlineColor: 'red', width: '50px', height: '50px' }} />
 
