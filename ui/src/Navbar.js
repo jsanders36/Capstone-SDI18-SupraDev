@@ -63,7 +63,7 @@ const Navbar = () => {
         requestsButton = <Button onClick={() => navigate('/requests')} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', margin: '10px', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Submit Request</Button>;
         if (sessionCookies.userPriv_Token === true) {
 
-            profileButton = <Button onClick={() => navigate(`/supracoders/${sessionCookies.user_id_token}`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', marginLeft: '10px', marginTop: '10px', marginBottom: '10px', marginRight: 'auto', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Admin Page</Button>
+            profileButton = <Button onClick={() => navigate(`/supracoders/${sessionCookies.user_id_token}`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', marginLeft: '10px', marginTop: '10px', marginBottom: '10px', marginRight: 'auto', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>Admin Dashboard</Button>
         } else {
             profileButton = <Button onClick={() => navigate(`/users/`)} variant='outlined' color='secondary' style={{ textAlign: 'center', gap: '10px', marginLeft: '10px', marginTop: '10px', marginBottom: '10px', marginRight: 'auto', backgroundColor: 'transparent', color: "#ffffff", borderColor: "#ffffff" }}>User Page</Button>
         }
