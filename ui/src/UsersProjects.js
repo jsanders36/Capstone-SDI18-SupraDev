@@ -1,3 +1,116 @@
+
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Tabs, Tab, List, ListItem, Typography, Box, Card } from "@mui/material";
+import { useCookies, CookiesProvider } from 'react-cookie';
+
+const UsersProjects = (props) => {
+  const { profile, ...other } = props;
+  const [projects, setProjects] = useState([]);
+  const [filterVar, setFilterVar] = useState([]);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const navigate = useNavigate();
+  const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies(['username_token', 'user_id_token', 'userPriv_Token'])
+
+  useEffect(() => {
+    fetch("http://localhost:8080/projects")
+      .then((res) => res.json())
+      .then((projectsData) => {
+        const approvedProjects = projectsData.filter((p) => (p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
+        setProjects(projectsData);
+        setFilterVar(approvedProjects);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const handleChange = (event, newValue) => {
+    setSelectedTab(newValue);
+
+    switch (newValue) {
+      case 0:
+        setFilterVar(projects.filter((p) => p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
+        break;
+      case 1:
+        setFilterVar(projects.filter((p) => !p.is_accepted && !p.is_completed && p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
+        break;
+      case 2:
+        setFilterVar(projects.filter((p) => p.is_accepted && p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
+        break;
+      case 3:
+        setFilterVar(projects.filter((p) => p.is_completed && p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
+        break;
+      case 4:
+        setFilterVar(projects.filter((p) => !p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
+        break;
+
+      default:
+        setFilterVar(projects.filter((p) => p.is_approved && (p.submitter_id === sessionCookies.user_id_token)));
+        break;
+    }
+  };
+
+  const handleProjectClick = (projectId) => {
+    // Navigate to the detailed summary page for the clicked project
+    navigate(`/projects/${projectId}`);
+  };
+
+  return (
+    <Box padding="20px" height="100vh" style={{ marginTop: "25px", marginLeft: "50px", marginRight: "50px" , background: 'rgba(255,255,255, 0.85)', borderRadius: '25px'}}>
+      <Typography variant="h4" gutterBottom style={{textAlign: "center"}}>
+        {" "}
+        Bounties{" "}
+      </Typography>
+
+      <Tabs
+        value={selectedTab}
+        onChange={handleChange}
+        variant="fullWidth"
+        indicatorColor="primary"
+        textColor="primary"
+        bgcolor="primary">
+        
+        <Tab bgcolor="blue" label="All" />
+        <Tab label="Unaccepted" />
+        <Tab label="Accepted" />
+        <Tab label="Complete" />
+        {sessionCookies.userPriv_Token === true ?  <Tab label="Pending" /> : <></>}
+
+      </Tabs>
+
+      <List>
+        {filterVar.map((project) => (
+          <Card sx={{
+            minWidth: 400,
+            maxWidth: "95%",
+            height: 120,
+            m: 2,
+            padding: 1,
+            textAlign: 'center',
+            borderRadius: "15px",
+            background: "rgba(96,112,151, .85)"
+          }}>
+            <div
+              key={project.id}
+              onClick={() => handleProjectClick(project.id)}
+              style={{textAlign: "center"}}>
+              <h2>{project.name}</h2>
+              <p style={{marginLeft: '4px', textAlign: "left"}}>Problem Statement: {project.problem_statement}</p>
+            </div>
+          </Card>
+        ))}
+      </List>
+    </Box>
+  );
+};
+
+UsersProjects.propTypes = {
+  projects: PropTypes.array,
+  // profile: PropTypes.object.isRequired,
+};
+
+export default UsersProjects;
+=======
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -226,3 +339,4 @@ UsersProjects.propTypes = {
 };
 
 export default UsersProjects;
+
