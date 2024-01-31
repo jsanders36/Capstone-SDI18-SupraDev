@@ -160,7 +160,7 @@ const HomePage = () => {
     >
       <Grid container spacing={3}>
         {/* Hero Section */}
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Paper
             sx={{
               padding: theme.spacing(3),
@@ -184,7 +184,7 @@ const HomePage = () => {
               Get Started
             </Button>
           </Paper>
-        </Grid>
+        </Grid> */}
         {/* Recent Activity */}
         <Grid item xs={12} md={4}>
           <HoverCard initial={{ scale: 1 }} whileHover={{ scale: 1.05 }}>
