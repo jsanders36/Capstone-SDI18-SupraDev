@@ -1,50 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import {
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
   TextField,
+  Box,
+  Grid,
   Paper,
-  Card,
+  Avatar,
   Typography,
-} from '@mui/material';
-import { SHA256 } from 'crypto-js';
+  CssBaseline,
+  Link as MuiLink,
+} from "@mui/material";
+import { SHA256 } from "crypto-js";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const customTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#800080", // Purple color for primary buttons and elements
+    },
+    secondary: {
+      main: "#000000", // Black color for secondary buttons and elements
+    },
+    background: {
+      default: "#ffffff", // White color for background elements
+    },
+    text: {
+      primary: "#000000", // Black color for primary text
+      secondary: "#ffffff", // White color for secondary text
+    },
+  },
+});
 
 const Login = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [userSummary, setUserSummary] = useState('');
-  const [profilePic, setProfilePic] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [userSummary, setUserSummary] = useState("");
+  const [profilePic, setProfilePic] = useState("");
   const [defProfilePic, setDefProfilePic] = useState(
-    'https://as1.ftcdn.net/v2/jpg/02/85/15/18/1000_F_285151855_XaVw4eFq1QufklRbMFDxdAJos1OadAD1.jpg'
+    "https://as1.ftcdn.net/v2/jpg/02/85/15/18/1000_F_285151855_XaVw4eFq1QufklRbMFDxdAJos1OadAD1.jpg"
   );
   const [usersSummary, setUsersSummary] = useState([]);
-  const [usernameLogin, setUsernameLogin] = useState('');
-  const [passwordLogin, setPasswordLogin] = useState('');
+  const [usernameLogin, setUsernameLogin] = useState("");
+  const [passwordLogin, setPasswordLogin] = useState("");
   const [sessionCookies, setSessionCookies, removeSessionCookies] = useCookies([
-    'username_token',
-    'user_id_token',
+    "username_token",
+    "user_id_token",
   ]);
   const navigate = useNavigate();
 
   // State variables for dialog messages
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState('');
-  const [dialogMessage, setDialogMessage] = useState('');
+  const [dialogTitle, setDialogTitle] = useState("");
+  const [dialogMessage, setDialogMessage] = useState("");
 
   useEffect(() => {
     usersRefetch();
   }, []);
 
   const usersRefetch = async () => {
-    await fetch('http://localhost:8080/users')
+    await fetch("http://localhost:8080/users")
       .then((res) => res.json())
       .then((userFetchData) => setUsersSummary(userFetchData));
   };
@@ -65,23 +84,25 @@ const Login = () => {
       if (element.username === usernameLogin) {
         accountMatch = true;
         if (element.password === SHA256(passwordLogin).toString()) {
-          removeSessionCookies('user_id_token');
-          removeSessionCookies('username_token');
-          setSessionCookies('user_id_token', element.id, { path: '/' });
-          setSessionCookies('username_token', element.username, { path: '/' });
-          setSessionCookies('userPriv_Token', element.is_supracoder, { path: '/' });
-          navigate('/home');
+          removeSessionCookies("user_id_token");
+          removeSessionCookies("username_token");
+          setSessionCookies("user_id_token", element.id, { path: "/" });
+          setSessionCookies("username_token", element.username, { path: "/" });
+          setSessionCookies("userPriv_Token", element.is_supracoder, {
+            path: "/",
+          });
+          navigate("/users");
           window.location.reload();
-          setUsernameLogin('');
-          setPasswordLogin('');
+          setUsernameLogin("");
+          setPasswordLogin("");
           displayDialogMessage(
-            'Login Successful',
+            "Login Successful",
             `Login successful for ${element.first_name} ${element.last_name}.`
           );
           break;
         } else {
           displayDialogMessage(
-            'Incorrect Password',
+            "Incorrect Password",
             `Incorrect password for ${element.first_name} ${element.last_name}.`
           );
           break;
@@ -89,21 +110,24 @@ const Login = () => {
       }
     }
     if (!accountMatch) {
-      displayDialogMessage('Account Not Found', 'No account found for that username.');
+      displayDialogMessage(
+        "Account Not Found",
+        "No account found for that username."
+      );
     }
   };
 
   const CreateAccount = async () => {
-    let profPicToSet = '';
-    if (profilePic === '') {
+    let profPicToSet = "";
+    if (profilePic === "") {
       profPicToSet = defProfilePic;
     } else {
       profPicToSet = profilePic;
     }
-    await fetch('http://localhost:8080/users', {
-      method: 'POST',
+    await fetch("http://localhost:8080/users", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         first_name: firstName,
@@ -116,193 +140,132 @@ const Login = () => {
       }),
     });
     window.location.reload();
-    displayDialogMessage('Account Created', 'Account created successfully!');
+    displayDialogMessage("Account Created", "Account created successfully!");
     usersRefetch();
   };
 
   return (
-    <>
-      <Paper
-        elevation={0}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          background: 'rgba(255,255,255, 0)',
-          margin: '0 auto',
-          padding: '20px',
-          maxWidth: '920px',
-        }}
-      >
-        <Card
+    <ThemeProvider theme={customTheme}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
           sx={{
-            width: ['90%', '70%', '60%'],
-            m: 2,
-            padding: 2,
-            textAlign: 'center',
-            borderRadius: '25px',
-            background: 'rgba(255,255,255, 0.9)',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            position: "relative",
+            backgroundImage:
+              "url(https://images.unsplash.com/photo-1608178398319-48f814d0750c?q=80&w=2079&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
-          id="loginContainer"
         >
-          <h3>Login</h3>
-          <form id="loginCreds">
-            <TextField
-              fullWidth
-              className="inputText"
-              label="Username"
-              variant="outlined"
-              type="text"
-              value={usernameLogin}
-              onChange={(e) => setUsernameLogin(e.target.value)}
-              placeholder="Username"
-              size="small"
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              className="inputText"
-              label="Password"
-              variant="outlined"
-              type="password"
-              value={passwordLogin}
-              onChange={(e) => setPasswordLogin(e.target.value)}
-              placeholder="Password"
-              size="small"
-              margin="normal"
-            />
-            <Button
-              fullWidth
-              type="submit"
-              variant="contained"
-              color="secondary"
-              style={{ marginTop: '15px' }}
-              onClick={() => LogIntoAccount()}
-            >
-              Login
-            </Button>
-          </form>
-        </Card>
-
-        <Card
-          sx={{
-            width: ['90%', '70%', '60%'],
-            m: 2,
-            padding: 2,
-            textAlign: 'center',
-            borderRadius: '25px',
-            background: 'rgba(255,255,255, 0.9)',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-          }}
-          id="createAccountContainer"
-        >
-          <h3>Create Account</h3>
-          <div id="createAccountInputName">
-            <TextField
-              fullWidth
-              className="inputText"
-              label="First Name"
-              variant="outlined"
-              type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="First Name"
-              size="small"
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              className="inputText"
-              label="Last Name"
-              variant="outlined"
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Last Name"
-              size="small"
-              margin="normal"
-            />
-          </div>
-          <div id="createAccountUserCreds">
-            <TextField
-              fullWidth
-              className="inputText"
-              label="Username"
-              variant="outlined"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username"
-              size="small"
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              className="inputText"
-              label="Password"
-              variant="outlined"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              size="small"
-              margin="normal"
-            />
-          </div>
-          <div id="createAccountPicNDesc">
-            <TextField
-              fullWidth
-              className="inputText"
-              label="Profile Picture URL"
-              variant="outlined"
-              type="text"
-              value={profilePic}
-              onChange={(e) => setProfilePic(e.target.value)}
-              placeholder="Profile Picture URL"
-              size="small"
-              margin="normal"
-            />
-            <TextField
-              fullWidth
-              className="inputText"
-              label="User Description"
-              variant="outlined"
-              type="text"
-              multiline
-              rows={3}
-              value={userSummary}
-              onChange={(e) => setUserSummary(e.target.value)}
-              placeholder="User Description"
-              size="small"
-              margin="normal"
-            />
-          </div>
-          <Button
-            fullWidth
-            variant="contained"
-            color="secondary"
-            style={{ marginTop: '15px' }}
-            onClick={() => CreateAccount()}
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "white", // Set the text color
+              backgroundColor: "rgba(0, 0, 0, 0.5)", // Optional: Add a semi-transparent overlay
+              p: 4, // Padding for text
+            }}
           >
-            Create Account
-          </Button>
-        </Card>
-      </Paper>
+            <Typography variant="h4" component="h1" align="center">
+              Let's Build Something Amazing Together
+            </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box component="form" noValidate sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username" // Ensure this is set correctly
+                name="username"
+                autoComplete="username"
+                autoFocus
+                value={usernameLogin}
+                onChange={(e) => setUsernameLogin(e.target.value)}
+                placeholder="Enter your username" // Placeholder text
+                InputLabelProps={{
+                  shrink: true,
+                  style: { color: "purple" },
+                }}
+              />
 
-      {/* Dialog for displaying messages */}
-      <Dialog open={dialogOpen} onClose={handleDialogClose}>
-        <DialogTitle>{dialogTitle}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>{dialogMessage}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary" autoFocus>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={passwordLogin}
+                onChange={(e) => setPasswordLogin(e.target.value)}
+                placeholder="Enter your password"
+                InputLabelProps={{
+                  shrink: true,
+                  style: { color: "purple" },
+                }}
+              />
+              {/* Add additional form fields or buttons as needed */}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={() => LogIntoAccount()}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                {/* <Grid item xs>
+                  <MuiLink href="#" variant="body2">
+                    Forgot password?
+                  </MuiLink>
+                </Grid> */}
+                <Grid item>
+                  <MuiLink href="/register" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </MuiLink>
+                </Grid>
+              </Grid>
+              {/* Add your copyright component or other footer content */}
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
 

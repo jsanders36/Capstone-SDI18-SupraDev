@@ -11,7 +11,6 @@
 }
 
 @keyframes moveBackground {
-
   0%,
   100% {
     background-position: center 0;
@@ -23,7 +22,6 @@
 }
 
 @keyframes zoomIn {
-
   0%,
   100% {
     background-size: 100% 100%;
@@ -58,7 +56,7 @@
 .supra-dev {
   font-family: "Zen Dots", cursive;
   font-size: 4rem;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-top: 20px;
   text-shadow: 2px 2px 4px #000000;
 }
@@ -66,26 +64,36 @@
 .subtitle {
   font-family: "Zen Dots", cursive;
   font-size: 2rem;
-  color: #FFFFFF;
+  color: #ffffff;
   margin-top: 10px;
   text-shadow: 1px 1px 2px #000000;
 }
 
 .enter-button {
   background-color: #800080;
-  color: #FFFFFF;
+  color: #ffffff;
   border: none;
-  padding: 15px 30px;
-  font-size: 1.2rem;
+  padding: 10px 20px;
+  font-size: 1rem;
   cursor: pointer;
   margin-top: 30px;
   border-radius: 10px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   transition: all 0.3s ease-in-out;
 }
 
 .enter-button:hover {
-  background-color: #6A006A;
-  transform: translateY(-7px) scale(1.05);
+  background-color: #6a006a;
+  transform: translateY(-5px) scale(1.03);
   box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
